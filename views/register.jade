@@ -1,0 +1,57 @@
+extends layout
+block extraHeader
+  script.
+    jQuery(function(){
+        $('.ui.form').form({
+            //- inline : true,
+            on : 'blur',
+            fields: {
+                username:['minLength[6]', 'maxLength[10]', 'empty'],
+                password:['minLength[6]', 'empty'],
+                password_confirm:['match[password]'],
+                fullName:['minLength[6]', 'maxLength[256]', 'empty'],
+                email:['maxLength[256]', 'empty', 'email']
+            }
+        });
+      });
+block content
+    .ui.middle.aligned.center.aligned.grid
+        .column
+            h1.ui.teal.header= title
+            -if (message)
+                p.ui.info.message #{message}
+            form(role='form', action="/register", method="post", class="ui large form")
+                .ui.stacked.segment
+                    .field
+                     .ui.left.icon.input
+                        i.icon.lock
+                        input(type="text", name="username", placeholder="Username")
+                    
+                    .two.fields
+                        .field
+                         .ui.left.icon.input
+                            i.icon.hide
+                            input(type="password", name="password", placeholder="Password")
+                        
+                        .field
+                         .ui.left.icon.input
+                            i.icon.hide
+                            input(type="password", name="password_confirm", placeholder="Repeat Password")
+
+                    .field
+                     .ui.left.icon.input
+                        i.icon.user
+                        input(type="text", name="fullName", placeholder="Name")
+                        
+                    .field
+                     .ui.left.icon.input
+                        i.icon.mail
+                        input(type="text", name="email", placeholder="Email")
+    
+                        
+                    .ui.buttons.fluid
+                        a(href="/", role="button", class="ui large cancel button") Cancel
+                        .or
+                        button(type="submit", class="ui teal large submit button") Save
+                        
+                div(class="ui error message")

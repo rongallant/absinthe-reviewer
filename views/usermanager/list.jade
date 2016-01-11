@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+    h1.ui.header Users
+  
+    -if (data)
+        ul
+        each item in data
+            li #{item.username}
+  

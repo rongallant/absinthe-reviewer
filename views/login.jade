@@ -1,0 +1,52 @@
+extends layout
+
+block title
+  title Login
+
+block extraHeader
+  script.
+    jQuery(function(){
+        $('.ui.form').form({
+            //- inline : true,
+            on : 'blur',
+            fields: {
+                username:'empty',
+                password:'empty',
+                password:['minLength[6]', 'empty']
+            }
+        });
+      });
+      
+block content
+    .ui.middle.aligned.center.aligned.grid
+        .column
+            h1.ui.teal.header= title
+            -if (message)
+                p.ui.info.message #{message}
+            form(action="/login", method="post", class="ui large form")
+                .ui.stacked.segment
+                    .ui.four.item.menu
+                        a(href="#local",  role="button", class="item" title="Sign in Locally")
+                            i(class="user icon") 
+                        a(href="/auth/twitter",  role="button", class="item" title="Sign in with Twitter")
+                            i(class="icon twitter")
+                        a(href="/auth/google",  role="button", class="item" title="Sign in with Google")
+                            i(class="google icon")
+                        a(href="/auth/facebook",  role="button", class="item" title="Sign in with Facebook")
+                            i(class="facebook icon")
+                    .field
+                     .ui.left.icon.input
+                        i.user.icon
+                        input(type="text", name="username", placeholder="Username")
+                    .field
+                     .ui.left.icon.input
+                        i.lock.icon
+                        input(type="password", name="password", placeholder="Password")
+                    .ui.buttons.fluid
+                        a(href="/", role="button", class="ui large cancel button") Cancel
+                        .or
+                        button(type="submit", class="ui teal large submit button") Login
+                
+                div(class="ui message") New to us? #[a(href="/register") Register]
+                div(class="ui error message")
+            footer
