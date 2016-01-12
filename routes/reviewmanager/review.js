@@ -14,7 +14,7 @@ router.get('/', function(req, res){
       }
       console.log(review);
      res.render('reviewmanager/reviewList', {
-         title:'Review Manager',
+         title:'',
          data:review
      });
   });
@@ -29,12 +29,12 @@ router.get('/add', function(req, res) {
             }
             else if (review) {
                 res.render('reviewmanager/reviewAdd', {
-                    title: "Edit Review",
+                    title: "- Edit",
                     data: review
                 });
         } else {
             res.render('reviewmanager/reviewAdd', {
-                title: "Add Review",
+                title: "- Add",
                 data: new Review()
             });
         }

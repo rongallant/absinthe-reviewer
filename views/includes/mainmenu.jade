@@ -1,10 +1,13 @@
 .ui.sidebar.inverted.vertical.menu
-    a.item.teal(href="/") Absinthe Reviewer
+    .item.teal Absinthe Reviewer
+
+    a.item(href="/review") Reviews
+
+    a.item(href="/usermanager") Users
+
     if (!user)
         a.item(href="/register") Register
         a.item(href="/login") Login
-    a.item(href="/review") Review
-    a.item(href="/usermanager") User Manager
     a.item(href="/logout") Logout
     if (user)
         p.item You are currently logged in as #{user.username}

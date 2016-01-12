@@ -5,3 +5,7 @@ body {
 #content.container {
     padding-top: 4em
 }
+
+.ui.raised.segment {
+    background: whitesmoke
+}

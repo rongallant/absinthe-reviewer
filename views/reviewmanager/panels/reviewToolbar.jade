@@ -1,6 +1,14 @@
+block link
+    -var selected = 'review'; //default
+
+-var menu = { '/review':'List', '/review/add':'Add' };
+
 .ui.small.menu
-    a.active.item(href="/review/") List
-    a.item(href="/review/add") Add
+    each val, key in menu
+        if selected === key
+            a.item.active(href=key, title=val)= val
+        else
+            a.item(href=key, title=val)= val
     .right.menu
         .item
             .ui.button Save

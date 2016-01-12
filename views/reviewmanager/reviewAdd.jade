@@ -1,8 +1,11 @@
 extends reviewLayout
 
+block link
+    -var selected = '/review/add';
+//http://rbeere.tumblr.com/post/41212250036/internationalization-with-express-jade-and
 block extraJavascript
     script.
-        $('.ui.rating').rating({
+        $('.ui.star.rating').rating({
             maxRating: 5
         });
 
@@ -12,7 +15,9 @@ block reviewBody
 
         .ui.raised.segment
 
-            .ui.large.ribbon.label Page Settings
+            .ui.massive.teal.ribbon.label Page Settings
+
+            p
 
             .field
                 label(for="title") Review Title
@@ -30,7 +35,7 @@ block reviewBody
 
             .ui.raised.segment
 
-                .ui.large.ribbon.label Absinthe Details
+                .ui.large.teal.ribbon.label Absinthe Details
 
                 p
 
@@ -57,43 +62,46 @@ block reviewBody
         -each rating in data.rating
 
             .ui.raised.segment
-                .ui.large.ribbon.label Review Details
+                .ui.large.teal.ribbon.label Review Details
+
+                p
 
                 .field
                     label(for="rating.appearance") appearance
                     textarea(rows="2", name="rating.appearance", value=rating.appearance)
-                    .ui.rating(data-rating=rating.appearance_rating)
+                    .ui.star.rating(data-rating=rating.appearance_rating)
 
                 .field
                     label(for="rating.louche") louche
                     textarea(rows="2", name="rating.louche", value=rating.louche)
-                    .ui.rating(data-rating=rating.louche_rating)
-
+                    .ui.star.rating(data-rating=rating.louche_rating)
 
                 .field
                     label(for="rating.aroma") aroma
                     textarea(rows="2", name="rating.aroma", value=rating.aroma)
-                    .ui.rating(data-rating=rating.aroma_rating)
+                    .ui.star.rating(data-rating=rating.aroma_rating)
 
                 .field
                     label(for="rating.flavor") flavor
                     textarea(rows="2", name="rating.flavor", value=rating.flavor)
-                    .ui.rating(data-rating=rating.flavor_rating)
+                    .ui.star.rating(data-rating=rating.flavor_rating)
 
                 .field
                     label(for="rating.finish") finish
                     textarea(rows="2", name="rating.finish", value=rating.finish)
-                    .ui.rating(data-rating=rating.finish_rating)
+                    .ui.star.rating(data-rating=rating.finish_rating)
 
                 .field
                     label(for="rating.overall") overall
                     textarea(rows="2", name="rating.overall", value=rating.overall)
-                    .ui.rating(data-rating=rating.overall_rating)
+                    .ui.star.rating(data-rating=rating.overall_rating)
 
 
         .ui.raised.segment
 
-            .ui.large.ribbon.label Conclusion
+            .ui.large.teal.ribbon.label Conclusion
+
+            p
 
             .field
                 label(for="conclusion")
