@@ -8,16 +8,19 @@ var Absinthe = require('../../models/absinthe');
 var Rating = require('../../models/rating');
 
 router.get('/', function(req, res){
-  Review.find({ }, function(err, account, req) {
+  Review.find({}, function(err, review, req) {
       if (err) {
         console.log(err.message);
       }
-      console.log(account);
-     res.render('reviewmanager/reviewList', {title:'Review Manager', data:account });
+      console.log(review);
+     res.render('reviewmanager/reviewList', {
+         title:'Review Manager',
+         data:review
+     });
   });
 });
 
-router.get('/new', function(req, res) {
+router.get('/add', function(req, res) {
    var query = Review.findOne({ '_id': req.query.review });
     query.exec(function (err, review, req) {
         console.log(review);

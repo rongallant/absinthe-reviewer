@@ -1,11 +1,8 @@
-extends ../layout
+extends reviewLayout
 
-block content
-    h1.ui.teal.header= title
+block reviewBody
 
     -if (data)
-
-        include ./panels/reviewToolbar.jade
 
         table.ui.celled.padded.selectable.table
             thead

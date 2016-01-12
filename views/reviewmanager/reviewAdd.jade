@@ -1,4 +1,4 @@
-extends ../layout
+extends reviewLayout
 
 block extraJavascript
     script.
@@ -6,9 +6,7 @@ block extraJavascript
             maxRating: 5
         });
 
-block content
-
-    h1.ui.teal.header= title
+block reviewBody
 
     form.ui.large.form(role='form', action="/register", method="post")
 

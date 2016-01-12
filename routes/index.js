@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     if (req.user) {
-      res.redirect('/usermanager');
+      res.redirect('/review');
     } else {
       res.redirect('/login');
     }
