@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+    h1.ui.teal.header= title
+
+    -if (data)
+
+        include ./panels/reviewToolbar.jade
+
+        table.ui.celled.padded.selectable.table
+            thead
+                tr
+                    th
+                    th Review
+                    th Author
+                    th Absinthe
+            tbody
+                if (data.length)
+                    each item in data
+                        tr
+                            td #[input(type="radio")]
+                            td #[a(href="/register?userid=#{item.id}")= item.title]
+                            td= item.author
+                            td= item.absinthe.name
+                else
+                    tr
+                        td.center.aligned(colspan="4") No Results
+
+

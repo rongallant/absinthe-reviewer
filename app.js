@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var routes = require(path.join(__dirname, 'routes/index'));
-var review = require(path.join(__dirname, 'routes/review'));
+var review = require(path.join(__dirname, 'routes/reviewmanager/review'));
 
 var app = express();
 

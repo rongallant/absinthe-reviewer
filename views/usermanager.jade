@@ -1,10 +1,10 @@
 extends layout
 
 block content
-    h1.ui.header Users
-  
+    h1.ui.teal.header= title
+
     -if (data)
-        table.ui.orange.padded.selectable.table
+        table.ui.padded.selectable.table
             thead
                 tr
                     th Username
@@ -13,4 +13,3 @@ block content
                     tr
                         td
                             a(href="/register?userid=#{item.id}") #{item.username}
- 

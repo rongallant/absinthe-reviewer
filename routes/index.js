@@ -7,7 +7,7 @@ router.get('/', function (req, res) {
     if (req.user) {
       res.redirect('/usermanager');
     } else {
-      res.render('login');
+      res.redirect('/login');
     }
 });
 
@@ -17,7 +17,7 @@ router.get('/usermanager', function(req, res){
         console.log(err.message);
       }
       console.log(account);
-     res.render('usermanager', {data:account });
+     res.render('usermanager', {title:'User Manager', data:account });
   });
 });
 
@@ -55,7 +55,7 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-    res.render('login', { user : req.user, title : "Absinthe Reviewer" });
+    res.render('login', { title : "Absinthe Reviewer" });
 });
 router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');

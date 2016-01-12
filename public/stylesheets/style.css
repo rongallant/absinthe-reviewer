@@ -1,16 +1,7 @@
+body.pushable>.pusher,
 body {
-    background-color: #DADADA;
-}
-body > .grid {
-    height: 100%;
+    background-color: #DADADA
 }
 #content.container {
-    padding-top: 1em;
-}
-
-.image {
-    margin-top: -100px;
-}
-.column {
-    max-width: 450px;
+    padding-top: 4em
 }
