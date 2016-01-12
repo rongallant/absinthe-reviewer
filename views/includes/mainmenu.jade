@@ -1,22 +1,12 @@
-menu(class="ui inverted menu")
-    div(class="ui container")
-        a(href="#", class="header item teal") Absinthe Reviewer
-        a(href="/", class="header item") Home
-        
-        if (!user)
-            a.header.item(href="/register") Register
-            a.header.item(href="/login") Login
-        if (user)
-            a.header.item(href="/usermanager/list") List Users
-            a.header.item(href="/logout") Logout
-            p.item You are currently logged in as #{user.username}
+.ui.sidebar.inverted.vertical.menu
+    a.item.teal(href="/") Absinthe Reviewer
+    if (!user)
+        a.item(href="/register") Register
+        a.item(href="/login") Login
 
-    
-        //- div(class="menu")
-        //-     div(class="ui simple dropdown item") Sub Menu #[i(class="dropdown icon")]
-        //-         div(class="menu")
-        //-             a(href="#", class="item") Item One
-        //-             a(href="#", class="item") Item Two
-        //-             div(class="divider")
-        //-             a(href="#", class="item") Item Three
-        //-             a(href="#", class="item") Item Four
+    a.item(href="/usermanager") User Manager
+    a.item(href="/review") Review
+    a.item(href="/logout") Logout
+    if (user)
+        p.item You are currently logged in as #{user.username}
+        

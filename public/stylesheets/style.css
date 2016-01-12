@@ -4,6 +4,10 @@ body {
 body > .grid {
     height: 100%;
 }
+#content.container {
+    padding-top: 1em;
+}
+
 .image {
     margin-top: -100px;
 }

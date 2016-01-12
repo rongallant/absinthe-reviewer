@@ -20,9 +20,19 @@ html
             return true;
         }
     block extraHeader
-    body
-        header
-            include ./includes/mainmenu.jade
-        div(class="ui container")
-            block content
-    block extraJavascript
+    
+    body.menu.pushable
+        include ./includes/mainmenu.jade
+        
+        .ui.top.fixed.menu.inverted
+            a.ui.launch.icon.item.button(onclick='$(".ui.sidebar").sidebar("toggle")')
+                i.content.icon
+            
+        .pusher
+           #content.ui.container
+                block content
+            footer
+                p &nbsp;
+                p &nbsp;
+                p &nbsp;
+        block extraJavascript

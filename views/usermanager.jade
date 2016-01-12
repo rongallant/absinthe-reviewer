@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1.ui.header Users
+  
+    -if (data)
+        table.ui.orange.padded.selectable.table
+            thead
+                tr
+                    th Username
+            tbody
+                each item in data
+                    tr
+                        td
+                            a(href="/register?userid=#{item.id}") #{item.username}
+ 

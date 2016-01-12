@@ -8,11 +8,14 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var routes = require(path.join(__dirname, 'routes/index'));
-// var usermanager = require(path.join(__dirname, 'routes/usermanager'));
+var review = require(path.join(__dirname, 'routes/review'));
 
 var app = express();
+
+app.locals.title = 'Absinthe Review';
+app.locals.email = 'ron@rongallant.com';
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +28,7 @@ app.set('view options', {
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(require('express-session')({
     secret: 'keyboard cat',
@@ -36,8 +39,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
+
+// Set up routes
+
+app.get('/login', routes);
+app.get('/:name', ensureAuthenticated, routes);
 app.use('/', routes);
-// app.use('/usermanager', usermanager);
+
+app.get('/review', review);
+app.get('/review:name', ensureAuthenticated, review);
+app.use('/review', review);
 
 // passport config
 var Account = require('./models/account');

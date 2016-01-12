@@ -15,23 +15,25 @@ block extraHeader
         });
       });
 block content
-    .ui.middle.aligned.center.aligned.grid
+    .ui.grid
         .column
             h1.ui.teal.header= title
+            
             -if (message)
                 p.ui.info.message #{message}
-            form(role='form', action="/register", method="post", class="ui large form")
+                
+            form.ui.large.form(role='form', action="/register", method="post")
                 .ui.stacked.segment
                     .field
                      .ui.left.icon.input
                         i.icon.lock
-                        input(type="text", name="username", placeholder="Username")
+                        input(type="text", name="username", placeholder="Username", value=data.username)
                     
                     .two.fields
                         .field
                          .ui.left.icon.input
                             i.icon.hide
-                            input(type="password", name="password", placeholder="Password")
+                            input(type="password", name="password", placeholder="Password", value=data.password)
                         
                         .field
                          .ui.left.icon.input

@@ -5,15 +5,44 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     if (req.user) {
-      res.render('usermanager/list', { user:req.user });
+      res.redirect('/usermanager');
     } else {
       res.render('login');
     }
 });
 
-router.get('/register', function(req, res) {
-    res.render('register', { title : "Register" });
+router.get('/usermanager', function(req, res){
+  Account.find({ }, function(err, account, req) {
+      if (err) {
+        console.log(err.message);
+      }
+      console.log(account);
+     res.render('usermanager', {data:account });
+  });
 });
+
+router.get('/register', function(req, res) {
+
+   var query = Account.findOne({ '_id': req.query.userid });
+    query.select('username');
+    query.exec(function (err, account, req) {
+        if (err) {
+                console.log(err.message);
+            }
+            else if (account) {
+                res.render('register', {
+                    title: "Edit User",
+                    data: account
+                });
+        } else {
+            res.render('register', {
+                title: "Add User",
+                data: new Account()
+            });
+        }
+    });
+});
+
 router.post('/register', function(req, res) {
     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
         if (err) {
@@ -36,14 +65,5 @@ router.get('/logout', function(req, res) {
     res.redirect('/login');
 });
 
-router.get('/usermanager/list', function(req, res){
-  Account.find({ }, function(err, docs, req) {
-     res.render('usermanager/list', { user:req.user, data:docs });
-  });
-});
-
-router.get('/usermanager', function (req, res) {
-    res.render('usermanager/list', { user:req.user });
-});
 
 module.exports = router;
