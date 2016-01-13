@@ -27,9 +27,10 @@ app.set('view options', {
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({extended:true})); // to support URL-encoded bodies
 app.use(cookieParser());
+
 app.use(require('express-session')({
     secret: 'keyboard cat',
     resave: false,
@@ -63,7 +64,6 @@ passport.deserializeUser(Account.deserializeUser());
 // mongoose
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
 
-// error handlers
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

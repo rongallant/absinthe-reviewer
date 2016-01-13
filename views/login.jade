@@ -1,6 +1,6 @@
 extends layout
 
-block extraHeader
+block extraJavascript
     script.
         jQuery(function(){
             $('.ui.form').form({
@@ -29,7 +29,7 @@ block content
                 .ui.stacked.segment
                     .ui.four.item.menu
                         a(href="#local",  role="button", class="item" title="Sign in Locally")
-                            i(class="user icon") 
+                            i(class="user icon")
                         a(href="/auth/twitter",  role="button", class="item" title="Sign in with Twitter")
                             i(class="icon twitter")
                         a(href="/auth/google",  role="button", class="item" title="Sign in with Google")
@@ -48,7 +48,7 @@ block content
                         a(href="/", role="button", class="ui large cancel button") Cancel
                         .or
                         button(type="submit", class="ui teal large submit button") Login
-                
+
                 div(class="ui message") New to us? #[a(href="/register") Register]
                 div(class="ui error message")
             footer

@@ -14,16 +14,24 @@ block reviewBody
                     th Review
                     th Author
                     th Absinthe
+                    th Actions
             tbody
                 if (data.length)
-                    each item in data
+                    each row in data
                         tr
-                            td #[input(type="radio")]
-                            td #[a(href="/register?userid=#{item.id}")= item.title]
-                            td= item.author
-                            td= item.absinthe.name
+                            td #[input(type="checkbox", value=row.id)]
+                            td #[a(href="/review/view?review=#{row.id}")= row.title]
+                            td= row.author
+                            td
+                                if (row.absinthe)
+                                    row.absinthe.make
+                                else
+                                    | N/A
+                            td
+                                a.button(href="/review/delete?review=#{row.id}") delete
                 else
                     tr
                         td.center.aligned(colspan="4") No Results
 
-
+        p
+        p
