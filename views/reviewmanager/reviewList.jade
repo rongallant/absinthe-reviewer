@@ -3,14 +3,65 @@ extends reviewLayout
 block link
     -var selected = '/review';
 
+block extraJavascript
+    script.
+        $(function() {
+            $('table.selectable thead .ui.checkbox').checkbox({
+                onChecked: function() {
+                    var $childCheckbox  = $(this).closest('table.selectable').find('tbody .checkbox');
+                    $childCheckbox.checkbox('check');
+                },
+                onUnchecked: function() {
+                    var $childCheckbox  = $(this).closest('table.selectable').find('tbody .checkbox');
+                    $childCheckbox.checkbox('uncheck');
+                }
+            });
+            $('table.selectable tbody .ui.checkbox').checkbox({
+                // Fire on load to set parent value
+                fireOnInit : true,
+                onChecked: function() {
+                    $(this).prop("checked", true).closest('tr').addClass('active');
+                },
+                onUnchecked: function() {
+                    $(this).prop("checked", false).closest('tr').removeClass('active');
+                },
+                // Change parent state on each child checkbox change
+                onChange : function() {
+                  var
+                    $listGroup      = $(this).closest('tbody'),
+                    $parentCheckbox = $listGroup.siblings('thead').find('.checkbox'),
+                    $checkbox       = $listGroup.find('.checkbox'),
+                    allChecked      = true,
+                    allUnchecked    = true;
+                  // check to see if all other siblings are checked or unchecked
+                  $checkbox.each(function() {
+                    if ( $(this).checkbox('is checked') ) {
+                      allUnchecked = false;
+                    } else {
+                      allChecked = false;
+                    }
+                  });
+                  // set parent checkbox state, but dont trigger its onChange callback
+                  console.log('allChecked: ' + allChecked);
+                  if (allChecked) {
+                    $parentCheckbox.checkbox('set checked');
+                  } else if(allUnchecked) {
+                    $parentCheckbox.checkbox('set unchecked');
+                  } else {
+                    $parentCheckbox.checkbox('set indeterminate');
+                  }
+                }
+            });
+        });
+
 block reviewBody
-
-    -if (data)
-
-        table.ui.celled.padded.selectable.table
+    .form
+        table.ui.padded.selectable.unstackable.raised.table
             thead
                 tr
                     th
+                        .ui.master.checkbox
+                            input(type="checkbox", name="selectAll")
                     th Review
                     th Author
                     th Absinthe
@@ -19,19 +70,18 @@ block reviewBody
                 if (data.length)
                     each row in data
                         tr
-                            td #[input(type="checkbox", value=row.id)]
-                            td #[a(href="/review/view?review=#{row.id}")= row.title]
+                            td
+                                .ui.checkbox #[input(type="checkbox", value=row.id)]
+                            td
+                                a(href="/review/view?review=#{row.id}")= row.title
+
                             td= row.author
+                                &nbsp
+                            td row.absinthe.make
+                                &nbsp
                             td
-                                if (row.absinthe)
-                                    row.absinthe.make
-                                else
-                                    | N/A
-                            td
-                                a.button(href="/review/delete?review=#{row.id}") delete
+                                a.ui.mini.icon.button(href="/review/delete?review=#{row.id}", title="Delete")
+                                    i.cloud.icon
                 else
                     tr
                         td.center.aligned(colspan="4") No Results
-
-        p
-        p

@@ -9,7 +9,8 @@ html
         link(rel='stylesheet', href='/semantic/dist/semantic.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
         block extraStyles
-
+            style(type="text/css").
+                /* Add Extra Styles */
     body.menu.pushable
 
         include ./includes/mainmenu.jade
@@ -27,14 +28,8 @@ html
                 p &nbsp;
 
         script(src="https://code.jquery.com/jquery-2.2.0.min.js")
+        script(src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js")
         script(src="/semantic/dist/semantic.min.js")
-        script.
-            function isEmptyObject(obj) {
-                var name;
-                for (name in obj) {
-                    return false;
-                }
-                return true;
-            }
-            $(function() { $('.ui.dropdown').dropdown(); });
+        script(src="/scripts/scripts.js")
         block extraJavascript
+            script.
