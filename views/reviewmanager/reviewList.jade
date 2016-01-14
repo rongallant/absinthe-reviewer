@@ -5,83 +5,40 @@ block link
 
 block extraJavascript
     script.
-        $(function() {
-            $('table.selectable thead .ui.checkbox').checkbox({
-                onChecked: function() {
-                    var $childCheckbox  = $(this).closest('table.selectable').find('tbody .checkbox');
-                    $childCheckbox.checkbox('check');
-                },
-                onUnchecked: function() {
-                    var $childCheckbox  = $(this).closest('table.selectable').find('tbody .checkbox');
-                    $childCheckbox.checkbox('uncheck');
-                }
-            });
-            $('table.selectable tbody .ui.checkbox').checkbox({
-                // Fire on load to set parent value
-                fireOnInit : true,
-                onChecked: function() {
-                    $(this).prop("checked", true).closest('tr').addClass('active');
-                },
-                onUnchecked: function() {
-                    $(this).prop("checked", false).closest('tr').removeClass('active');
-                },
-                // Change parent state on each child checkbox change
-                onChange : function() {
-                  var
-                    $listGroup      = $(this).closest('tbody'),
-                    $parentCheckbox = $listGroup.siblings('thead').find('.checkbox'),
-                    $checkbox       = $listGroup.find('.checkbox'),
-                    allChecked      = true,
-                    allUnchecked    = true;
-                  // check to see if all other siblings are checked or unchecked
-                  $checkbox.each(function() {
-                    if ( $(this).checkbox('is checked') ) {
-                      allUnchecked = false;
-                    } else {
-                      allChecked = false;
-                    }
-                  });
-                  // set parent checkbox state, but dont trigger its onChange callback
-                  console.log('allChecked: ' + allChecked);
-                  if (allChecked) {
-                    $parentCheckbox.checkbox('set checked');
-                  } else if(allUnchecked) {
-                    $parentCheckbox.checkbox('set unchecked');
-                  } else {
-                    $parentCheckbox.checkbox('set indeterminate');
-                  }
-                }
-            });
-        });
+        $(function(){selectableCheckboxes('table.selectable');});
 
 block reviewBody
     .form
-        table.ui.padded.selectable.unstackable.raised.table
+        table.ui.selectable.stackable.raised.table
             thead
                 tr
                     th
-                        .ui.master.checkbox
+                        span.ui.master.checkbox
                             input(type="checkbox", name="selectAll")
-                    th Review
+                    th Title
                     th Author
                     th Absinthe
-                    th Actions
+                    th.right.aligned Actions
             tbody
-                if (data.length)
+                if data.length
                     each row in data
                         tr
                             td
-                                .ui.checkbox #[input(type="checkbox", value=row.id)]
+                                span.ui.checkbox #[input(type="checkbox", value=row.id)]
                             td
                                 a(href="/review/view?review=#{row.id}")= row.title
-
                             td= row.author
-                                &nbsp
-                            td row.absinthe.make
-                                &nbsp
                             td
-                                a.ui.mini.icon.button(href="/review/delete?review=#{row.id}", title="Delete")
-                                    i.cloud.icon
+                                if row.absinthe
+                                    = row.absinthe.make
+                            td.right.aligned
+                                .ui.small.basic.icon.buttons.actions
+                                    a.ui.button(href="/review/delete?review=#{row.id}", title="Delete")
+                                        i.trash.icon
+
+
                 else
                     tr
                         td.center.aligned(colspan="4") No Results
+
+

@@ -16,7 +16,6 @@ var app = express();
 app.locals.title = 'Absinthe Review';
 app.locals.email = 'ron@rongallant.com';
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -50,7 +49,6 @@ function ensureAuthenticated(req, res, next) {
 app.get('/login', routes);
 app.get('/:name', ensureAuthenticated, routes);
 app.use('/', routes);
-
 app.get('/review', review);
 app.get('/review:name', ensureAuthenticated, review);
 app.use('/review', review);

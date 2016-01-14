@@ -1,14 +1,34 @@
-block link
-    -var selected = 'review'; //default
 
--var menu = { '/review':'List', '/review/add':'Add' };
+block link
+    - var selected = '/review'; // Default
+
+-
+    var menuItems = [
+        {
+            link:'/review',
+            iconClass: 'list layout',
+            title: 'List'
+        },
+        {
+            link: '/review/add',
+            iconClass: 'plus',
+            title: 'Add'
+        }
+    ];
 
 .ui.small.menu
-    each val, key in menu
-        if selected === key
-            a.item.active(href=key, title=val)= val
+    console.log(path)
+
+    each item in menuItems
+        if selected === item.link
+            a.item.active(href=item.link, title=item.title)
+                i.icon(class=item.iconClass)
+                =item.title
         else
-            a.item(href=key, title=val)= val
+            a.item(href=item.link, title=item.title)
+                i.icon(class=item.iconClass)
+                =item.title
+
     .right.menu
         .item
             .ui.button Save

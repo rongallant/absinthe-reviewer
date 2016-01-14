@@ -9,3 +9,11 @@ body {
 .ui.raised.segment {
     background: whitesmoke
 }
+
+.ui.table .actions {
+    visibility: hidden;
+}
+
+.ui.table tr:hover .actions {
+    visibility: visible;
+}
