@@ -8,9 +8,18 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+
+/************************************************************
+ * Route Includes
+ ***********************************************************/
+
 var routes = require(path.join(__dirname, 'routes/login'));
 var review = require(path.join(__dirname, 'routes/reviews'));
 var users = require(path.join(__dirname, 'routes/users'));
+
+/************************************************************
+ * App Settup
+ ***********************************************************/
 
 var app = express();
 
@@ -31,6 +40,11 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({extended:true})); // to support URL-encoded bodies
 app.use(cookieParser());
 
+
+/************************************************************
+ * Security
+ ***********************************************************/
+
 app.use(require('express-session')({
     secret: 'keyboard cat',
     resave: false,
@@ -45,7 +59,18 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-// Set up routes
+// passport config
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// mongoose
+mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
+
+/************************************************************
+ * Secure Routes
+ ***********************************************************/
 
 app.get('/login', routes);
 app.get('/:name', ensureAuthenticated, routes);
@@ -59,15 +84,9 @@ app.get('/review', review);
 app.get('/review:name', ensureAuthenticated, review);
 app.use('/review', review);
 
-// passport config
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
-
-// mongoose
-mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
-
+/************************************************************
+ * Error Handling
+ ***********************************************************/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -97,5 +116,9 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+/************************************************************
+ * Return App
+ ***********************************************************/
 
 module.exports = app;

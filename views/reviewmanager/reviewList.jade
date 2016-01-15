@@ -24,9 +24,14 @@ block reviewBody
                     each row in data
                         tr
                             td
-                                span.ui.checkbox #[input(type="checkbox", value=row.id)]
+                                span.ui.checkbox
+                                    input(type="checkbox", value=row.id)
                             td
-                                a(href="/review/view?review=#{row.id}")= row.title
+                                a(href="/review/view?id=#{row.id}")
+                                    if (row.title && row.title.length > 0)
+                                        =row.title
+                                    else
+                                        | undefined
                             td= row.author
                             td
                                 if row.absinthe

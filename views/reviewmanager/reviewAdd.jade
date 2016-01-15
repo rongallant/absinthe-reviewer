@@ -3,21 +3,29 @@ extends reviewLayout
 block link
     -var selected = '/review/add';
 
-block link
-    -var selected = '/review/add';
-
 block extraJavascript
-    script.
+
+  script.
+    jQuery(function(){
         $('.ui.star.rating').rating({
-            maxRating: 5
+            maxRating: 5,
+            onRate(value) {
+                $(this).closest(".field").find("input:hidden").val(value);
+            }
         });
-        /*http://rbeere.tumblr.com/post/41212250036/internationalization-with-express-jade-and*/
+
+        $('.ui.form').form({
+            fields: {
+                title:['minLength[1]', 'maxLength[300]', 'empty']
+            }
+        });
+      });
 
 block reviewBody
 
     form.ui.large.form(role='form', action="/review/save", method="post", enctype="application/x-www-form-urlencoded")
         if (user)
-            input(type="hidden", name="autho", value=user.username)
+            input(type="hidden", name="author", value=user.username)
 
         .ui.raised.segment
             .ui.massive.ribbon.label Page Settings
@@ -33,43 +41,45 @@ block reviewBody
 
             .field
                 label(for="intro") Introduction
-                textarea(name="intro", value=data.intro)
+                textarea(name="intro")
+                    =data.intro
 
-        .ui.raised.segment
-            .ui.large.ribbon.label Absinthe Details
-            p
+        if (data.absinthe)
+            .ui.raised.segment
+                .ui.large.ribbon.label Absinthe Details
+                p
+                .field
+                    label(for="absinthe_make") Make
+                    input(type="text", name="absinthe[make]", value=data.absinthe.make)
 
-            .field
-                label(for="absinthe_make") Make
-                input(type="text", name="absinthe_make", value=data.absinthe.make)
+                .field
+                    label(for="absinthe_type") Type
+                    input(type="text", name="absinthe[type]", value=data.absinthe.type)
 
-            .field
-                label(for="absinthe_type") Type
-                input(type="text", name="absinthe_type", value=data.absinthe.type)
+                .field
+                    label(for="absinthe_manufacturer") Manufacturer
+                    input(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer)
 
-            .field
-                label(for="absinthe_manufacturer") Manufacturer
-                input(type="text", name="absinthe_manufacturer", value=data.absinthe.manufacturer)
+                .field
+                    label(for="absinthe_country") Country
+                    input(type="text", name="absinthe[country]", value=data.absinthe.country)
 
-            .field
-                label(for="absinthe_country") Country
-                input(type="text", name="absinthe_country", value=data.absinthe.country)
-
-            .field
-                label(for="absinthe_alcohol") Alcohol
-                input(type="text", name="absinthe_alcohol", value=data.absinthe.alcohol)
+                .field
+                    label(for="absinthe_alcohol") Alcohol
+                    input(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol)
 
         .ui.raised.segment
             .ui.large.ribbon.label Review Details
             p
-
-            -each r in data.rating
-
+            each item, attribute in data.rating
                 .field
-                    label(for=r.content)= r.identity
-                    textarea(rows="2", name="rating.score", value=r.content)
-                    .ui.star.rating(data-rating=r.score)
-                    input(type="hidden", name="rating.score", value=r.score)
+                    // pre= JSON.stringify(item)
+
+                    label(for="rating["+attribute+"][content]")= attribute
+                    textarea(rows="2", name="rating["+attribute+"][content]")
+                        =item.content
+                    input(type="hidden", name="rating["+attribute+"][score]", value=item.score)
+                    .ui.star.rating(data-rating=item.score)
 
         .ui.raised.segment
             .ui.large.ribbon.label Conclusion
@@ -77,7 +87,8 @@ block reviewBody
 
             .field
                 label(for="conclusion")
-                textarea(name="conclusion", value=data.conclusion)
+                textarea(name="conclusion")
+                    =data.conclusion
 
             .ui.equal.width.grid.padded
                 .row

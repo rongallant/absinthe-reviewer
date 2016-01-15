@@ -3,7 +3,9 @@ extends ../layout
 block content
 
     h1.ui.header
-        Absinthe Review if #{title}
+        Absinthe Review
+        if title
+            | - #{title}
 
     include panels/reviewToolbar.jade
 

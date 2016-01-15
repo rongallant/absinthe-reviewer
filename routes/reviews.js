@@ -27,51 +27,36 @@ var VIEW_FOLDER = "reviewmanager";
  ************************************************************/
 
 router.get('/', function(req, res){
-    Review.find({}, function(err, review, req) {
+    var query = Review.find({})
+    query.sort({ key:1 })
+    query.exec(function(err, review, req) {
         if (err && err.message) console.log(err.message);
         res.render(VIEW_FOLDER + '/reviewList', {
             title:'',
             data:review,
             menuItems: menu
-        });
-    });
-});
+        })
+    })
+})
+
+
+router.get('/view', function(req, res) {
+    Review.findOne({_id:req.query.id}, function(err, results){
+        if (err) console.log(err.message)
+        console.info("\n VIEW \n" + results)
+        res.render(VIEW_FOLDER + '/reviewAdd', {
+            title: "View",
+            data: JSON.parse(JSON.stringify(results)),
+            menuItems: menu
+        })
+    })
+})
 
 router.get('/add', function(req, res) {
-   var query = Review.findOne({ '_id': req.query.review });
-    query.exec(function (err, review, req, res) {
-        if (err) console.log(err.message);
-        if (review) {
-            res.render(VIEW_FOLDER + '/reviewAdd', {
-                title: "Edit",
-                data: review,
-                menuItems: menu
-            }, req, res);
-        }
-    });
-    // create a blog post
-    var defaultReview = new Review({
-        absinthe : {
-            make: "",
-            type: "",
-            manufacturer: "",
-            country: "",
-            alcohol: ""
-        }
-    });
-    defaultReview.rating.push({identity: "appearance"});
-    defaultReview.rating.push({identity: "louche"});
-    defaultReview.rating.push({identity: "aroma"});
-    defaultReview.rating.push({identity: "flavor"});
-    defaultReview.rating.push({identity: "finish"});
-    defaultReview.rating.push({identity: "overall"});
-    defaultReview.save(function (err) {
-      if (err) throw err;
-    });
     res.render(VIEW_FOLDER + '/reviewAdd', {
         title: "Add",
         user: req.session.user,
-        data: defaultReview,
+        data: JSON.parse(JSON.stringify(new Review())),
         menuItems: menu
     });
 });
@@ -82,15 +67,17 @@ router.get('/add', function(req, res) {
 
 router.post('/save', function(req, res, err) {
     if (err && err.message) console.log(err.message);
-    var ratings;
-    var i = 0;
-    for (i = 0; i < req.body.rating; i++) {
-        ratings.push({
-            name: req.body.rating[i].name,
-            content: req.body.rating[i].content,
-            score: req.body.rating[i].score
-        });
-    }
+
+    console.log(req.body);
+    // var formRatings;
+    // var i = 0;
+    // for (i = 0; i < req.body.rating; i++) {
+    //     formRatings.push({
+    //         name: req.body.rating[i].attribute,
+    //         content: req.body.rating[i].content,
+    //         score: req.body.rating[i].score
+    //     });
+    // }
 
     var review = new Review({
         title: req.body.title,
@@ -105,26 +92,28 @@ router.post('/save', function(req, res, err) {
             country: req.body.absinthe_country,
             alcohol: req.body.absinthe_alcohol
         },
-        rating: ratings
-    });
+        rating: req.body.ratings
+    })
+    review.markModified('anything');
 
     // call the built-in save method to save to the database
     review.save(function(err, res) {
       if (err) throw err;
       console.log('Review saved successfully!');
     });
+    console.log("\n/ SAVED \n" + review)
     res.redirect('/review');
 });
 
 router.get('/delete', function(req, res) {
     if (req && req.query && req.query.review) {
         Review.findByIdAndRemove(req.query.review, function (err, req) {
-            if (err) throw err;
-            console.log('\n\nDeleted successfully!');
+            if (err) throw err
+            console.log('\n\nDeleted successfully!')
         });
-        res.redirect('/review');
+        res.redirect('/review')
     } else {
-        console.log('\n\nCould not delete');
+        console.log('\n\nCould not delete!')
     }
 });
 
