@@ -20,7 +20,7 @@ block reviewBody
             input(type="hidden", name="autho", value=user.username)
 
         .ui.raised.segment
-            .ui.massive.teal.ribbon.label Page Settings
+            .ui.massive.ribbon.label Page Settings
             p
 
             .field
@@ -36,7 +36,7 @@ block reviewBody
                 textarea(name="intro", value=data.intro)
 
         .ui.raised.segment
-            .ui.large.teal.ribbon.label Absinthe Details
+            .ui.large.ribbon.label Absinthe Details
             p
 
             .field
@@ -60,7 +60,7 @@ block reviewBody
                 input(type="text", name="absinthe_alcohol", value=data.absinthe.alcohol)
 
         .ui.raised.segment
-            .ui.large.teal.ribbon.label Review Details
+            .ui.large.ribbon.label Review Details
             p
 
             -each r in data.rating
@@ -72,7 +72,7 @@ block reviewBody
                     input(type="hidden", name="rating.score", value=r.score)
 
         .ui.raised.segment
-            .ui.large.teal.ribbon.label Conclusion
+            .ui.large.ribbon.label Conclusion
             p
 
             .field

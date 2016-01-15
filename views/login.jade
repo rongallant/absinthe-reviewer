@@ -22,7 +22,7 @@ block extraJavascript
 block content
     .ui.middle.aligned.center.aligned.grid
         .column
-            h1.ui.teal.header= title
+            h1.ui.header= title
             -if (message)
                 p.ui.info.message #{message}
             form(action="/login", method="post", class="ui large form")
@@ -47,7 +47,7 @@ block content
                     .ui.buttons.fluid
                         a(href="/", role="button", class="ui large cancel button") Cancel
                         .or
-                        button(type="submit", class="ui teal large submit button") Login
+                        button(type="submit", class="ui large submit button") Login
 
                 div(class="ui message") New to us? #[a(href="/register") Register]
                 div(class="ui error message")

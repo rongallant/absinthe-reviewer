@@ -8,9 +8,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var routes = require(path.join(__dirname, 'routes/index'));
-var review = require(path.join(__dirname, 'routes/reviewmanager/review'));
-var users = require(path.join(__dirname, 'routes/usermanager/users'));
+var routes = require(path.join(__dirname, 'routes/login'));
+var review = require(path.join(__dirname, 'routes/reviews'));
+var users = require(path.join(__dirname, 'routes/users'));
 
 var app = express();
 
