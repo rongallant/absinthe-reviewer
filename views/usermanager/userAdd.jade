@@ -1,0 +1,57 @@
+extends userLayout
+
+block extraJavascript
+  script.
+    jQuery(function(){
+        $('.ui.form').form({
+            //- inline : true,
+            on : 'blur',
+            fields: {
+                username:['minLength[6]', 'maxLength[10]', 'empty'],
+                password:['minLength[6]', 'empty'],
+                password_confirm:['match[password]'],
+                fullName:['minLength[6]', 'maxLength[256]', 'empty'],
+                email:['maxLength[256]', 'empty', 'email']
+            }
+        });
+      });
+block content
+    .ui.grid
+        .column
+            h1.ui.teal.header= title
+
+            -if (message)
+                p.ui.info.message #{message}
+
+            form.ui.large.form(role='form', action="/users", method="post")
+                .ui.stacked.segment
+                    .field
+                     .ui.left.icon.input
+                        i.icon.lock
+                        input(type="text", name="username", placeholder="Username", value=data.username)
+
+                    .two.fields
+                        .field
+                         .ui.left.icon.input
+                            i.icon.hide
+                            input(type="password", name="password", placeholder="Password", value=data.password)
+
+                        .field
+                         .ui.left.icon.input
+                            i.icon.hide
+                            input(type="password", name="password_confirm", placeholder="Repeat Password")
+
+                    .field
+                     .ui.left.icon.input
+                        i.icon.user
+                        input(type="text", name="fullName", placeholder="Name")
+
+                    .field
+                     .ui.left.icon.input
+                        i.icon.mail
+
+                    a(href="/", role="button", class="ui basic cancel button") Cancel
+
+                    button(type="submit", class="ui submit primary button") Save
+
+                div(class="ui error message")

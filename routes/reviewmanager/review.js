@@ -1,16 +1,18 @@
 var express = require('express');
 var passport = require('passport');
-var router = express.Router();
 var mongoose = require('mongoose');
 var Review = require('../../models/review');
 var Rating = require('../../models/rating');
 var Account = require('../../models/account');
 
+var router = express.Router();
+
+var VIEW_FOLDER = "reviewmanager";
 
 router.get('/', function(req, res){
     Review.find({}, function(err, review, req) {
         if (err && err.message) console.log(err.message);
-        res.render('reviewmanager/reviewList', {
+        res.render(VIEW_FOLDER + '/reviewList', {
             title:'',
             data:review
         });
@@ -22,7 +24,7 @@ router.get('/add', function(req, res) {
     query.exec(function (err, review, req, res) {
         if (err) console.log(err.message);
         if (review) {
-            res.render('reviewmanager/reviewAdd', {
+            res.render(VIEW_FOLDER + '/reviewAdd', {
                 title: "Edit",
                 data: review
             }, req, res);
@@ -47,7 +49,7 @@ router.get('/add', function(req, res) {
     defaultReview.save(function (err) {
       if (err) throw err;
     });
-    res.render('reviewmanager/reviewAdd', {
+    res.render(VIEW_FOLDER + '/reviewAdd', {
         title: "Add",
         user: req.session.user,
         data: defaultReview

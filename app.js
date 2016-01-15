@@ -10,6 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var routes = require(path.join(__dirname, 'routes/index'));
 var review = require(path.join(__dirname, 'routes/reviewmanager/review'));
+var users = require(path.join(__dirname, 'routes/usermanager/users'));
 
 var app = express();
 
@@ -49,6 +50,11 @@ function ensureAuthenticated(req, res, next) {
 app.get('/login', routes);
 app.get('/:name', ensureAuthenticated, routes);
 app.use('/', routes);
+
+app.get('/users', users)
+app.get('/users:name', ensureAuthenticated, users);
+app.use('/users', users)
+
 app.get('/review', review);
 app.get('/review:name', ensureAuthenticated, review);
 app.use('/review', review);

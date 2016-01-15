@@ -1,0 +1,15 @@
+extends userLayout
+
+block content
+    h1.ui.teal.header= title
+
+    -if (data)
+        table.ui.padded.selectable.table
+            thead
+                tr
+                    th Username
+            tbody
+                each item in data
+                    tr
+                        td
+                            a(href="/register?userid=#{item.id}") #{item.username}
