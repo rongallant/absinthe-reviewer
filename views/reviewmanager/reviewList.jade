@@ -1,14 +1,30 @@
 extends reviewLayout
 
 block link
-    -var selected = '/review';
+    - var selected = '/review'
+    script.
+        var URL_FOLDER = '/review'
 
 block extraJavascript
     script.
-        $(function(){selectableCheckboxes('table.selectable');});
+        $(function(){
+            selectableCheckboxes('table.selectable');
+            $('button#deleteAll').click(function(){
+                console.log('click');
+                $('#confirmModal.modal')
+                    .modal({
+                        closable: true,
+                        onApprove: function() {
+                            $('form#reviewListForm').attr("action", URL_FOLDER + "/deleteAll").submit()
+                            return true
+                        }
+                    }).modal('show')
+            })
+        })
 
 block reviewBody
-    .form
+
+    form#reviewListForm.form(role='form', method="post")
         table.ui.selectable.stackable.raised.table
             thead
                 tr
@@ -25,9 +41,9 @@ block reviewBody
                         tr
                             td
                                 span.ui.checkbox
-                                    input(type="checkbox", value=row.id)
+                                    input(type="checkbox", name="reviewid", value=row.id)
                             td
-                                a(href="/review/view?id=#{row.id}")
+                                a(href=URL_FOLDER + "/view?id=#{row.id}")
                                     if (row.title && row.title.length > 0)
                                         =row.title
                                     else
@@ -45,4 +61,5 @@ block reviewBody
                     tr
                         td.center.aligned(colspan="4") No Results
 
+    include ../includes/confirmModal
 

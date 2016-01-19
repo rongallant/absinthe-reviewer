@@ -1,19 +1,24 @@
 var express = require('express');
 var passport = require('passport');
-var Account = require('../models/account');
-var router = express.Router();
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var flash = require('connect-flash');
 
-router.get('/', function (req, res) {
-    if (req.user) {
-      res.redirect('/review');
-    } else {
-      res.redirect('/login');
-    }
-});
+var Account = require('../models/account');
+
+var router = express.Router();
 
 /************************************************************
  * VIEWS
  ************************************************************/
+
+router.get('/', function (req, res) {
+    if (req.user) {
+        res.redirect('/review');
+    } else {
+        res.redirect('/login');
+    }
+});
 
 router.get('/usermanager', function(req, res){
   Account.find({ }, function(err, account, req) {
@@ -75,7 +80,8 @@ router.get('/login', function(req, res) {
 router.post('/login', passport.authenticate('local'), function(req, res) {
     var sess=req.session;
     sess.user=req.user;
-    res.redirect('/');
+    req.flash("success", "You did it")
+    res.redirect('/review');
 });
 router.get('/logout', function(req, res) {
     req.logout();

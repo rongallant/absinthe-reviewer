@@ -1,6 +1,10 @@
 var express = require('express');
 var passport = require('passport');
 var mongoose = require('mongoose');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var flash = require('connect-flash');
+
 var User = require('../models/user');
 
 var router = express.Router();

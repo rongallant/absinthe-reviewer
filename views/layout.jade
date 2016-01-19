@@ -21,7 +21,24 @@ html
 
         .pusher
            #content.ui.container
+
+                if info && info.length > 0
+                    .ui.info.message
+                        i.close.icon
+                        .header= info
+
+                if success && success.length > 0
+                    .ui.error.message
+                        i.close.icon
+                        .header= success
+
+                if error && error.length > 0
+                    .ui.success.message
+                        i.close.icon
+                        .header= error
+
                 block content
+
             footer
                 p &nbsp;
                 p &nbsp;

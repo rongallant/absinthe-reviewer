@@ -7,7 +7,9 @@ function isEmptyObject(obj) {
 }
 $(function() {
     $('.ui.dropdown').dropdown();
-    // $('.ui.checkbox').checkbox();
+    $('.message .close').on('click', function(){
+        $(this).closest('.message').transition('fade');
+    });
 });
 
 function selectableCheckboxes(cssSelector) {
@@ -46,14 +48,14 @@ function selectableCheckboxes(cssSelector) {
               allChecked = false;
             }
           });
-          // set parent checkbox state, but dont trigger its onChange callback
-          if (allChecked) {
-            $parentCheckbox.checkbox('set checked');
-          } else if(allUnchecked) {
-            $parentCheckbox.checkbox('set unchecked');
-          } else {
-            $parentCheckbox.checkbox('set indeterminate');
-          }
-        }
+            // set parent checkbox state, but dont trigger its onChange callback
+            if (allChecked) {
+                $parentCheckbox.checkbox('set checked');
+            } else if(allUnchecked) {
+                $parentCheckbox.checkbox('set unchecked');
+            } else {
+                $parentCheckbox.checkbox('set indeterminate');
+            }
+    }
     });
 }

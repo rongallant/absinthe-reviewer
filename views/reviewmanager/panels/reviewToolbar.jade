@@ -1,20 +1,6 @@
-
-// -
-//     var menuItems = [
-//         {
-//             link:'/review',
-//             iconClass: 'list layout',
-//             title: 'List'
-//         },
-//         {
-//             link: '/review/add',
-//             iconClass: 'plus',
-//             title: 'Add'
-//         }
-//     ];
-
 block link
-    - var selected = '/review'; // Default
+    - var selected = '/review' // Default
+    - var URL_FOLDER = "/review"
 
 .ui.small.menu
     console.log(path)
@@ -31,9 +17,10 @@ block link
 
     .right.menu
         .item
-            .ui.button Save
+            button#deleteAll.ui.button(type="button") Delete Selected New
+
         .ui.dropdown.item
             i.ellipsis.vertical.icon
             .menu
-                a.item(href="/review/add") #[i.table.icon] One
-                a.item(href="/review/add") #[i.trash.red.icon] Two
+                a.item(href=URL_FOLDER + "/add") #[i.table.icon] One
+                a.item(href=URL_FOLDER + "/add") #[i.trash.red.icon] Two
