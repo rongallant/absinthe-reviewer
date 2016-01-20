@@ -1,7 +1,6 @@
 doctype html
 html
     head
-        <!-- Standard Meta -->
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
         meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
@@ -9,15 +8,14 @@ html
         link(rel='stylesheet', href='/semantic/dist/semantic.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
         block extraStyles
-            style(type="text/css").
-                /* Add Extra Styles */
+            -// Add Extra Styles
     body.menu.pushable
 
-        include ./includes/mainmenu.jade
+        block sidemenu
+            include ./includes/menuleft.jade
 
-        .ui.top.fixed.menu.inverted
-            a.ui.launch.icon.item.button(onclick='$(".ui.sidebar").sidebar("toggle")')
-                i.content.icon
+        block topmenu
+            include ./includes/menutop.jade
 
         .pusher
            #content.ui.container
@@ -28,12 +26,12 @@ html
                         .header= info
 
                 if success && success.length > 0
-                    .ui.error.message
+                    .ui.success.message
                         i.close.icon
                         .header= success
 
-                if error && error.length > 0
-                    .ui.success.message
+                if errors && errors.length > 0
+                    .ui.error.message
                         i.close.icon
                         .header= error
 
@@ -49,4 +47,5 @@ html
         script(src="/semantic/dist/semantic.min.js")
         script(src="/scripts/scripts.js")
         block extraJavascript
-            script.
+            -// Add Extra JavaScript
+

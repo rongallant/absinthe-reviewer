@@ -10,6 +10,8 @@ var Account = require('../models/account')
 
 var router = express.Router()
 
+var VIEW_FOLDER = "reviewmanager"
+
 var menu = [
     {
         link:'/review',
@@ -23,44 +25,47 @@ var menu = [
     }
 ]
 
-var VIEW_FOLDER = "reviewmanager"
-
 /************************************************************
  * VIEWS
  ************************************************************/
 
-router.get('/', function(req, res){
-    var query = Review.find({})
-    query.sort({ key:1 })
-    query.exec(function(err, review, req) {
-        if (err && err.message)
-            res(err)
+router.get('/', function(req, res) {
+    var user = req.user
+    Review.find({}, {key:1}, function(err, review, req) {
+         if (err) {
+            req.flash('error', err)
+        }
         res.render(VIEW_FOLDER + '/reviewList', {
             title: 'List All',
-            data: review,
-            menuItems: menu
+            menuItems: menu,
+            user: user,
+            data: review
         })
     })
 })
 
-
 router.get('/view', function(req, res) {
-    Review.findOne({_id:req.query.id}, function(err, results){
-        if (err) console.log(err.message)
+    var user = req.user
+    Review.findById(req.query.id, function(err, data) {
+        if (err) {
+            req.flash('error', err)
+        }
         res.render(VIEW_FOLDER + '/reviewAdd', {
             title: "View",
-            data: JSON.parse(JSON.stringify(results)),
-            menuItems: menu
+            menuItems: menu,
+            user: user,
+            data: data
         })
     })
 })
 
 router.get('/add', function(req, res) {
+    var user = req.user
     res.render(VIEW_FOLDER + '/reviewAdd', {
         title: "Add",
-        user: req.session.user,
-        data: JSON.parse(JSON.stringify(new Review())),
-        menuItems: menu
+        menuItems: menu,
+        user: user,
+        data: new Review()
     })
 })
 
@@ -70,20 +75,22 @@ router.get('/add', function(req, res) {
 
 router.post('/save', function(req, res, err) {
     if (err && err.message) console.log(err.message)
+
     var review = new Review({
+        author: req.session.passport.user,
+        lu_ts: Date.now(),
         title: req.body.title,
         subtitle: req.body.subtitle,
-        author: req.body.author,
         intro: req.body.intro,
         conclusion: req.body.conclusion,
         absinthe: {
-            make: req.body.absinthe_make,
-            type: req.body.absinthe_type,
-            manufacturer: req.body.absinthe_manufacturer,
-            country: req.body.absinthe_country,
-            alcohol: req.body.absinthe_alcohol
+            make: req.body.absinthe.make,
+            type: req.body.absinthe.type,
+            manufacturer: req.body.absinthe.manufacturer,
+            country: req.body.absinthe.country,
+            alcohol: req.body.absinthe.alcohol
         },
-        rating: req.body.ratings
+        rating: [req.body.ratings]
     })
     review.markModified('anything')
 

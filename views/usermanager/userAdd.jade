@@ -4,8 +4,6 @@ block extraJavascript
   script.
     jQuery(function(){
         $('.ui.form').form({
-            //- inline : true,
-            on : 'blur',
             fields: {
                 username:['minLength[6]', 'maxLength[10]', 'empty'],
                 password:['minLength[6]', 'empty'],
@@ -26,29 +24,30 @@ block content
             form.ui.large.form(role='form', action="/users", method="post")
                 .ui.stacked.segment
                     .field
-                     .ui.left.icon.input
-                        i.icon.lock
-                        input(type="text", name="username", placeholder="Username", value=data.username)
+                        .ui.left.icon.input
+                            i.icon.lock
+                            input(type="text", name="username", placeholder="Username", value=data.username)
 
                     .two.fields
                         .field
-                         .ui.left.icon.input
-                            i.icon.hide
-                            input(type="password", name="password", placeholder="Password", value=data.password)
+                            .ui.left.icon.input
+                                i.icon.hide
+                                input(type="password", name="password", placeholder="Password", value=data.password)
 
                         .field
-                         .ui.left.icon.input
-                            i.icon.hide
-                            input(type="password", name="password_confirm", placeholder="Repeat Password")
+                            .ui.left.icon.input
+                                i.icon.hide
+                                input(type="password", name="password_confirm", placeholder="Repeat Password")
 
                     .field
-                     .ui.left.icon.input
-                        i.icon.user
-                        input(type="text", name="fullName", placeholder="Name")
+                        .ui.left.icon.input
+                            i.icon.user
+                            input(type="text", name="fullName", placeholder="Name")
 
                     .field
-                     .ui.left.icon.input
-                        i.icon.mail
+                        .ui.left.icon.input
+                            i.icon.mail
+                            input(type="mail", name="email", placeholder="Email")
 
                     a(href="/", role="button", class="ui basic cancel button") Cancel
 

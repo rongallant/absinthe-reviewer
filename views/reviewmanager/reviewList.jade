@@ -10,8 +10,24 @@ block extraJavascript
         $(function(){
             selectableCheckboxes('table.selectable');
             $('button#deleteAll').click(function(){
-                console.log('click');
-                $('#confirmModal.modal')
+                $('#reviewListForm').form('validate form')
+            })
+
+            $('#reviewListForm').form({
+                fields: {
+                    reviewid: {
+                        identifier: 'reviewid',
+                        rules: [
+                            {
+                                type   : 'checked',
+                                prompt : 'Please select at least one row to delete.'
+                            }
+                        ]
+                    }
+                },
+                onSuccess(event, fields) {
+                    console.log('success')
+                    $('#confirmModal.modal')
                     .modal({
                         closable: true,
                         onApprove: function() {
@@ -19,12 +35,17 @@ block extraJavascript
                             return true
                         }
                     }).modal('show')
-            })
-        })
+                }
+            });
+        });
 
 block reviewBody
 
-    form#reviewListForm.form(role='form', method="post")
+    form#reviewListForm.ui.form(role='form', method='post')
+
+        .ui.error.message
+
+
         table.ui.selectable.stackable.raised.table
             thead
                 tr
@@ -43,7 +64,7 @@ block reviewBody
                                 span.ui.checkbox
                                     input(type="checkbox", name="reviewid", value=row.id)
                             td
-                                a(href=URL_FOLDER + "/view?id=#{row.id}")
+                                a(href= "/review/view?id=#{row.id}")
                                     if (row.title && row.title.length > 0)
                                         =row.title
                                     else

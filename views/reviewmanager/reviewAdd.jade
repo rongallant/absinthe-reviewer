@@ -4,33 +4,27 @@ block link
     -var selected = '/review/add'
 
 block extraJavascript
-
   script.
     jQuery(function(){
         $('.ui.star.rating').rating({
             maxRating: 5,
             onRate(value) {
-                $(this).closest(".field").find("input:hidden").val(value)
+                $(this).closest(".field").find("input:hidden").val(value);
             }
-        })
-        $('.ui.form').form({
+        });
+        $('form#review').form({
             fields: {
-                title:['minLength[1]', 'maxLength[300]', 'empty']
-
+                title:['minLength[5]', 'maxLength[300]', 'empty']
             }
-        })
-      })
+        });
+    });
 
 block reviewBody
 
-    form.ui.large.form(role='form', method="post", enctype="application/x-www-form-urlencoded")
-        if (user)
-            input(type="hidden", name="author", value=user.username)
-
+    form#review.ui.large.form(role='form', method="post", action="/review/save", enctype="application/x-www-form-urlencoded")
         .ui.raised.segment
             .ui.massive.ribbon.label Page Settings
             p
-
             .field
                 label(for="title") Review Title
                 input(type="text", name="title", value=data.title)
@@ -49,35 +43,43 @@ block reviewBody
                 .ui.large.ribbon.label Absinthe Details
                 p
                 .field
-                    label(for="absinthe_make") Make
+                    label(for="absinthe[make]") Make
                     input(type="text", name="absinthe[make]", value=data.absinthe.make)
 
                 .field
-                    label(for="absinthe_type") Type
+                    label(for="absinthe[type]") Type
                     input(type="text", name="absinthe[type]", value=data.absinthe.type)
 
                 .field
-                    label(for="absinthe_manufacturer") Manufacturer
+                    label(for="absinthe[manufacturer]") Manufacturer
                     input(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer)
 
                 .field
-                    label(for="absinthe_country") Country
+                    label(for="absinthe[country]") Country
                     input(type="text", name="absinthe[country]", value=data.absinthe.country)
 
                 .field
-                    label(for="absinthe_alcohol") Alcohol
+                    label(for="absinthe[alcohol]") Alcohol
                     input(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol)
 
-        .ui.raised.segment
-            .ui.large.ribbon.label Review Details
-            p
-            each item, attribute in data.rating
-                .field
-                    label(for="rating["+attribute+"][content]")= attribute
-                    textarea(rows="2", name="rating["+attribute+"][content]")
-                        =item.content
-                    input(type="hidden", name="rating["+attribute+"][score]", value=item.score)
-                    .ui.star.rating(data-rating=item.score)
+        if (data.rating)
+            .ui.raised.segment
+                .ui.large.ribbon.label Review Details
+                p
+
+                for rating in data.rating
+                    h4= rating
+                    // p= rating.content
+                    // p= rating.score
+
+
+                    // if (item[attribute])
+                    //     .field
+                    //         label(for="rating["+attribute+"][content]")= attribute
+            //                 textarea(rows="2", name="rating[" + attribute + "][content]")
+            //                     =item.content
+            //                 input(type="hidden", name="rating["+attribute+"][score]", value=item.score)
+            //                 .ui.star.rating(data-rating=item.score)
 
         .ui.raised.segment
             .ui.large.ribbon.label Conclusion
@@ -90,8 +92,8 @@ block reviewBody
 
             .ui.equal.width.grid.padded
                 .row
-                    a.ui.massive.cancel.button.column(href="/", role="button") Cancel
+                    a.ui.large.cancel.button.column(href="/", role="button") Cancel
                     .column
-                    button.ui.primary.massive.submit.button.column(type="submit") Save Review
+                    button.ui.primary.massive.large.button.column(type="submit") Save Review
 
         .ui.error.message

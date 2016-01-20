@@ -20,37 +20,31 @@ var Review = new Schema({
     rating: {
         appearance: {
             sortorder: { type: Number , default: 0 },
-            attribute: { type: String, default: "appearance" },
             content: {  type: String, default: "" },
             score: {  type: Number, min: 0, max: 100, default: 0 }
         },
         louche: {
             sortorder: { type: Number , default: 1 },
-            attribute: { type: String, default: "louche" },
             content: { type: String, default: "" },
             score: { type:  Number, min: 0, max: 100, default: 0 }
         },
         aroma: {
             sortorder: { type: Number , default: 2 },
-            attribute: { type: String, default: "aroma" },
             content: {  type: String, default: "" },
             score: {  type: Number, min: 0, max: 100, default: 0 }
         },
         flavor: {
             sortorder: { type: Number , default: 3 },
-            attribute: { type: String, default: "flavor" },
             content: {  type: String, default: "" },
             score: {  type: Number, min: 0, max: 100, default: 0 }
         },
         finish: {
             sortorder: { type: Number , default: 4 },
-            attribute: { type: String, default: "finish" },
             content: {  type: String, default: "" },
             score: {  type: Number, min: 0, max: 100, default: 0 }
         },
         overall: {
             sortorder: { type: Number , default: 5 },
-            attribute: { type: String, default: "overall" },
             content: {  type: String, default: "" },
             score: {  type: Number, min: 0, max: 100, default: 0 }
         }
