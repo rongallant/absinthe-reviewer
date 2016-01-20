@@ -3,24 +3,22 @@ block link
     - var URL_FOLDER = "/review"
 
 .ui.small.menu
-    console.log(path)
-
-    each item in menuItems
-        if selected === item.link
-            a.item.active(href=item.link, title=item.title)
-                i.icon(class=item.iconClass)
-                =item.title
-        else
-            a.item(href=item.link, title=item.title)
-                i.icon(class=item.iconClass)
-                =item.title
-
     .right.menu
         .item
-            button#deleteAll.ui.basic.button(type="button") Delete Selected New
+            button#deleteAll.ui.basic.button.disabled(type="button")
+                i.trash.icon
+                | Delete Selected
 
         .ui.dropdown.item
             i.ellipsis.vertical.icon
+
             .menu
-                a.item(href=URL_FOLDER + "/add") #[i.table.icon] One
-                a.item(href=URL_FOLDER + "/add") #[i.trash.red.icon] Two
+                each item in menuItems
+                    if selected === item.link
+                        a.item.active(href=item.link, title=item.title)
+                            i.icon(class=item.iconClass)
+                            =item.title
+                    else
+                        a.item(href=item.link, title=item.title)
+                            i.icon(class=item.iconClass)
+                            =item.title

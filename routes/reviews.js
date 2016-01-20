@@ -16,12 +16,12 @@ var menu = [
     {
         link:'/review',
         iconClass: 'list layout',
-        title: 'List'
+        title: 'List Reviews'
     },
     {
         link: '/review/add',
         iconClass: 'plus',
-        title: 'Add'
+        title: 'New Review'
     }
 ]
 
@@ -31,15 +31,15 @@ var menu = [
 
 router.get('/', function(req, res) {
     var user = req.user
-    Review.find({}, {key:1}, function(err, review, req) {
-         if (err) {
+    Review.find({}).exec(function(err, data, req) {
+        if (err) {
             req.flash('error', err)
         }
         res.render(VIEW_FOLDER + '/reviewList', {
             title: 'List All',
             menuItems: menu,
             user: user,
-            data: review
+            data: data
         })
     })
 })
@@ -50,22 +50,37 @@ router.get('/view', function(req, res) {
         if (err) {
             req.flash('error', err)
         }
+
+        console.log("\n view data", data)
+
         res.render(VIEW_FOLDER + '/reviewAdd', {
             title: "View",
             menuItems: menu,
-            user: user,
+            user: req.user,
             data: data
         })
     })
 })
 
 router.get('/add', function(req, res) {
+
+    var ratingTypes = ['appearance', 'louche', 'aroma', 'flavor', 'finish'];
+    var defaultRatings = [];
+    for (var i in ratingTypes) {
+        defaultRatings.push({
+            sortorder: i,
+            attribute: ratingTypes[i]
+        })
+    }
+    var newReview = new Review({
+       ratings: defaultRatings
+    });
     var user = req.user
     res.render(VIEW_FOLDER + '/reviewAdd', {
         title: "Add",
         menuItems: menu,
         user: user,
-        data: new Review()
+        data: newReview
     })
 })
 
@@ -73,10 +88,10 @@ router.get('/add', function(req, res) {
  * ACTIONS
  ************************************************************/
 
+
 router.post('/save', function(req, res, err) {
     if (err && err.message) console.log(err.message)
-
-    var review = new Review({
+    var Review = new Review({
         author: req.session.passport.user,
         lu_ts: Date.now(),
         title: req.body.title,
@@ -90,37 +105,45 @@ router.post('/save', function(req, res, err) {
             country: req.body.absinthe.country,
             alcohol: req.body.absinthe.alcohol
         },
-        rating: [req.body.ratings]
+        ratings: []
     })
-    review.markModified('anything')
+    for (var i in req.body.ratings) {
+        Review.ratings.push(req.body.ratings[i]);
+    }
 
-    // call the built-in save method to save to the database
-    review.save(function(err, res) {
-      if (err) throw err;
-      console.log('Review saved successfully!')
-    });
-    console.log("\n/ SAVED \n" + review)
-    res.redirect('/review')
+    Review.save(function(err) {
+        if (err && err.message) {
+            console.error(err) // TODO Does not work.
+            req.flash("error", err)
+        }
+        res.redirect('/review')
+    })
 })
 
 router.get('/delete', function(req, res) {
     if (req && req.query && req.query.review) {
-        Review.findByIdAndRemove(req.query.review, function (err, req) {
-            if (err) throw err
-            console.log('\n\nDeleted successfully!')
+        Review.findByIdAndRemove(req.query.review, function (err) {
+            if (err) {
+                console.error(err.message)
+                req.flash("error", err.message)
+            }
+            req.flash("success", 'Deleted successfully!')
+            res.redirect('/review')
         });
-        res.redirect('/review')
     } else {
-        console.log('\n\nCould not delete!')
+        req.flash('Could not delete!')
     }
 })
 
 router.post('/deleteAll', function(req, res) {
-    Review.remove({_id: {$in: req.body.reviewid}}, function (err, req) {
-        if (err) throw Error
+    Review.remove({_id: {$in: req.body.reviewid}}, function (err) {
+            if (err) {
+                console.error(err.message)
+                req.flash("error", err.message)
+            }
+        req.flash('success', 'Reviews successfully deleted!');
+        res.redirect('back')
     });
-    req.flash('success', 'Reviews successfully deleted!');
-    res.redirect('back')
 })
 
 module.exports = router

@@ -23,7 +23,11 @@ function selectableCheckboxes(cssSelector) {
             $childCheckbox.checkbox('uncheck');
         }
     });
+    var
+        allChecked      = true,
+        allUnchecked    = true;
     $(cssSelector + ' tbody .ui.checkbox').checkbox({
+
         // Fire on load to set parent value
         fireOnInit : true,
         onChecked: function() {
@@ -31,15 +35,16 @@ function selectableCheckboxes(cssSelector) {
         },
         onUnchecked: function() {
             $(this).prop("checked", false).closest('tr').removeClass('active');
+            if (!allUnchecked) {
+             $('#deleteAll').removeClass('disabled');
+            }
         },
         // Change parent state on each child checkbox change
         onChange : function() {
-          var
-            $listGroup      = $(this).closest('tbody'),
-            $parentCheckbox = $listGroup.siblings('thead').find('.checkbox'),
-            $checkbox       = $listGroup.find('.checkbox'),
-            allChecked      = true,
-            allUnchecked    = true;
+            var
+                $listGroup      = $(this).closest('tbody'),
+                $parentCheckbox = $listGroup.siblings('thead').find('.checkbox'),
+                $checkbox       = $listGroup.find('.checkbox');
           // check to see if all other siblings are checked or unchecked
           $checkbox.each(function() {
             if ( $(this).checkbox('is checked') ) {

@@ -79,7 +79,7 @@ function ensureAuthenticated(req, res, next) {
 
 // MongooseJS / MongoDB
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4')
-mongoose.set('debug', true);
+mongoose.set('debug', true)
 
 /************************************************************
  * Flash Messaging

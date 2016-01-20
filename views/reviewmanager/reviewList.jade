@@ -26,7 +26,6 @@ block extraJavascript
                     }
                 },
                 onSuccess(event, fields) {
-                    console.log('success')
                     $('#confirmModal.modal')
                     .modal({
                         closable: true,
@@ -43,25 +42,24 @@ block reviewBody
 
     form#reviewListForm.ui.form(role='form', method='post')
 
-        .ui.error.message
-
-
         table.ui.selectable.stackable.raised.table
             thead
                 tr
                     th
-                        span.ui.master.checkbox
-                            input(type="checkbox", name="selectAll")
+                        if data.length
+                            span.ui.master.checkbox
+                                input(type="checkbox", name="selectAll")
                     th Title
                     th Author
                     th Absinthe
                     th.right.aligned Actions
-            tbody
-                if data.length
+
+            if data.length
+                tbody
                     each row in data
                         tr
                             td
-                                span.ui.checkbox
+                                .ui.checkbox
                                     input(type="checkbox", name="reviewid", value=row.id)
                             td
                                 a(href= "/review/view?id=#{row.id}")
@@ -77,10 +75,8 @@ block reviewBody
                                 .ui.small.basic.icon.buttons.actions
                                     a.ui.button(href="/review/delete?review=#{row.id}", title="Delete")
                                         i.trash.icon
-
-                else
-                    tr
-                        td.center.aligned(colspan="4") No Results
+            else
+                tfoot: tr: td.center.aligned(colspan="5") No Results
 
     include ../includes/confirmModal
 

@@ -112,7 +112,7 @@ router.get('/login', function(req, res) {
 router.post('/login', passport.authenticate('local'), function(req, res) {
     var sess=req.session;
     sess.user=req.user;
-    req.flash("success", "Welcome back %u", sess.user.username)
+    req.flash("success", "Welcome back ", sess.user.username)
     res.redirect('/review');
 });
 

@@ -22,6 +22,7 @@ block extraJavascript
 block reviewBody
 
     form#review.ui.large.form(role='form', method="post", action="/review/save", enctype="application/x-www-form-urlencoded")
+        input(type="hidden", name="id", value=data.id)
         .ui.raised.segment
             .ui.massive.ribbon.label Page Settings
             p
@@ -62,24 +63,17 @@ block reviewBody
                     label(for="absinthe[alcohol]") Alcohol
                     input(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol)
 
-        if (data.rating)
+        if data.ratings
             .ui.raised.segment
                 .ui.large.ribbon.label Review Details
                 p
-
-                for rating in data.rating
-                    h4= rating
-                    // p= rating.content
-                    // p= rating.score
-
-
-                    // if (item[attribute])
-                    //     .field
-                    //         label(for="rating["+attribute+"][content]")= attribute
-            //                 textarea(rows="2", name="rating[" + attribute + "][content]")
-            //                     =item.content
-            //                 input(type="hidden", name="rating["+attribute+"][score]", value=item.score)
-            //                 .ui.star.rating(data-rating=item.score)
+                - each rating, index in data.ratings
+                    .field
+                        label(for="ratings[#{index}][content]")= rating.attribute
+                        textarea(rows="2", name="ratings[#{index}][content]")
+                            =rating.content
+                        input(type="hidden", name="ratings[#{index}][score]", value=rating.score)
+                        .ui.star.rating(data-rating=rating.score)
 
         .ui.raised.segment
             .ui.large.ribbon.label Conclusion
@@ -94,6 +88,6 @@ block reviewBody
                 .row
                     a.ui.large.cancel.button.column(href="/", role="button") Cancel
                     .column
-                    button.ui.primary.massive.large.button.column(type="submit") Save Review
+                    button.ui.primary.large.large.button.column(type="submit") Save Review
 
         .ui.error.message

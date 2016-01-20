@@ -26,7 +26,7 @@ block content
             -if (message)
                 p.ui.info.message #{message}
             form(action="/login", method="post", class="ui large form")
-                .ui.stacked.segment
+                .ui.segment
                     .ui.four.item.menu
                         a(href="#local",  role="button", class="item" title="Sign in Locally")
                             i(class="user icon")
@@ -46,6 +46,6 @@ block content
                         input(type="password", name="password", placeholder="Password")
                     .ui.buttons.fluid
                         button(type="submit", class="ui large primary submit button") Login
-                div(class="ui message") New to us? #[a(href="/register") Register]
-                div(class="ui error message")
+                .ui.message New to us? #[a(href="/register") Register]
+                .ui.error.message
             footer
