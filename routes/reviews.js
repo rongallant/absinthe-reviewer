@@ -88,35 +88,60 @@ router.get('/add', function(req, res) {
  * ACTIONS
  ************************************************************/
 
-
 router.post('/save', function(req, res, err) {
     if (err && err.message) console.log(err.message)
-    var Review = new Review({
-        author: req.session.passport.user,
-        lu_ts: Date.now(),
-        title: req.body.title,
-        subtitle: req.body.subtitle,
-        intro: req.body.intro,
-        conclusion: req.body.conclusion,
-        absinthe: {
-            make: req.body.absinthe.make,
-            type: req.body.absinthe.type,
-            manufacturer: req.body.absinthe.manufacturer,
-            country: req.body.absinthe.country,
-            alcohol: req.body.absinthe.alcohol
-        },
-        ratings: []
-    })
-    for (var i in req.body.ratings) {
-        Review.ratings.push(req.body.ratings[i]);
-    }
-
-    Review.save(function(err) {
-        if (err && err.message) {
-            console.error(err) // TODO Does not work.
-            req.flash("error", err)
+    console.info("Looking for " + req.body.id)
+    Review.findOne({ '_id': req.body.id }, function(err, data) {
+        if (err && err.message) console.log(err.message)
+        if (!data) {
+            data = new Review({
+                    title: req.body.title,
+                    subtitle: req.body.subtitle,
+                    intro: req.body.intro,
+                    conclusion: req.body.conclusion,
+                    absinthe: {
+                        make: req.body.absinthe.make,
+                        type: req.body.absinthe.type,
+                        manufacturer: req.body.absinthe.manufacturer,
+                        country: req.body.absinthe.country,
+                        alcohol: req.body.absinthe.alcohol
+                    },
+                    ratings: [],
+                    author: req.session.passport.user,
+                lu_ts: Date.now()
+            })
+            for (var i in req.body.ratings) {
+                data.ratings.push(req.body.ratings[i]);
+            }
+            data.save(function(err) {
+                if (err && err.message) {
+                    console.error(err)
+                }
+                res.redirect('/review')
+            })
+        } else {
+            var options = {
+                title: req.body.title,
+                subtitle: req.body.subtitle,
+                intro: req.body.intro,
+                conclusion: req.body.conclusion,
+                absinthe: {
+                    make: req.body.absinthe.make,
+                    type: req.body.absinthe.type,
+                    manufacturer: req.body.absinthe.manufacturer,
+                    country: req.body.absinthe.country,
+                    alcohol: req.body.absinthe.alcohol
+                },
+                author: req.session.passport.user,
+                lu_ts: Date.now()
+            }
+            data.update(options, function(err) {
+                if (err && err.message) {
+                    console.error(err)
+                }
+                res.redirect('/review')
+            })
         }
-        res.redirect('/review')
     })
 })
 
