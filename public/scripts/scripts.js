@@ -12,8 +12,10 @@ $(function() {
     });
 });
 
+/**
+ * I am a check all function for tables.
+ */
 function selectableCheckboxes(cssSelector) {
-
     /**
      * I am the Check All Checkbox Events.
      */

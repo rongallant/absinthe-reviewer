@@ -1,13 +1,5 @@
-body.pushable>.pusher,
-body {
-    background-color: #DADADA
-}
 #content.container {
     padding-top: 4em
-}
-
-.ui.raised.segment {
-    background: whitesmoke
 }
 
 .ui.table .actions {
