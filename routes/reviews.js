@@ -53,7 +53,7 @@ router.get('/view', function(req, res) {
 
 router.get('/add', function(req, res) {
     var newReview = new Review
-    var ratingTypes = ['appearance', 'louche', 'aroma', 'flavor', 'finish']
+    var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish']
     for (var i in ratingTypes) {
         console.info({ sortorder: i, attribute: ratingTypes[i] })
         newReview.ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
@@ -85,7 +85,6 @@ router.post('/save', function(req, res, err) {
 })
 
 function saveReview(req, res) {
-    console.info("\nreq.body \n", req.body)
      var data = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
@@ -98,9 +97,9 @@ function saveReview(req, res) {
             country: req.body.absinthe.country,
             alcohol: req.body.absinthe.alcohol
         },
-        // author: req.session.passport.user,
         cr_date: Date.now,
-        cr_user: req.user
+        cr_user: req.user,
+        lu_user: req.user
      })
     data.cr_date = Date.now()
     data.cr_user = req.user
