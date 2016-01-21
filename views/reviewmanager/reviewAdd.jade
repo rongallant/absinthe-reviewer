@@ -9,7 +9,7 @@ block extraJavascript
         $('.ui.star.rating').rating({
             maxRating: 5,
             onRate(value) {
-                $(this).closest(".field").find("input:hidden").val(value);
+                $(this).closest(".field").find("input:hidden.score").val(value);
             }
         });
         $('form#review').form({
@@ -69,10 +69,12 @@ block reviewBody
                 p
                 - each rating, index in data.ratings
                     .field
+                        input(type="hidden", name="ratings[#{index}][sortorder]", value=rating.sortorder)
+                        input(type="hidden", name="ratings[#{index}][attribute]", value=rating.attribute)
+                        input(type="hidden", name="ratings[#{index}][score]", value=rating.score, class="score")
                         label(for="ratings[#{index}][content]")= rating.attribute
                         textarea(rows="2", name="ratings[#{index}][content]")
                             =rating.content
-                        input(type="hidden", name="ratings[#{index}][score]", value=rating.score)
                         .ui.star.rating(data-rating=rating.score)
 
         .ui.raised.segment
