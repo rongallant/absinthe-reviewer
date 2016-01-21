@@ -1,14 +1,11 @@
 #confirmModal.ui.small.standard.modal
-    i.close.icon
     .header
         | Archive Old Messages
     .content
         p.description Are you sure?
     .actions
-        .two.ui.buttons
-            .ui.red.cancel.button
-                i.remove.icon
-                | No
-            .ui.green.ok.button
-                i.checkmark.icon
-                | Yes
+        .ui.negative.button
+            | No
+        .ui.positive.right.labeled.icon.button
+            | Yes
+            i.checkmark.icon
