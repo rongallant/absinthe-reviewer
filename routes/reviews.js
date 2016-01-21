@@ -32,9 +32,7 @@ var menu = [
 router.get('/', function(req, res) {
     var user = req.user
     Review.find({}).exec(function(err, data, req) {
-        if (err) {
-            req.flash('error', err)
-        }
+        if (err) { handleError(req, res, err) }
         res.render(VIEW_FOLDER + '/reviewList', {
             title: 'List All',
             menuItems: menu,
@@ -47,12 +45,7 @@ router.get('/', function(req, res) {
 router.get('/view', function(req, res) {
     var user = req.user
     Review.findById(req.query.id, function(err, data) {
-        if (err) {
-            req.flash('error', err)
-        }
-
-        console.log("\n view data", data)
-
+        if (err) { handleError(req, res, err) }
         res.render(VIEW_FOLDER + '/reviewAdd', {
             title: "View",
             menuItems: menu,
@@ -63,7 +56,6 @@ router.get('/view', function(req, res) {
 })
 
 router.get('/add', function(req, res) {
-
     var ratingTypes = ['appearance', 'louche', 'aroma', 'flavor', 'finish'];
     var defaultRatings = [];
     for (var i in ratingTypes) {
@@ -89,15 +81,15 @@ router.get('/add', function(req, res) {
  ************************************************************/
 
 router.post('/save', function(req, res, err) {
-    if (err && err.message) console.log(err.message)
-    console.info("Looking for " + req.body.id)
-    Review.findOne({ '_id': req.body.id }, function(err, data) {
-        if (err && err.message) console.log(err.message)
-        if (!data) {
-           saveReview(req, res, data)
-        } else {
+    if (err)
+        console.info('SAVE ERROR: ' + err)
+    Review.findOne({ '_id': req.body.id }, { }, function(err, data) {
+        if (err)
+            console.info('SAVE FINDONE ERROR: ' + err)
+        else if (data)
            updateReview(req, res, data)
-        }
+        else
+           saveReview(req, res, data)
     })
 })
 
@@ -128,24 +120,23 @@ function saveReview(req, res) {
 }
 
 function updateReview(req, res, data) {
-    var conditions = {
-        title: req.body.title,
-        subtitle: req.body.subtitle,
-        intro: req.body.intro,
-        conclusion: req.body.conclusion,
-        absinthe: {
-            make: req.body.absinthe.make,
-            type: req.body.absinthe.type,
-            manufacturer: req.body.absinthe.manufacturer,
-            country: req.body.absinthe.country,
-            alcohol: req.body.absinthe.alcohol
-        },
-        author: req.session.passport.user,
-        lu_ts: Date.now()
+    data.title = req.body.title
+    data.subtitle = req.body.subtitle
+    data.intro = req.body.intro
+    data.conclusion = req.body.conclusion
+    data.absinthe = {
+        make: req.body.absinthe.make,
+        type: req.body.absinthe.type,
+        manufacturer: req.body.absinthe.manufacturer,
+        country: req.body.absinthe.country,
+        alcohol: req.body.absinthe.alcohol
     }
-    var update = { $set: { 'ratings': req.body.ratings } }
-    data.update(conditions, update, function(err) {
-        if (err) { handleError(req, res, err) }
+    data.author = req.session.passport.user
+    data.lu_ts = Date.now()
+    data.ratings.set(req.body.ratings)
+    data.save(function (err, data) {
+        if (err)
+            console.error('UPDATE ERROR: ' + err)
         res.redirect('/review')
     })
 }
@@ -177,7 +168,7 @@ router.post('/deleteAll', function(req, res) {
 })
 
 function handleError(req, res, err) {
-    console.error(err)
+    console.error("ERROR: ", err)
 }
 
 module.exports = router
