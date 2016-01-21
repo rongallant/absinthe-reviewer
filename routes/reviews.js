@@ -1,12 +1,7 @@
 var express = require('express')
-var passport = require('passport')
-var mongoose = require('mongoose')
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var flash = require('connect-flash');
 
 var Review = require('../models/review')
-var Account = require('../models/account')
+var Rating = require('../models/rating')
 
 var router = express.Router()
 
@@ -30,22 +25,23 @@ var menu = [
  ************************************************************/
 
 router.get('/', function(req, res) {
-    var user = req.user
-    Review.find({}).exec(function(err, data, req) {
+    Review.find({}).exec(function(err, data) {
         if (err) { handleError(req, res, err) }
         res.render(VIEW_FOLDER + '/reviewList', {
             title: 'List All',
             menuItems: menu,
-            user: user,
+            user: req.user,
             data: data
         })
     })
 })
 
 router.get('/view', function(req, res) {
-    var user = req.user
     Review.findById(req.query.id, function(err, data) {
         if (err) { handleError(req, res, err) }
+
+        console.info("\nResult = \n", data)
+
         res.render(VIEW_FOLDER + '/reviewAdd', {
             title: "View",
             menuItems: menu,
@@ -56,17 +52,12 @@ router.get('/view', function(req, res) {
 })
 
 router.get('/add', function(req, res) {
-    var ratingTypes = ['appearance', 'louche', 'aroma', 'flavor', 'finish'];
-    var defaultRatings = [];
+    var newReview = new Review
+    var ratingTypes = ['appearance', 'louche', 'aroma', 'flavor', 'finish']
     for (var i in ratingTypes) {
-        defaultRatings.push({
-            sortorder: i,
-            attribute: ratingTypes[i]
-        })
+        console.info({ sortorder: i, attribute: ratingTypes[i] })
+        newReview.ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
     }
-    var newReview = new Review({
-       ratings: defaultRatings
-    });
     var user = req.user
     res.render(VIEW_FOLDER + '/reviewAdd', {
         title: "Add",
@@ -94,6 +85,7 @@ router.post('/save', function(req, res, err) {
 })
 
 function saveReview(req, res) {
+    console.info("\nreq.body \n", req.body)
      var data = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
@@ -106,12 +98,19 @@ function saveReview(req, res) {
             country: req.body.absinthe.country,
             alcohol: req.body.absinthe.alcohol
         },
-        ratings: [],
-        author: req.session.passport.user,
-        lu_ts: Date.now()
-    })
+        // author: req.session.passport.user,
+        cr_date: Date.now,
+        cr_user: req.user
+     })
+    data.cr_date = Date.now()
+    data.cr_user = req.user
     for (var i in req.body.ratings) {
-        data.ratings.push(req.body.ratings[i]);
+        data.ratings.push(new Rating({
+            sortorder: req.body.ratings[i].sortorder,
+            attribute: req.body.ratings[i].attribute,
+            content: req.body.ratings[i].content,
+            score: req.body.ratings[i].score
+        }))
     }
     data.save(function(err) {
         if (err) { handleError(req, res, err) }
@@ -119,24 +118,20 @@ function saveReview(req, res) {
     })
 }
 
+/**
+ * This is the best wat to update a form.
+ */
 function updateReview(req, res, data) {
-    data.title = req.body.title
-    data.subtitle = req.body.subtitle
-    data.intro = req.body.intro
-    data.conclusion = req.body.conclusion
-    data.absinthe = {
-        make: req.body.absinthe.make,
-        type: req.body.absinthe.type,
-        manufacturer: req.body.absinthe.manufacturer,
-        country: req.body.absinthe.country,
-        alcohol: req.body.absinthe.alcohol
+    for (var i in req.body.ratings) {
+        Rating.findByIdAndUpdate(req.body.ratings[i].ratingId, {$set:req.body}, function(err) {
+            if (err) console.error(err)
+            console.info("Added new rating")
+        })
     }
-    data.author = req.session.passport.user
-    data.lu_ts = Date.now()
-    data.ratings.set(req.body.ratings)
-    data.save(function (err, data) {
+    data.update({$set:req.body}, function (err, data) {
         if (err)
             console.error('UPDATE ERROR: ' + err)
+        req.flash("success", data.title + ' has been updated successfully!')
         res.redirect('/review')
     })
 }

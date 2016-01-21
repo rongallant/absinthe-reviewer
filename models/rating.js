@@ -3,10 +3,11 @@ var Schema = mongoose.Schema
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var schema = new Schema ({
-    ratingId: ObjectId,
-    identity: String,
-    content: String,
-    score: { type: Number, min: 0, max: 100 }
+    ratingId: { type: Schema.Types.ObjectId },
+    sortorder: { type: Number },
+    attribute: { type: String },
+    content: { type: String },
+    score: { type: Number, min: 0, max: 100, default: 0 }
 });
 
 module.exports = mongoose.model('Rating', schema);

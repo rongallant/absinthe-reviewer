@@ -67,8 +67,9 @@ block reviewBody
             .ui.raised.segment
                 .ui.large.ribbon.label Review Details
                 p
-                - each rating, index in data.ratings
+                -each rating, index in data.ratings
                     .field
+                        input(type="hidden", name="ratings[#{index}][ratingId]", value=rating.id)
                         input(type="hidden", name="ratings[#{index}][sortorder]", value=rating.sortorder)
                         input(type="hidden", name="ratings[#{index}][attribute]", value=rating.attribute)
                         input(type="hidden", name="ratings[#{index}][score]", value=rating.score, class="score")
