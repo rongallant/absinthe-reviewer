@@ -122,9 +122,7 @@ function saveReview(req, res) {
         data.ratings.push(req.body.ratings[i]);
     }
     data.save(function(err) {
-        if (err && err.message) {
-            console.error(err)
-        }
+        if (err) { handleError(req, res, err) }
         res.redirect('/review')
     })
 }
@@ -147,9 +145,7 @@ function updateReview(req, res, data) {
     }
     var update = { $set: { 'ratings': req.body.ratings } }
     data.update(conditions, update, function(err) {
-        if (err && err.message) {
-            console.error(err)
-        }
+        if (err) { handleError(req, res, err) }
         res.redirect('/review')
     })
 }
