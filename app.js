@@ -15,7 +15,7 @@ var LocalStrategy = require('passport-local').Strategy
  * Models
  ***********************************************************/
 
-var Account = require('./models/account')
+var User = require('./models/user')
 
 /************************************************************
  * Route Includes
@@ -64,9 +64,9 @@ app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // passport config
-passport.use(new LocalStrategy(Account.authenticate()))
-passport.serializeUser(Account.serializeUser())
-passport.deserializeUser(Account.deserializeUser())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next()
