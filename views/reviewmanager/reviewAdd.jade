@@ -3,77 +3,91 @@ extends reviewLayout
 block link
     -var selected = '/review/add'
 
+block append javascripts
+    script.
+        $("#review").validate({
+
+        });
+
+block append stylesheets
+    style.
+        label {
+            width: 100%;
+        }
+
+
 block reviewBody
 
-    form#review.ui.large.form(role='form', method="post", action="/review/save", enctype="application/x-www-form-urlencoded")
-        input(type="hidden", name="id", value=data.id)
-        .ui.raised.segment
-            .ui.massive.ribbon.label Page Settings
-            p
-            .input-field
-                label(for="title") Review Title
-                input(type="text", name="title", value=data.title, required="", aria-required="true")
+    form#review(role='form', method="post", action="/review/save", enctype="application/x-www-form-urlencoded")
+        input(type="hidden", id="id", value=data.id)
 
-            .input-field
-                label(for="subtitle") Subtitle
-                input(type="text", name="subtitle", value=data.subtitle)
+        h5.heading Page Settings
+        .row
+            .col.s12: .card-panel
+                .input-field
+                    input.validate(type="text", id="title", value=data.title, required)
+                    label(for="title") Review Title
 
-            .input-field
-                label(for="intro") Introduction
-                textarea.materialize-textarea(name="intro")
-                    =data.intro
+                .input-field
+                    input.validate(type="text", id="subtitle", value=data.subtitle)
+                    label(for="subtitle") Subtitle
+
+                .input-field
+                    textarea.validate.materialize-textarea(id="intro", required)
+                        =data.intro
+                    label(for="intro") Introduction
 
         if (data.absinthe)
-            .ui.raised.segment
-                .ui.large.ribbon.label Absinthe Details
-                p
-                .input-field
-                    label(for="absinthe[make]") Make
-                    input(type="text", name="absinthe[make]", value=data.absinthe.make)
+            h5.heading Absinthe Details
+            .row
+                .col.s12: .card-panel
+                    p
+                    .input-field
+                        input.validate(type="text", id="absinthe[make]", value=data.absinthe.make, required)
+                        label(for="absinthe[make]") Make
 
-                .input-field
-                    label(for="absinthe[type]") Type
-                    input(type="text", name="absinthe[type]", value=data.absinthe.type)
+                    .input-field
+                        input.validate(type="text", id="absinthe[type]", value=data.absinthe.type, required)
+                        label(for="absinthe[type]") Type
 
-                .input-field
-                    label(for="absinthe[manufacturer]") Manufacturer
-                    input(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer)
+                    .input-field
+                        input.validate(type="text", id="absinthe[manufacturer]", value=data.absinthe.manufacturer, required)
+                        label(for="absinthe[manufacturer]") Manufacturer
 
-                .input-field
-                    label(for="absinthe[country]") Country
-                    input(type="text", name="absinthe[country]", value=data.absinthe.country)
+                    .input-field
+                        input.validate(type="text", id="absinthe[country]", value=data.absinthe.country, required)
+                        label(for="absinthe[country]") Country
 
-                .input-field
-                    label(for="absinthe[alcohol]") Alcohol
-                    input(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol)
+                    .input-field
+                        input.validate(type="text", id="absinthe[alcohol]", value=data.absinthe.alcohol, required)
+                        label(for="absinthe[alcohol]") Alcohol
 
         if data.ratings
-            .ui.raised.segment
-                .ui.large.ribbon.label Review Details
-                p
-                -each rating, index in data.ratings
-                    .input-field
-                        input(type="hidden", name="ratings[#{index}][ratingId]", value=rating.id)
-                        input(type="hidden", name="ratings[#{index}][sortorder]", value=rating.sortorder)
-                        input(type="hidden", name="ratings[#{index}][attribute]", value=rating.attribute)
-                        input(type="hidden", name="ratings[#{index}][score]", value=rating.score, class="score")
-                        label(for="ratings[#{index}][content]")= rating.attribute
-                        textarea.materialize-textarea(rows="2", name="ratings[#{index}][content]")
-                            =rating.content
-                        .ui.star.rating(data-rating=rating.score)
+            h5.heading Review Details
+            .row
+                .col.s12: .card-panel
+                    -each rating, index in data.ratings
+                        .input-field
+                            input(type="hidden", id="ratings[#{index}][ratingId]", value=rating.id)
+                            input(type="hidden", id="ratings[#{index}][sortorder]", value=rating.sortorder)
+                            input(type="hidden", id="ratings[#{index}][attribute]", value=rating.attribute)
+                            input(type="hidden", id="ratings[#{index}][score]", value=rating.score, class="score")
+                            textarea.validate.materialize-textarea(rows="2", id="ratings[#{index}][content]", required)
+                                =rating.content
+                            label.validate(for="ratings[#{index}][content]")= rating.attribute
+                            | Rating
 
-        .ui.raised.segment
-            .ui.large.ribbon.label Conclusion
-            p
 
-            .input-field
-                label(for="conclusion")
-                textarea.materialize-textarea(name="conclusion")
-                    =data.conclusion
+        h5.heading Conclusion
+        .row
+            .col.s12: .card-panel
+                .input-field
+                    textarea.validate.materialize-textarea(id="conclusion", required)
+                        =data.conclusion
+                    label(for="conclusion")
 
-            .ui.equal.width.grid.padded
-                .row
-                    .col.s12
-                        a.waves-effect.waves-light.btn-large(href="/", role="button") Cancel
-                        button.right.waves-effect.waves-light.btn-large(type="submit") Save Review
+        .row
+            .col.s12
+                // a.waves-effect.waves-light.btn-large(href="/", role="button") Cancel
+                button.right.waves-effect.waves-light.btn-large(type="submit") Save Review
 

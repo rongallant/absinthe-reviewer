@@ -7,9 +7,12 @@ html
 
         block stylesheets
             link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-            link( href='stylesheets/styles.css', rel='stylesheet', media='screen,projection')
+            link( href='/stylesheets/styles.css', rel='stylesheet', media='screen,projection')
 
     body
+
+        block pageHeader
+            - // Header Placeholder
 
         block topmenu
             - // Top Menu Area
@@ -17,27 +20,23 @@ html
         block sidemenu
             - // Left Menu Area
 
-        if info && info.length > 0
-            .ui.info.message
-                i.close.icon
-                .header= info
-
-        if success && success.length > 0
-            .ui.success.message
-                i.close.icon
-                .header= success
-
-        if errors && errors.length > 0
-            .ui.error.message
-                i.close.icon
-                .header= error
-
         block content
+            - // Content Placeholder
 
         block pageFooter
             - // Footer Placeholder
 
         block javascripts
             script(src="https://code.jquery.com/jquery-2.2.0.min.js")
+            script(src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js")
+            script(src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js")
             script(src="/materialize/js/bin/materialize.min.js")
+
+            - // Message Handling
             script(src="/scripts/scripts.js")
+            if error && error.length > 0
+                script Materialize.toast('#{error}', 4000, 'red');
+            if success && success.length > 0
+                script Materialize.toast('#{success}', 4000, 'green');
+            if info && info.length > 0
+                script Materialize.toast('#{info}', 4000, 'blue');

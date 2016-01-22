@@ -1,9 +1,8 @@
 extends ../layoutApp
 
 block content
+    .container
+        if title
+            h4.header= title
 
-    h1.ui.header User Manager
-
-    // include panels/reviewToolbar.jade
-
-    block userBody
+        block userBody

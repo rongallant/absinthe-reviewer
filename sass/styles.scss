@@ -4,13 +4,17 @@
 $icons-font-path: "../materialize/font/material-design-icons/";
 $roboto-font-path: "../materialize/font/roboto/";
 
-$primary-color-dark:   #689F38;
-$primary-color:        #8BC34A;
-$primary-color-light:  #DCEDC8;
-$primary-color-text:   #212121;
-$accent-color:         #9E9E9E;
+$primary-color-dark:   #5D4037;
+$primary-color:        #795548;
+$primary-color-light:  #D7CCC8;
+$primary-color-text:   #FFFFFF;
+$accent-color:         #8BC34A;
 $primary-text-color:   #212121;
 $secondary-text-color: #727272;
 $divider-color:        #B6B6B6;
 
 @import "materialize/materialize";
+
+html {
+    background-color: #f9fbe7;
+}

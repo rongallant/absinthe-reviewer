@@ -1,57 +1,46 @@
 extends userLayout
 
+block link
+    -var selected = '/users/add'
+
 block append javascripts
-  script.
-    jQuery(function(){
-        $('.ui.form').form({
-            fields: {
-                username:['minLength[6]', 'maxLength[10]', 'empty'],
-                password:['minLength[6]', 'empty'],
-                password_confirm:['match[password]'],
-                fullName:['minLength[6]', 'maxLength[256]', 'empty'],
-                email:['maxLength[256]', 'empty', 'email']
-            }
-        });
-      });
+    script.
+        $("#userForm").validate();
 
-block content
-    .ui.grid
-        .column
-            h1.ui.header= title
+block userBody
 
-            -if (message)
-                p.ui.info.message #{message}
+    form#userForm(role='form', method="post", action="/users/save", enctype="application/x-www-form-urlencoded")
 
-            form.ui.large.form(role='form', action="/users", method="post")
-                .ui.stacked.segment
-                    .field
-                        .ui.left.icon.input
-                            i.icon.lock
-                            input(type="text", name="username", placeholder="Username", value=data.username)
+        .card-panel
+            .row
+                .col.s12
+                    .input-field
+                        input(type="text", id="username", value=data.username, required)
+                        label(for="username") Username
 
-                    .two.fields
-                        .field
-                            .ui.left.icon.input
-                                i.icon.hide
-                                input(type="password", name="password", placeholder="Password", value=data.password)
+            .row
+                .col.s6
+                    .input-field
+                        input(type="password", id="password", value=data.password, required)
+                        label(for="password") Password
 
-                        .field
-                            .ui.left.icon.input
-                                i.icon.hide
-                                input(type="password", name="password_confirm", placeholder="Repeat Password")
+                .col.s6
+                    .input-field
+                        input(type="password", id="password_confirm", required)
+                        label(for="password") Confirm Password
 
-                    .field
-                        .ui.left.icon.input
-                            i.icon.user
-                            input(type="text", name="fullName", placeholder="Name")
+            .row
+                .col.s12
+                    .input-field
+                        input(type="text", id="fullName", required)
+                        label(for="fullName") Name
 
-                    .field
-                        .ui.left.icon.input
-                            i.icon.mail
-                            input(type="mail", name="email", placeholder="Email")
+            .row
+                .col.s12
+                    .input-field
+                        input(type="email", id="email", required)
+                        label(for="email") Email
 
-                    a(href="/", role="button", class="ui basic cancel button") Cancel
-
-                    button(type="submit", class="ui submit primary button") Save
-
-                div(class="ui error message")
+        .row
+            .col.s12
+                button.right.waves-effect.waves-light.btn-large(type="submit") Save User

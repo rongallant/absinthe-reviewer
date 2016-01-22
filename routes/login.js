@@ -71,7 +71,8 @@ router.post('/register', function(req, res) {
 })
 
 router.get('/login', function(req, res) {
-    res.render('login', {
+    // res.render('login', {
+    res.render('newLogin', {
         title : "Absinthe Reviewer"
     })
 })

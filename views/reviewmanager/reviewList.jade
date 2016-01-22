@@ -21,7 +21,6 @@ block reviewBody
                                 else
                                     .truncate NO TITLE
 
-
                         .card-content
                             if row.absinthe
                                 p
@@ -30,7 +29,15 @@ block reviewBody
                                     = row.absinthe.year
 
                         .card-action
-                            a(href= "/review/view?id=#{row.id}") Delete
+                            a.modal-trigger(href="#confirmModal") Delete
+                            #confirmModal.modal
+                                .modal-content
+                                    h4 Modal Header
+                                    p Are you sure you want to delete this review?
+                                .modal-footer
+                                    a(href="/review/view?id=#{row.id}", class=" modal-action modal-close waves-effect waves-green btn-flat") Delete Now
+                                    a(href="#!", class=" modal-action modal-close waves-effect waves-red btn-flat") Cancel
+
                             a(href= "/review/view?id=#{row.id}") Edit
 
         else
@@ -39,5 +46,5 @@ block reviewBody
                 a.btn.center-align(href="/review/add")
                     | Review an Absinthe
 
-    include ../includes/confirmModal
+
 
