@@ -1,0 +1,17 @@
+extends layout
+
+block extraStyles
+    - // Overwrite
+
+block extraJavascript
+    - // Overwrite
+
+block topmenu
+    include ./includes/menutop
+
+block sidemenu
+    include ./includes/menuleft
+
+block content
+    .container#content
+        block content

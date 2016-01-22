@@ -2,50 +2,53 @@ doctype html
 html
     head
         meta(charset="utf-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title= title
-        link(rel='stylesheet', href='/semantic/dist/semantic.min.css')
-        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+        link(href='/stylesheets/style.css', rel='stylesheet', media='screen,projection')
+        link( href='/materialize/stylesheets/styles.css', rel='stylesheet', media='screen,projection')
         block extraStyles
-            -// Add Extra Styles
-    body.menu.pushable
+            link(href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css", rel="stylesheet", media='screen,projection')
+            link(href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css", rel="stylesheet", media='screen,projection')
+            link(href="stylesheets/login.css", rel="stylesheet", media='screen,projection')
+            link(href="stylesheets/page-center.css", rel="stylesheet", media='screen,projection')
 
-        block sidemenu
-            include ./includes/menuleft.jade
+    body.cyan.loaded
 
         block topmenu
-            include ./includes/menutop.jade
+            - // Top Menu Area
 
-        .pusher
-           #content.ui.container
+        block sidemenu
+            - // Left Menu Area
 
-                if info && info.length > 0
-                    .ui.info.message
-                        i.close.icon
-                        .header= info
+        if info && info.length > 0
+            .ui.info.message
+                i.close.icon
+                .header= info
 
-                if success && success.length > 0
-                    .ui.success.message
-                        i.close.icon
-                        .header= success
+        if success && success.length > 0
+            .ui.success.message
+                i.close.icon
+                .header= success
 
-                if errors && errors.length > 0
-                    .ui.error.message
-                        i.close.icon
-                        .header= error
+        if errors && errors.length > 0
+            .ui.error.message
+                i.close.icon
+                .header= error
 
-                block content
+        block content
 
-            footer
+        footer.page-footer
+            block pageFooter
                 p &nbsp;
                 p &nbsp;
                 p &nbsp;
 
         script(src="https://code.jquery.com/jquery-2.2.0.min.js")
-        script(src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js")
-        script(src="/semantic/dist/semantic.min.js")
+        // script(src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js")
+        script(src="/materialize/js/bin/materialize.min.js")
         script(src="/scripts/scripts.js")
         block extraJavascript
-            -// Add Extra JavaScript
+            script(src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js")
+            script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.8/js/min/perfect-scrollbar.jquery.min.js")
 

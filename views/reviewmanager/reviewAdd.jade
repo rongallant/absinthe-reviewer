@@ -3,22 +3,6 @@ extends reviewLayout
 block link
     -var selected = '/review/add'
 
-block extraJavascript
-  script.
-    jQuery(function(){
-        $('.ui.star.rating').rating({
-            maxRating: 5,
-            onRate(value) {
-                $(this).closest(".field").find("input:hidden.score").val(value);
-            }
-        });
-        $('form#review').form({
-            fields: {
-                title:['minLength[5]', 'maxLength[300]', 'empty']
-            }
-        });
-    });
-
 block reviewBody
 
     form#review.ui.large.form(role='form', method="post", action="/review/save", enctype="application/x-www-form-urlencoded")
@@ -26,40 +10,40 @@ block reviewBody
         .ui.raised.segment
             .ui.massive.ribbon.label Page Settings
             p
-            .field
+            .input-field
                 label(for="title") Review Title
                 input(type="text", name="title", value=data.title)
 
-            .field
+            .input-field
                 label(for="subtitle") Subtitle
                 input(type="text", name="subtitle", value=data.subtitle)
 
-            .field
+            .input-field
                 label(for="intro") Introduction
-                textarea(name="intro")
+                textarea.materialize-textarea(name="intro")
                     =data.intro
 
         if (data.absinthe)
             .ui.raised.segment
                 .ui.large.ribbon.label Absinthe Details
                 p
-                .field
+                .input-field
                     label(for="absinthe[make]") Make
                     input(type="text", name="absinthe[make]", value=data.absinthe.make)
 
-                .field
+                .input-field
                     label(for="absinthe[type]") Type
                     input(type="text", name="absinthe[type]", value=data.absinthe.type)
 
-                .field
+                .input-field
                     label(for="absinthe[manufacturer]") Manufacturer
                     input(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer)
 
-                .field
+                .input-field
                     label(for="absinthe[country]") Country
                     input(type="text", name="absinthe[country]", value=data.absinthe.country)
 
-                .field
+                .input-field
                     label(for="absinthe[alcohol]") Alcohol
                     input(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol)
 
@@ -68,13 +52,13 @@ block reviewBody
                 .ui.large.ribbon.label Review Details
                 p
                 -each rating, index in data.ratings
-                    .field
+                    .input-field
                         input(type="hidden", name="ratings[#{index}][ratingId]", value=rating.id)
                         input(type="hidden", name="ratings[#{index}][sortorder]", value=rating.sortorder)
                         input(type="hidden", name="ratings[#{index}][attribute]", value=rating.attribute)
                         input(type="hidden", name="ratings[#{index}][score]", value=rating.score, class="score")
                         label(for="ratings[#{index}][content]")= rating.attribute
-                        textarea(rows="2", name="ratings[#{index}][content]")
+                        textarea.materialize-textarea(rows="2", name="ratings[#{index}][content]")
                             =rating.content
                         .ui.star.rating(data-rating=rating.score)
 
@@ -82,15 +66,14 @@ block reviewBody
             .ui.large.ribbon.label Conclusion
             p
 
-            .field
+            .input-field
                 label(for="conclusion")
-                textarea(name="conclusion")
+                textarea.materialize-textarea(name="conclusion")
                     =data.conclusion
 
             .ui.equal.width.grid.padded
                 .row
-                    a.ui.large.cancel.button.column(href="/", role="button") Cancel
-                    .column
-                    button.ui.primary.large.large.button.column(type="submit") Save Review
+                    .col.s12
+                        a.btn(href="/", role="button") Cancel
+                        button.btn(type="submit") Save Review
 
-        .ui.error.message

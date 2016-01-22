@@ -5,38 +5,38 @@ block link
     script.
         var URL_FOLDER = '/review'
 
-block extraJavascript
-    script.
-        $(function(){
-            selectableCheckboxes('table.selectable');
-            $('button#deleteAll').click(function(){
-                $('#reviewListForm').form('validate form')
-            })
+// block extraJavascript
+//     script.
+//         $(function(){
+//             selectableCheckboxes('table.selectable');
+//             $('button#deleteAll').click(function(){
+//                 $('#reviewListForm').form('validate form')
+//             })
 
-            $('#reviewListForm').form({
-                fields: {
-                    reviewid: {
-                        identifier: 'reviewid',
-                        rules: [
-                            {
-                                type   : 'checked',
-                                prompt : 'Please select at least one row to delete.'
-                            }
-                        ]
-                    }
-                },
-                onSuccess(event, fields) {
-                    $('#confirmModal.modal')
-                    .modal({
-                        closable: true,
-                        onApprove: function() {
-                            $('form#reviewListForm').attr("action", URL_FOLDER + "/deleteAll").submit()
-                            return true
-                        }
-                    }).modal('show')
-                }
-            })
-        })
+//             $('#reviewListForm').form({
+//                 fields: {
+//                     reviewid: {
+//                         identifier: 'reviewid',
+//                         rules: [
+//                             {
+//                                 type   : 'checked',
+//                                 prompt : 'Please select at least one row to delete.'
+//                             }
+//                         ]
+//                     }
+//                 },
+//                 onSuccess(event, fields) {
+//                     $('#confirmModal.modal')
+//                     .modal({
+//                         closable: true,
+//                         onApprove: function() {
+//                             $('form#reviewListForm').attr("action", URL_FOLDER + "/deleteAll").submit()
+//                             return true
+//                         }
+//                     }).modal('show')
+//                 }
+//             })
+//         })
 
 block reviewBody
 

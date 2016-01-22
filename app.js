@@ -10,12 +10,13 @@ var mongoose = require('mongoose')
 var passport = require('passport')
 var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy
+var sassMiddleware = require('node-sass-middleware');
 
 /************************************************************
  * Models
  ***********************************************************/
 
-var User = require('./models/user')
+var Account = require('./models/account')
 
 /************************************************************
  * Route Includes
@@ -56,6 +57,22 @@ app.use(session({
 app.use(flash());
 
 /************************************************************
+ * Sass
+ ***********************************************************/
+
+app.use(sassMiddleware({
+    /* Options */
+    src: path.join(__dirname, 'sass'),
+    dest: path.join(__dirname, 'public/materialize/stylesheets'),
+    debug: true,
+    outputStyle: 'compressed',
+    prefix:  '/materialize/stylesheets'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+}));
+app.use(express.static(path.join(__dirname, 'public//materialize/stylesheets/')));
+
+
+
+/************************************************************
  * Security
  ***********************************************************/
 
@@ -64,9 +81,9 @@ app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // passport config
-passport.use(new LocalStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+passport.use(new LocalStrategy(Account.authenticate()))
+passport.serializeUser(Account.serializeUser())
+passport.deserializeUser(Account.deserializeUser())
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next()
@@ -79,7 +96,7 @@ function ensureAuthenticated(req, res, next) {
 
 // MongooseJS / MongoDB
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4')
-mongoose.set('debug', true)
+mongoose.set('debug', false)
 
 /************************************************************
  * Flash Messaging

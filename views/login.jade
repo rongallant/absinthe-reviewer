@@ -1,51 +1,46 @@
 extends layout
 
-block extraJavascript
-    script.
-        jQuery(function(){
-            $('.ui.form').form({
-                //- inline : true,
-                on : 'blur',
-                fields: {
-                    username:'empty',
-                    password:'empty',
-                    password:['minLength[6]', 'empty']
-                }
-            });
-        });
-    block extraStyles
-        style(type="text/css").
-            body > .grid {height:100%}
-            .image {margin-top:-100px}
-            .column{max-width:450px}
-
 block content
-    .ui.middle.aligned.center.aligned.grid
-        .column
-            h1.ui.header= title
-            -if (message)
-                p.ui.info.message #{message}
-            form(action="/login", method="post", class="ui large form")
-                .ui.segment
-                    .ui.four.item.menu
-                        a(href="#local",  role="button", class="item" title="Sign in Locally")
-                            i(class="user icon")
-                        a(href="/auth/twitter",  role="button", class="item" title="Sign in with Twitter")
-                            i(class="icon twitter")
-                        a(href="/auth/google",  role="button", class="item" title="Sign in with Google")
-                            i(class="google icon")
-                        a(href="/auth/facebook",  role="button", class="item" title="Sign in with Facebook")
-                            i(class="facebook icon")
-                    .field
-                     .ui.left.icon.input
-                        i.user.icon
-                        input(type="text", name="username", placeholder="Username")
-                    .field
-                     .ui.left.icon.input
-                        i.lock.icon
-                        input(type="password", name="password", placeholder="Password")
-                    .ui.buttons.fluid
-                        button(type="submit", class="ui large primary submit button") Login
-                .ui.message New to us? #[a(href="/register") Register]
-                .ui.error.message
-            footer
+
+    // Start Page Loading
+    .loader-wrapper
+        .loader
+        .loader-section.section-left
+        .loader-section.section-right
+
+    #login-page.row
+        .col.s12.z-depth-4.card-panel
+            form.login-form(action="/login", method="post")
+                .row
+                    .input-field.col.s12.center
+                        img(src="images/logo.jpg", alt="", class="circle responsive-img valign profile-image-login")
+                        p.center.login-form-text Absinthe Reviewer
+
+                .row.margin
+                    .input-field.col.s12
+                        i.mdi-social-person-outline.prefix
+                        input(id="username", name="username", type="text")
+                        label(for="username", class="center-align") Username
+
+                .row.margin
+                    .input-field.col.s12
+                        i.mdi-action-lock-outline.prefix
+                        input(id="password", name="password", type="password")
+                        label(for="password") Username
+
+                .row
+                    .input-field.col.s12.m12.l12.login-text
+                        input(type="checkbox", id="remember-me")
+                        label(for="remember-me") Remember me
+
+                .row
+                    .input-field.col.s12
+                        button(type="submit", class="btn waves-effect waves-light col s12") Login
+                .row
+                    .input-field.col.s6.m6.l6
+                        p.margin.medium-small
+                            a(href="/register") Register Now!
+
+                    .input-field.col.s6.m6.l6
+                        p.margin.right-align.medium-small
+                            a(href="/register") Forgot password?

@@ -1,23 +1,29 @@
 block link
     - var selected = '/review' // Default
 
-.ui.small.menu
-    .right.menu
-        .item
-            button#deleteAll.ui.basic.button.disabled(type="button")
-                i.trash.icon
-                | Delete Selected
+//     each item in menuItems
+//         if selected === item.link
+//             li: a(href=item.link, title=item.title)
+//                 i.icon(class=item.iconClass)
+//                 =item.title
+//         else
+//             li: a(href=item.link, title=item.title)
+//                 i.icon(class=item.iconClass)
+//                 =item.title
 
-        .ui.dropdown.item
-            i.ellipsis.vertical.icon
+// nav: .nav-wrapper
+//     ul.right.hide-on-med-and-down
+//         li: a(href="sass.html"): i
+//         li: button#deleteAll(type="button")
+//             i.trash.icon
+//             | Delete Selected
+//         a(href="#!",  data-activates="dropdown1").dropdown-button
+//             i.material-icons more_vert
 
-            .menu
-                each item in menuItems
-                    if selected === item.link
-                        a.item.active(href=item.link, title=item.title)
-                            i.icon(class=item.iconClass)
-                            =item.title
-                    else
-                        a.item(href=item.link, title=item.title)
-                            i.icon(class=item.iconClass)
-                            =item.title
+.fixed-action-btn.horizontal.click-to-toggle(style="position: absolute; display: inline-block; right: 24px; top: 0;")
+    a.btn-floating.btn-large.red: i.large.mdi-navigation-menu
+    ul
+        li: a.btn-floating.red: i.material-icons insert_chart
+        li: a.btn-floating.yellow.darken-1: i.material-icons format_quote
+        li: a.btn-floating.green: i.material-icons publish
+        li: a.btn-floating.blue: i.material-icons attach_file
