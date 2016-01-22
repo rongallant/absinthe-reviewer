@@ -1,29 +1,33 @@
 block link
     - var selected = '/review' // Default
 
+// ul#dropdown1.dropdown-content.left
+
+//     li: a#deleteAlla(href="#", title="Delete Selected")
+//          i.material-icons.small.left
+//             | delete
+//          | Delete
 //     each item in menuItems
 //         if selected === item.link
 //             li: a(href=item.link, title=item.title)
-//                 i.icon(class=item.iconClass)
+//                 i.material-icons.small.left
+//                     =item.iconClass
 //                 =item.title
 //         else
 //             li: a(href=item.link, title=item.title)
-//                 i.icon(class=item.iconClass)
+//                 i.material-icons.small.left
+//                     =item.iconClass
 //                 =item.title
 
-// nav: .nav-wrapper
-//     ul.right.hide-on-med-and-down
-//         li: a(href="sass.html"): i
-//         li: button#deleteAll(type="button")
-//             i.trash.icon
-//             | Delete Selected
-//         a(href="#!",  data-activates="dropdown1").dropdown-button
-//             i.material-icons more_vert
+// ul.hide-on-med-and-down.right
+//     li: a.dropdown-button(href="#!", data-activates="dropdown1", data-constrainwidth="false", data-alignment="right",
+//         class="waves-effect waves-circle black-text waves-green waves-light right")
+//         i.material-icons more_vert
 
-.fixed-action-btn.horizontal.click-to-toggle(style="position: absolute; display: inline-block; right: 24px; top: 0;")
-    a.btn-floating.btn-large.red: i.large.mdi-navigation-menu
+.fixed-action-btn.horizontal.click-to-toggle(style="position: absolute; display: inline-block; right: 24px; bottom: 24;")
+    a.btn-floating.btn-large.red: i.large.material-icons add
     ul
         li: a.btn-floating.red: i.material-icons insert_chart
-        li: a.btn-floating.yellow.darken-1: i.material-icons format_quote
+        li: a.btn-floating.yellow.darken-1: i.mdi-action-speaker-notes Review
         li: a.btn-floating.green: i.material-icons publish
         li: a.btn-floating.blue: i.material-icons attach_file

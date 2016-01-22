@@ -5,78 +5,39 @@ block link
     script.
         var URL_FOLDER = '/review'
 
-// block extraJavascript
-//     script.
-//         $(function(){
-//             selectableCheckboxes('table.selectable');
-//             $('button#deleteAll').click(function(){
-//                 $('#reviewListForm').form('validate form')
-//             })
-
-//             $('#reviewListForm').form({
-//                 fields: {
-//                     reviewid: {
-//                         identifier: 'reviewid',
-//                         rules: [
-//                             {
-//                                 type   : 'checked',
-//                                 prompt : 'Please select at least one row to delete.'
-//                             }
-//                         ]
-//                     }
-//                 },
-//                 onSuccess(event, fields) {
-//                     $('#confirmModal.modal')
-//                     .modal({
-//                         closable: true,
-//                         onApprove: function() {
-//                             $('form#reviewListForm').attr("action", URL_FOLDER + "/deleteAll").submit()
-//                             return true
-//                         }
-//                     }).modal('show')
-//                 }
-//             })
-//         })
-
 block reviewBody
+    include panels/reviewToolbar
+    form#reviewListForm(role='form', method='post')
 
-    form#reviewListForm.ui.form(role='form', method='post')
+        if data.length
+            .row
+                each row in data
+                    .col.m12.l6: .card
+                        .card-image
+                            img(src="https://cdn.vidible.tv/prod/2015-02/12/54dd2c41e4b091e553252897_o_F_v0.jpg")
+                            .card-title.col.s11
+                                if (row.title && row.title.length > 0)
+                                    .truncate= row.title
+                                else
+                                    .truncate NO TITLE
 
-        table.ui.selectable.stackable.raised.table
-            thead
-                tr
-                    th
-                        if data.length
-                            span.ui.master.checkbox
-                                input(type="checkbox", name="selectAll")
-                    th Title
-                    th Author
-                    th Absinthe
-                    th.right.aligned Actions
 
-            if data.length
-                tbody
-                    each row in data
-                        tr
-                            td
-                                .ui.checkbox
-                                    input(type="checkbox", name="reviewid", value=row.id)
-                            td
-                                a(href= "/review/view?id=#{row.id}")
-                                    if (row.title && row.title.length > 0)
-                                        =row.title
-                                    else
-                                        | undefined
-                            td= row.author
-                            td
-                                if row.absinthe
+                        .card-content
+                            if row.absinthe
+                                p
                                     = row.absinthe.make
-                            td.right.aligned
-                                .ui.small.basic.icon.buttons.actions
-                                    a.ui.button(href="/review/delete?review=#{row.id}", title="Delete")
-                                        i.trash.icon
-            else
-                tfoot: tr: td.center.aligned(colspan="5") No Results
+                                    br
+                                    = row.absinthe.year
+
+                        .card-action
+                            a(href= "/review/view?id=#{row.id}") Delete
+                            a(href= "/review/view?id=#{row.id}") Edit
+
+        else
+            .card: .card-content: .section No Results
+                br
+                a.btn.center-align(href="/review/add")
+                    | Review an Absinthe
 
     include ../includes/confirmModal
 

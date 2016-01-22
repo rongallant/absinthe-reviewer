@@ -61,17 +61,12 @@ app.use(flash());
  ***********************************************************/
 
 app.use(sassMiddleware({
-    /* Options */
     src: path.join(__dirname, 'sass'),
-    dest: path.join(__dirname, 'public/materialize/stylesheets'),
+    dest: path.join(__dirname, 'public/stylesheets'),
+    prefix:  '/stylesheets',
     debug: true,
-    outputStyle: 'compressed',
-    prefix:  '/materialize/stylesheets'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+    force: true
 }));
-app.use(express.static(path.join(__dirname, 'public//materialize/stylesheets/')));
-
-
-
 /************************************************************
  * Security
  ***********************************************************/

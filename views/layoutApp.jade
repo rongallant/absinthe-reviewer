@@ -1,11 +1,5 @@
 extends layout
 
-block extraStyles
-    - // Overwrite
-
-block extraJavascript
-    - // Overwrite
-
 block topmenu
     include ./includes/menutop
 
@@ -15,3 +9,6 @@ block sidemenu
 block content
     .container#content
         block content
+
+block pageFooter
+    footer.

@@ -4,16 +4,12 @@ html
         meta(charset="utf-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title= title
-        link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-        link(href='/stylesheets/style.css', rel='stylesheet', media='screen,projection')
-        link( href='/materialize/stylesheets/styles.css', rel='stylesheet', media='screen,projection')
-        block extraStyles
-            link(href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css", rel="stylesheet", media='screen,projection')
-            link(href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css", rel="stylesheet", media='screen,projection')
-            link(href="stylesheets/login.css", rel="stylesheet", media='screen,projection')
-            link(href="stylesheets/page-center.css", rel="stylesheet", media='screen,projection')
 
-    body.cyan.loaded
+        block stylesheets
+            link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+            link( href='stylesheets/styles.css', rel='stylesheet', media='screen,projection')
+
+    body
 
         block topmenu
             - // Top Menu Area
@@ -38,17 +34,10 @@ html
 
         block content
 
-        footer.page-footer
-            block pageFooter
-                p &nbsp;
-                p &nbsp;
-                p &nbsp;
+        block pageFooter
+            - // Footer Placeholder
 
-        script(src="https://code.jquery.com/jquery-2.2.0.min.js")
-        // script(src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js")
-        script(src="/materialize/js/bin/materialize.min.js")
-        script(src="/scripts/scripts.js")
-        block extraJavascript
-            script(src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js")
-            script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.8/js/min/perfect-scrollbar.jquery.min.js")
-
+        block javascripts
+            script(src="https://code.jquery.com/jquery-2.2.0.min.js")
+            script(src="/materialize/js/bin/materialize.min.js")
+            script(src="/scripts/scripts.js")

@@ -12,7 +12,7 @@ block reviewBody
             p
             .input-field
                 label(for="title") Review Title
-                input(type="text", name="title", value=data.title)
+                input(type="text", name="title", value=data.title, required="", aria-required="true")
 
             .input-field
                 label(for="subtitle") Subtitle
@@ -74,6 +74,6 @@ block reviewBody
             .ui.equal.width.grid.padded
                 .row
                     .col.s12
-                        a.btn(href="/", role="button") Cancel
-                        button.btn(type="submit") Save Review
+                        a.waves-effect.waves-light.btn-large(href="/", role="button") Cancel
+                        button.right.waves-effect.waves-light.btn-large(type="submit") Save Review
 

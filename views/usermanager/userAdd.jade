@@ -1,6 +1,6 @@
 extends userLayout
 
-block extraJavascript
+block append javascripts
   script.
     jQuery(function(){
         $('.ui.form').form({
@@ -13,6 +13,7 @@ block extraJavascript
             }
         });
       });
+
 block content
     .ui.grid
         .column

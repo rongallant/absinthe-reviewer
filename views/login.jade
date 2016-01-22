@@ -1,5 +1,15 @@
 extends layout
 
+block append stylesheets
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css", rel="stylesheet", media='screen,projection')
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css", rel="stylesheet", media='screen,projection')
+    link(href="stylesheets/page-center.css", rel="stylesheet", media='screen,projection')
+
+block append javascripts
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.8/js/min/perfect-scrollbar.jquery.min.js")
+
+
 block content
 
     // Start Page Loading

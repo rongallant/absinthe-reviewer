@@ -10,13 +10,13 @@ var VIEW_FOLDER = "reviewmanager"
 var menu = [
     {
         link:'/review',
-        iconClass: 'list layout',
-        title: 'List Reviews'
+        iconClass: 'view_list',
+        title: 'List'
     },
     {
         link: '/review/add',
-        iconClass: 'plus',
-        title: 'New Review'
+        iconClass: 'add',
+        title: 'Add'
     }
 ]
 

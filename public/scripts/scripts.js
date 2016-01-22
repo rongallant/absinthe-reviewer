@@ -7,7 +7,7 @@ function isEmptyObject(obj) {
 }
 $(function() {
       $(".button-collapse").sideNav()
-      $(".dropdown-button").dropdown()
+    //   $(".dropdown-button").dropdown()
     // if (message) {
     //     Materialize.toast(message, 4000)
     // }
