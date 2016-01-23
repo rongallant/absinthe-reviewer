@@ -101,8 +101,10 @@ passport.deserializeUser(Account.deserializeUser())
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
+        console.info("\nYou are logged in as %s \n", req.user.username)
         return next()
     } else {
+        console.info("\nYou are not logged")
         res.redirect('/login')
     }
 }

@@ -1,6 +1,6 @@
 extends reviewLayout
 
-append link
+block link
     -var selected = '/review/add'
 
 append javascripts
@@ -23,15 +23,15 @@ append reviewContent
         h5.heading Page Settings
         .row
             .col.s12: .card-panel
-                .input-field
+                .row: .col.s12: .input-field
                     input.validate(type="text", id="title", value=data.title, required)
                     label(for="title") Review Title
 
-                .input-field
+                .row: .col.s12: .input-field
                     input.validate(type="text", id="subtitle", value=data.subtitle)
                     label(for="subtitle") Subtitle
 
-                .input-field
+                .row: .col.s12: .input-field
                     textarea.validate.materialize-textarea(id="intro", required)
                         =data.intro
                     label(for="intro") Introduction
@@ -40,24 +40,23 @@ append reviewContent
             h5.heading Absinthe Details
             .row
                 .col.s12: .card-panel
-                    p
-                    .input-field
+                    .row: .col.s12: .input-field
                         input.validate(type="text", id="absinthe[make]", value=data.absinthe.make, required)
                         label(for="absinthe[make]") Make
 
-                    .input-field
+                    .row: .col.s12: .input-field
                         input.validate(type="text", id="absinthe[type]", value=data.absinthe.type, required)
                         label(for="absinthe[type]") Type
 
-                    .input-field
+                    .row: .col.s12: .input-field
                         input.validate(type="text", id="absinthe[manufacturer]", value=data.absinthe.manufacturer, required)
                         label(for="absinthe[manufacturer]") Manufacturer
 
-                    .input-field
+                    .row: .col.s12: .input-field
                         input.validate(type="text", id="absinthe[country]", value=data.absinthe.country, required)
                         label(for="absinthe[country]") Country
 
-                    .input-field
+                    .row: .col.s12: .input-field
                         input.validate(type="text", id="absinthe[alcohol]", value=data.absinthe.alcohol, required)
                         label(for="absinthe[alcohol]") Alcohol
 
@@ -66,7 +65,7 @@ append reviewContent
             .row
                 .col.s12: .card-panel
                     -each rating, index in data.ratings
-                        .input-field
+                        .row: .col.s12: .input-field
                             input(type="hidden", id="ratings[#{index}][ratingId]", value=rating.id)
                             input(type="hidden", id="ratings[#{index}][sortorder]", value=rating.sortorder)
                             input(type="hidden", id="ratings[#{index}][attribute]", value=rating.attribute)
@@ -80,13 +79,12 @@ append reviewContent
         h5.heading Conclusion
         .row
             .col.s12: .card-panel
-                .input-field
+                .row: .col.s12: .input-field
                     textarea.validate.materialize-textarea(id="conclusion", required)
                         =data.conclusion
                     label(for="conclusion")
 
         .row
             .col.s12
-                // a.waves-effect.waves-light.btn-large(href="/", role="button") Cancel
                 button.right.waves-effect.waves-light.btn-large(type="submit") Save Review
 
