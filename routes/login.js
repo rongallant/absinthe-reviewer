@@ -12,7 +12,7 @@ var router = express.Router()
 
 router.get('/', function (req, res) {
     if (req.user)
-        res.redirect('/review')
+        res.redirect('/reviews')
     else
         res.redirect('/login')
 });
@@ -81,7 +81,7 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
     var sess=req.session
     sess.user=req.user
     req.flash("success", "Welcome back ", sess.user.fullName)
-    res.redirect('/review')
+    res.redirect('/reviews')
 });
 
 router.get('/logout', function(req, res) {

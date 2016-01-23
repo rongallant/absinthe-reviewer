@@ -14,15 +14,13 @@ $.validator.setDefaults({
     errorClass: 'invalid',
     validClass: "valid",
     errorPlacement: function (error, element) {
-        console.log(element)
-        console.log(element.attr("id"))
         $(element)
             .closest(".input-field")
             .find("label[for='" + element.attr("id") + "']")
             .attr('data-error', error.text());
     },
     submitHandler: function (form) {
-        console.log('form ok');
+        return true;
     }
 });
 

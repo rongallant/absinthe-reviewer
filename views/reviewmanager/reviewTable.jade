@@ -1,20 +1,12 @@
 extends reviewLayout
 
-block link
-    - var selected = '/review'
-
-append javascripts
-    script.
-        var URL_FOLDER = '/review'
-
 block reviewBody
 
     .card: .card-content
         include panels/reviewToolbar
         .section(style="position:relative")
 
-            form#reviewListForm(role='form', method='post')
-
+            form#reviewListForm(role="form", method="post")
                 table
                     thead
                         tr
@@ -34,7 +26,7 @@ block reviewBody
                                         input(type="checkbox", id=row.id, name="reviewid", value=row.id)
                                         label(for=row.id)
                                     td
-                                        a(href= "/review/view?id=#{row.id}")
+                                        a(href= "/reviews/edit?id=#{row.id}")
                                             if (row.title && row.title.length > 0)
                                                 =row.title
                                             else
@@ -44,7 +36,7 @@ block reviewBody
                                         if row.absinthe
                                             = row.absinthe.make
                                     td
-                                        a(href="/review/delete?review=#{row.id}", title="Delete")
+                                        a(href="/reviews/delete?id=#{row.id}", title="Delete")
                                             i.material-icons delete
                     else
                         tfoot: tr: td(colspan="5").center No Results

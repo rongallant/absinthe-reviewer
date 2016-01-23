@@ -1,15 +1,29 @@
 extends userLayout
 
-block content
-    h1.ui.header= title
+block userContent
 
-    -if (data)
-        table.ui.padded.selectable.table
-            thead
-                tr
-                    th Username
-            tbody
-                each item in data
-                    tr
-                        td
-                            a(href="/register?userid=#{item.id}") #{item.username}
+    form#userListForm(role='form', method='post')
+        if data.length
+            .collection
+                each row in data
+
+                    a.collection-item.avatar(href= "/users/edit?id=#{row.id}")
+                        i.circle.material-icons perm_identity
+                        span.title= row.fullName
+                        p
+                            | Username:
+                            = row.username
+                            br
+                            | Email:
+                            = row.email
+
+                        // a.secondary-content.modal-trigger(href="#confirmModal"): i.material-icons perm_identity
+                        // #confirmModal.modal
+                        //     .modal-content
+                        //         h4 Modal Header
+                        //         p Are you sure you want to delete this user?
+                        //     .modal-footer
+                        //         a(href="/user/edit?id=#{row.id}", class=" modal-action modal-close waves-effect waves-green btn-flat") Delete Now
+                        //         a(href="#!", class=" modal-action modal-close waves-effect waves-red btn-flat") Cancel
+
+

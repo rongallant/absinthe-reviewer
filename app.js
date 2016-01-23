@@ -53,13 +53,21 @@ app.use(cookieParser('keyboard cat'))
 // Session
 var sessionStore = new session.MemoryStore;
 app.use(session({
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 1800000 }, // Timeout set to 30 minutes
     store: sessionStore,
     saveUninitialized: true,
     resave: 'true',
     secret: 'keyboard cat'
 }))
+
+// Flash Messaging - Returns messages to users.
 app.use(flash());
+app.use(function(req, res, next){
+    res.locals.info = req.flash('info')
+    res.locals.success = req.flash('success')
+    res.locals.errors = req.flash('error')
+    next()
+})
 
 // Sass
 app.use(sassMiddleware({
@@ -69,14 +77,6 @@ app.use(sassMiddleware({
     debug: true,
     force: true
 }));
-
-// Flash Messaging - Returns messages to users.
-app.use(function(req, res, next){
-    res.locals.info = req.flash('info')
-    res.locals.success = req.flash('success')
-    res.locals.errors = req.flash('error')
-    next()
-})
 
 /************************************************************
  * Database
@@ -99,12 +99,22 @@ passport.use(new LocalStrategy(Account.authenticate()))
 passport.serializeUser(Account.serializeUser())
 passport.deserializeUser(Account.deserializeUser())
 
-function ensureAuthenticated(req, res, next) {
+
+function ensureAuthenticated(req, res, next)
+{
     if (req.isAuthenticated()) {
-        console.info("\nYou are logged in as %s \n", req.user.username)
+        try {
+            console.info("\nYou are logged in as %s", req.user.username)
+            console.info(req.session.passport.user)
+        } catch(err) {
+            console.info("\nERROR: You are not logged in")
+            req.session.destroy();
+            res.redirect('/login')
+        }
         return next()
     } else {
-        console.info("\nYou are not logged")
+        console.info("\nNot Auth: You are not logged in")
+        req.session.destroy();
         res.redirect('/login')
     }
 }
@@ -119,27 +129,32 @@ app.get('/users', users)
 app.get('/users:name', ensureAuthenticated, users)
 app.use('/users', users)
 
-app.get('/review', review)
-app.get('/review:name', ensureAuthenticated, review)
-app.use('/review', review)
+app.get('/reviews', review)
+app.get('/reviews:name', ensureAuthenticated, review)
+app.use('/reviews', review)
+
 
 /************************************************************
  * Error Handling
  ***********************************************************/
 
 /**
- * catch 403 and forward to error handler.
+ * catch 403 Unauthorized errors.
  */
 app.use(function(req, res, next) {
-    if (!req.user) {
+    if (!req.passport.user | !req.user) {
         var err = new Error('Unauthorized')
         err.status = 403
+        console.error("You out!")
+    } else {
+        console.info("You still in")
     }
     next(err)
 })
 
+
 /**
- * catch 404 and forward to error handler.
+ * catch 404 Page Not Found errors.
  */
 app.use(function(req, res, next) {
     var err = new Error('Page Not Found')

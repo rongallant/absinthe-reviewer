@@ -1,38 +1,34 @@
 extends reviewLayout
 
-block link
-    -var selected = '/review/add'
-
 append javascripts
+    script(src="/scripts/jquery.star.rating.min.js")
     script.
-        $("#review").validate({
-
-        });
-
-append stylesheets
-    style.
-        label {
-            width: 100%;
-        }
+        $("#review").validate();
+        $('#ratings .rating').each(function(index, value) {
+            $('#rating-' + index).addRating({
+                fieldId:'ratings[' + index + '][score]'
+            });
+        })
 
 append reviewContent
 
-    form#review(role='form', method="post", action="/review/save", enctype="application/x-www-form-urlencoded")
-        input(type="hidden", id="id", value=data.id)
+    form#review(role="form", method="post", action="/reviews/save", enctype="application/x-www-form-urlencoded")
+        input(type="text", name="id", value=data.id)
 
         h5.heading Page Settings
         .row
             .col.s12: .card-panel
-                .row: .col.s12: .input-field
-                    input.validate(type="text", id="title", value=data.title, required)
-                    label(for="title") Review Title
+                .row
+                    .col.s6: .input-field
+                        input.validate(type="text", name="title", value=data.title, required)
+                        label(for="title") Review Title
+
+                    .col.s6: .input-field
+                        input.validate(type="text", name="subtitle", value=data.subtitle)
+                        label(for="subtitle") Subtitle
 
                 .row: .col.s12: .input-field
-                    input.validate(type="text", id="subtitle", value=data.subtitle)
-                    label(for="subtitle") Subtitle
-
-                .row: .col.s12: .input-field
-                    textarea.validate.materialize-textarea(id="intro", required)
+                    textarea.validate.materialize-textarea(name="intro", required)
                         =data.intro
                     label(for="intro") Introduction
 
@@ -41,46 +37,45 @@ append reviewContent
             .row
                 .col.s12: .card-panel
                     .row: .col.s12: .input-field
-                        input.validate(type="text", id="absinthe[make]", value=data.absinthe.make, required)
+                        input.validate(type="text", name="absinthe[make]", value=data.absinthe.make, required)
                         label(for="absinthe[make]") Make
 
                     .row: .col.s12: .input-field
-                        input.validate(type="text", id="absinthe[type]", value=data.absinthe.type, required)
+                        input.validate(type="text", name="absinthe[type]", value=data.absinthe.type, required)
                         label(for="absinthe[type]") Type
 
                     .row: .col.s12: .input-field
-                        input.validate(type="text", id="absinthe[manufacturer]", value=data.absinthe.manufacturer, required)
+                        input.validate(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer, required)
                         label(for="absinthe[manufacturer]") Manufacturer
 
                     .row: .col.s12: .input-field
-                        input.validate(type="text", id="absinthe[country]", value=data.absinthe.country, required)
+                        input.validate(type="text", name="absinthe[country]", value=data.absinthe.country, required)
                         label(for="absinthe[country]") Country
 
                     .row: .col.s12: .input-field
-                        input.validate(type="text", id="absinthe[alcohol]", value=data.absinthe.alcohol, required)
+                        input.validate(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol, required)
                         label(for="absinthe[alcohol]") Alcohol
 
         if data.ratings
             h5.heading Review Details
             .row
-                .col.s12: .card-panel
+                .col.s12: .card-panel#ratings
                     -each rating, index in data.ratings
                         .row: .col.s12: .input-field
-                            input(type="hidden", id="ratings[#{index}][ratingId]", value=rating.id)
-                            input(type="hidden", id="ratings[#{index}][sortorder]", value=rating.sortorder)
-                            input(type="hidden", id="ratings[#{index}][attribute]", value=rating.attribute)
-                            input(type="hidden", id="ratings[#{index}][score]", value=rating.score, class="score")
-                            textarea.validate.materialize-textarea(rows="2", id="ratings[#{index}][content]", required)
+                            input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings[#{index}][ratingId]", value=rating.id)
+                            input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings[#{index}][sortorder]", value=rating.sortorder)
+                            input(type="hidden", name="ratings[#{index}][attribute]", id="ratings[#{index}][attribute]", value=rating.attribute)
+                            // input(type="hidden", name="ratings[#{index}][score]", id="ratings[#{index}][score]", value=rating.score, class="score")
+                            textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", required)
                                 =rating.content
-                            label.validate(for="ratings[#{index}][content]")= rating.attribute
-                            | Rating
+                            div(id='rating-#{index}', class="rating")
 
 
         h5.heading Conclusion
         .row
             .col.s12: .card-panel
                 .row: .col.s12: .input-field
-                    textarea.validate.materialize-textarea(id="conclusion", required)
+                    textarea.validate.materialize-textarea(name="conclusion", required)
                         =data.conclusion
                     label(for="conclusion")
 
