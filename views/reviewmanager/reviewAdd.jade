@@ -1,21 +1,21 @@
 extends reviewLayout
 
-block link
+append link
     -var selected = '/review/add'
 
-block append javascripts
+append javascripts
     script.
         $("#review").validate({
 
         });
 
-block append stylesheets
+append stylesheets
     style.
         label {
             width: 100%;
         }
 
-block reviewBody
+append reviewContent
 
     form#review(role='form', method="post", action="/review/save", enctype="application/x-www-form-urlencoded")
         input(type="hidden", id="id", value=data.id)
