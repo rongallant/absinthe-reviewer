@@ -5,10 +5,11 @@ block link
     script.
         var URL_FOLDER = '/review'
 
-block reviewBody
-    include panels/reviewToolbar
-    form#reviewListForm(role='form', method='post')
+append reviewContent
 
+    include panels/reviewToolbar
+
+    form#reviewListForm(role='form', method='post')
         if data.length
             .row
                 each row in data

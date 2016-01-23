@@ -1,5 +1,8 @@
 doctype html
 html
+    block vars
+        //- Used to pass data into layout
+
     head
         meta(charset="utf-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
@@ -12,19 +15,21 @@ html
     body
 
         block pageHeader
-            - // Header Placeholder
+            header#header
+            //- Header Placeholder
 
         block topmenu
-            - // Top Menu Area
+            //- Top Menu Area
 
         block sidemenu
-            - // Left Menu Area
+            //- Left Menu Area
 
-        block content
-            - // Content Placeholder
+        #content: block content
+            //- Main Layout Content
 
         block pageFooter
-            - // Footer Placeholder
+            footer#footer
+            //- Footer Placeholder
 
         block javascripts
             script(src="https://code.jquery.com/jquery-2.2.0.min.js")
@@ -32,7 +37,7 @@ html
             script(src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js")
             script(src="/materialize/js/bin/materialize.min.js")
 
-            - // Message Handling
+            //- Message Handling
             script(src="/scripts/scripts.js")
             if error && error.length > 0
                 script Materialize.toast('#{error}', 4000, 'red');

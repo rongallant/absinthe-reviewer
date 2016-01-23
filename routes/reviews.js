@@ -24,6 +24,7 @@ var menu = [
  * VIEWS
  ************************************************************/
 
+// List All Reviews
 router.get('/', function(req, res) {
     Review.find({}).exec(function(err, data) {
         if (err) { handleError(req, res, err) }
@@ -36,6 +37,7 @@ router.get('/', function(req, res) {
     })
 })
 
+// Return selected Review
 router.get('/view', function(req, res) {
     Review.findById(req.query.id, function(err, data) {
         if (err) { handleError(req, res, err) }
@@ -51,6 +53,7 @@ router.get('/view', function(req, res) {
     })
 })
 
+// New Review form
 router.get('/add', function(req, res) {
     var newReview = new Review
     var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish']

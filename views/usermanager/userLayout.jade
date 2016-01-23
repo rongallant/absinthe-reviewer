@@ -1,8 +1,4 @@
 extends ../layoutApp
 
-block content
-    .container
-        if title
-            h4.header= title
-
-        block userBody
+block append vars
+    - var user = user

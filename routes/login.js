@@ -71,7 +71,7 @@ router.post('/register', function(req, res) {
 })
 
 router.get('/login', function(req, res) {
-    // res.render('login', {
+    // res.render('login', { // TODO Rename newLogin to login.
     res.render('newLogin', {
         title : "Absinthe Reviewer"
     })
@@ -80,12 +80,13 @@ router.get('/login', function(req, res) {
 router.post('/login', passport.authenticate('local'), function(req, res) {
     var sess=req.session
     sess.user=req.user
-    req.flash("success", "Welcome back ", sess.user.username)
+    req.flash("success", "Welcome back ", sess.user.fullName)
     res.redirect('/review')
 });
 
 router.get('/logout', function(req, res) {
     req.logout()
+    req.flash("success", "You have successfully logged out")
     res.redirect('/login')
 })
 

@@ -6,9 +6,20 @@ block topmenu
 block sidemenu
     include ./includes/menuleft
 
-block content
-    .container#content
-        block content
+append content
 
-block pageFooter
-    footer.
+    h6.right Logged in as:&nbsp;
+        strong
+            if (user)
+                | #{user.fullName} (#{user.username})
+            else
+                | Not Logged In
+
+    .container
+
+        if title
+            h4.header= title
+
+        #appContent: block appContent
+            //- App Layout Content
+
