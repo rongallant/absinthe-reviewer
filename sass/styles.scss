@@ -33,6 +33,11 @@ body {
     .nav-wrapper { padding-left: 50px }
 }
 
+
+#wsScore {
+    margin-top: 30px;
+}
+
 .btn {
     @extend .waves-effect;
     @extend .waves-light;
