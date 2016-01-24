@@ -1,0 +1,46 @@
+.side-nav {
+    @extend .fixed;
+    @extend .z-depth-3;
+
+    a {
+        @extend .waves-effect;
+        @extend .waves-light;
+        @extend .waves-green;
+    }
+
+    >li {
+        margin: 0;
+        padding: 0;
+    }
+
+    >li>a {
+        font-weight: 700;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .collapsible-header {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .collapsible-body li a {
+        margin: 0;
+    }
+
+    .collapsible .collapsible-body li.active {
+       background-color: color("grey", "lighten-4");
+    }
+
+    a.collapsible-header .material-icons.right {
+        opacity: 0;
+        transition: opacity .25s ease-in-out;
+        -moz-transition: opacity .25s ease-in-out;
+        -webkit-transition: opacity .25s ease-in-out;
+     }
+
+    a.collapsible-header.active .material-icons,
+    a.collapsible-header:hover .material-icons.right {
+        opacity: 1;
+     }
+}

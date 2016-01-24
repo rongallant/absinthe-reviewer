@@ -18,6 +18,8 @@ $button-color: #558b2f;
 
 
 @import "materialize/materialize";
+@import "_side-nav";
+
 
 body {
     position: relative;
@@ -32,99 +34,10 @@ body {
     .nav-wrapper { padding-left: 50px }
 }
 
-#main-action-btn {
-    @extend .horizontal;
-    position: absolute;
-    display: inline-block;
-    top: 33px;
-
-    @media #{$medium-and-down} {
-        right: 7.5%;
-    }
-    @media #{$large-and-up} {
-        right: 15%;
-    }
-
-    a.trigger-btn {
-        @extend .btn-floating;
-        @extend .btn-large;
-        @extend .waves-effect;
-        @extend .waves-light;
-        background-color: $primary-color-dark;
-    }
-
-    a.trigger-btn i {
-        -webkit-transform: rotate(90deg) rotateY(0);
-        -webkit-transition: all 0.5s;
-        -webkit-transition-timing-function: cubic-bezier(1, 0.8, 0.5, 1);
-        -moz-transform: rotate(90deg);
-        -moz-transition: all 0.5s;
-        -moz-transition-timing-function: cubic-bezier(1, 0.8, 0.5, 1);
-        -o-transform: rotate(90deg);
-        -o-transition: all 0.5s;
-        -o-transition-timing-function: cubic-bezier(1, 0.8, 0.5, 1);
-    }
-
-    a.trigger-btn:hover i {
-        -webkit-transform: rotate(0deg) rotateY(0);
-        -webkit-transition-delay: 0;
-        -o-transition: all 0.5s;
-        -moz-transform: rotate(0deg);
-        -moz-transition-delay: 0;
-        -o-transition: all 0.5s;
-        -o-transform: rotate(0deg);
-        -o-transition-delay: 0;
-        -o-transition: all 0.5s;
-    }
-
-    a.trigger-btn:after i {
-        -webkit-transform: translate(-50%,-50%);
-        transform: translate(-50%,-50%);
-    }
-
-    a.trigger-btn:hover:after i {
-        display: block;
-    }
-}
-
-#login-page {
-    .card-panel {
-        margin: 50px auto;
-        @media #{$medium-and-up} {
-            width: 500px;
-        }
-    }
-    .site-title {
-        font-size: 2rem;
-        @extend .center;
-        @extend .flow-text;
-        color: darken($primary-color, 15%);
-        margin-bottom: 50px;
-    }
-
-    .login-icon {
-        @extend .center;
-        .login-icon-bg
-        {
-            @extend .circle;
-            background-color: color("grey", "lighten-3");
-            color: color("grey", "lighten-1");
-            display: inline-block;
-            height: 96px;
-            width: 96px;
-        }
-        i.material-icons
-        {
-            @extend .large;
-        }
-    }
-
-}
-
-.side-nav a,
 .btn {
     @extend .waves-effect;
     @extend .waves-light;
+    @extend .waves-green;
 }
 
 .card-panel {

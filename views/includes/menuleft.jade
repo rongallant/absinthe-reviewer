@@ -1,14 +1,30 @@
-ul.side-nav.fixed.z-depth-3
-    a.brand-logo.large(href="/"): strong Absinthe Reviewer
-    if (user)
-        li: a(href="/reviews") Reviews
-        li: a(href="/reviews/edit") Add a Review
+#mainMenu
+    ul.side-nav.collapsible( data-collapsible="accordion")
+        li: a.brand-logo.large(href="/") Absinthe Reviewer
+        if (user)
 
-        li: a(href="/users") Users
-        li: a(href="/users/edit") Add a User
+            li
+                a.collapsible-header.waves-effect(href="#")
+                    i.material-icons.tiny.right arrow_drop_down
+                    i.material-icons.tiny star
+                    | Reviews
+                ul.collapsible-body
+                    li: a.waves-effect(href="/reviews") List Reviews
+                    li: a.waves-effect(href="/reviews/edit") Add a Review
 
-        li: a(href="/logout") Logout
+            li
+                a.collapsible-header.waves-effect(href="#")
+                    i.material-icons.tiny.right arrow_drop_down
+                    i.material-icons.tiny people
+                    | Users
+                ul.collapsible-body
+                    li: a.waves-effect(href="/users") List Users
+                    li: a.waves-effect(href="/users/edit") Add a User
 
-    else
-        // li: a(href="/register") Register
-        li:  a(href="/login") Login
+            li: a.collapsible-header.waves-effect(href="/logout")
+                i.material-icons.tiny power_settings_new
+                | Logout
+
+        else
+            // li: a(href="/register") Register
+            li: a.waves-effect(href="/login") Login
