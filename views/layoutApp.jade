@@ -1,27 +1,25 @@
 extends layout
 
 block topmenu
-    include ./includes/menutop
 
 block sidemenu
+
+append pageHeader
+    include ./includes/menutop
     include ./includes/menuleft
 
 append content
+    main
+        .row
+            .col.s12.m12.l9
 
-    include includes/appToolbar
+                #appContent: block appContent
+                    //- App Layout Content
 
-    h6.right Logged in as:&nbsp;
-        strong
-            if (user)
-                | #{user.fullName} (#{user.username})
-            else
-                | Not Logged In
+            block appRightColumn
+                .col.s12.m12.l3
 
-    .container
 
-        if title
-            h4.header= title
+prepend javascripts
 
-        #appContent: block appContent
-            //- App Layout Content
-
+    // include includes/appToolbar

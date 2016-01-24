@@ -2030,10 +2030,10 @@ ul {
 .z-depth-0 {
   box-shadow: none !important; }
 
-.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, #main-action-btn a.trigger-btn, .btn-floating, .dropdown-content, .collapsible, .side-nav {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); }
 
-.z-depth-1-half, .btn:hover, .btn-large:hover, .btn-floating:hover {
+.z-depth-1-half, .btn:hover, .btn-large:hover, #main-action-btn a.trigger-btn:hover, .btn-floating:hover {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15); }
 
 .z-depth-2 {
@@ -2080,7 +2080,7 @@ i {
     font-size: 2rem; }
   i.medium {
     font-size: 4rem; }
-  i.large {
+  i.large, #login-page .login-icon i.material-icons {
     font-size: 6rem; }
 
 img.responsive-img,
@@ -2346,7 +2346,7 @@ td, th {
       min-height: 84px;
       padding-left: 72px;
       position: relative; }
-      .collection .collection-item.avatar .circle {
+      .collection .collection-item.avatar .circle, .collection .collection-item.avatar #login-page .login-icon .login-icon-bg, #login-page .login-icon .collection .collection-item.avatar .login-icon-bg {
         position: absolute;
         width: 42px;
         height: 42px;
@@ -2354,7 +2354,7 @@ td, th {
         left: 15px;
         display: inline-block;
         vertical-align: middle; }
-      .collection .collection-item.avatar i.circle {
+      .collection .collection-item.avatar i.circle, .collection .collection-item.avatar #login-page .login-icon i.login-icon-bg, #login-page .login-icon .collection .collection-item.avatar i.login-icon-bg {
         font-size: 18px;
         line-height: 42px;
         color: #fff;
@@ -2507,7 +2507,7 @@ nav ul a span.badge {
 .right-align {
   text-align: right; }
 
-.center, .center-align {
+.center, #login-page .site-title, #login-page .login-icon, .center-align {
   text-align: center; }
 
 .left {
@@ -2524,7 +2524,7 @@ nav ul a span.badge {
   -ms-user-select: none;
   user-select: none; }
 
-.circle {
+.circle, #login-page .login-icon .login-icon-bg {
   border-radius: 50%; }
 
 .center-block {
@@ -5500,7 +5500,7 @@ nav {
     font-size: 2.1rem;
     padding: 0;
     white-space: nowrap; }
-    nav .brand-logo.center {
+    nav .brand-logo.center, nav #login-page .brand-logo.site-title, #login-page nav .brand-logo.site-title, nav #login-page .brand-logo.login-icon, #login-page nav .brand-logo.login-icon {
       left: 50%;
       transform: translateX(-50%); }
     @media only screen and (max-width: 992px) {
@@ -5533,7 +5533,7 @@ nav {
       display: block;
       padding: 0 15px;
       cursor: pointer; }
-      nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
+      nav ul a.btn, nav ul a.btn-large, nav ul #main-action-btn a.trigger-btn, #main-action-btn nav ul a.trigger-btn, nav ul a.btn-large, nav ul #main-action-btn a.trigger-btn, #main-action-btn nav ul a.trigger-btn, nav ul a.btn-flat, nav ul a.btn-floating, nav ul #main-action-btn a.trigger-btn, #main-action-btn nav ul a.trigger-btn {
         margin-top: -2px;
         margin-left: 15px;
         margin-right: 15px; }
@@ -5676,73 +5676,73 @@ small {
 .thin {
   font-weight: 200; }
 
-.flow-text {
+.flow-text, #login-page .site-title {
   font-weight: 300; }
   @media only screen and (min-width: 360px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.2rem; } }
   @media only screen and (min-width: 390px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.224rem; } }
   @media only screen and (min-width: 420px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.248rem; } }
   @media only screen and (min-width: 450px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.272rem; } }
   @media only screen and (min-width: 480px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.296rem; } }
   @media only screen and (min-width: 510px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.32rem; } }
   @media only screen and (min-width: 540px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.344rem; } }
   @media only screen and (min-width: 570px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.368rem; } }
   @media only screen and (min-width: 600px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.392rem; } }
   @media only screen and (min-width: 630px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.416rem; } }
   @media only screen and (min-width: 660px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.44rem; } }
   @media only screen and (min-width: 690px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.464rem; } }
   @media only screen and (min-width: 720px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.488rem; } }
   @media only screen and (min-width: 750px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.512rem; } }
   @media only screen and (min-width: 780px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.536rem; } }
   @media only screen and (min-width: 810px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.56rem; } }
   @media only screen and (min-width: 840px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.584rem; } }
   @media only screen and (min-width: 870px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.608rem; } }
   @media only screen and (min-width: 900px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.632rem; } }
   @media only screen and (min-width: 930px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.656rem; } }
   @media only screen and (min-width: 960px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.68rem; } }
   @media only screen and (max-width: 360px) {
-    .flow-text {
+    .flow-text, #login-page .site-title {
       font-size: 1.2rem; } }
 
 .card-panel {
@@ -5763,15 +5763,15 @@ small {
     font-weight: 300; }
     .card .card-title.activator {
       cursor: pointer; }
-  .card.small, .card.medium, .card.large {
+  .card.small, .card.medium, .card.large, #login-page .login-icon i.card.material-icons {
     position: relative; }
-    .card.small .card-image, .card.medium .card-image, .card.large .card-image {
+    .card.small .card-image, .card.medium .card-image, .card.large .card-image, #login-page .login-icon i.card.material-icons .card-image {
       max-height: 60%;
       overflow: hidden; }
-    .card.small .card-content, .card.medium .card-content, .card.large .card-content {
+    .card.small .card-content, .card.medium .card-content, .card.large .card-content, #login-page .login-icon i.card.material-icons .card-content {
       max-height: 40%;
       overflow: hidden; }
-    .card.small .card-action, .card.medium .card-action, .card.large .card-action {
+    .card.small .card-action, .card.medium .card-action, .card.large .card-action, #login-page .login-icon i.card.material-icons .card-action {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -5782,7 +5782,7 @@ small {
     height: 300px; }
   .card.medium {
     height: 400px; }
-  .card.large {
+  .card.large, #login-page .login-icon i.card.material-icons {
     height: 500px; }
   .card .card-image {
     position: relative; }
@@ -5872,7 +5872,7 @@ small {
   display: flex;
   align-items: center;
   justify-content: space-between; }
-  .toast .btn, .toast .btn-large, .toast .btn-flat {
+  .toast .btn, .toast .btn-large, .toast #main-action-btn a.trigger-btn, #main-action-btn .toast a.trigger-btn, .toast .btn-flat {
     margin: 0;
     margin-left: 3rem; }
   .toast.rounded {
@@ -5967,7 +5967,7 @@ small {
   transform-origin: 50% 10%;
   will-change: transform, opacity; }
 
-.btn, .btn-large, .btn-flat {
+.btn, .btn-large, #main-action-btn a.trigger-btn, .btn-flat {
   border: none;
   border-radius: 2px;
   display: inline-block;
@@ -5979,33 +5979,33 @@ small {
   vertical-align: middle;
   -webkit-tap-highlight-color: transparent; }
 
-.btn.disabled, .disabled.btn-large, .btn-floating.disabled, .btn-large.disabled, .btn:disabled, .btn-large:disabled, .btn-large:disabled, .btn-floating:disabled {
+.btn.disabled, .disabled.btn-large, #main-action-btn a.disabled.trigger-btn, .btn-floating.disabled, #main-action-btn a.disabled.trigger-btn, .btn-large.disabled, #main-action-btn a.disabled.trigger-btn, .btn:disabled, .btn-large:disabled, #main-action-btn a.trigger-btn:disabled, .btn-large:disabled, #main-action-btn a.trigger-btn:disabled, .btn-floating:disabled, #main-action-btn a.trigger-btn:disabled {
   background-color: #DFDFDF !important;
   box-shadow: none;
   color: #9F9F9F !important;
   cursor: default; }
-  .btn.disabled *, .disabled.btn-large *, .btn-floating.disabled *, .btn-large.disabled *, .btn:disabled *, .btn-large:disabled *, .btn-large:disabled *, .btn-floating:disabled * {
+  .btn.disabled *, .disabled.btn-large *, #main-action-btn a.disabled.trigger-btn *, .btn-floating.disabled *, #main-action-btn a.disabled.trigger-btn *, .btn-large.disabled *, #main-action-btn a.disabled.trigger-btn *, .btn:disabled *, .btn-large:disabled *, #main-action-btn a.trigger-btn:disabled *, .btn-large:disabled *, #main-action-btn a.trigger-btn:disabled *, .btn-floating:disabled *, #main-action-btn a.trigger-btn:disabled * {
     pointer-events: none; }
-  .btn.disabled:hover, .disabled.btn-large:hover, .btn-floating.disabled:hover, .btn-large.disabled:hover, .btn:disabled:hover, .btn-large:disabled:hover, .btn-large:disabled:hover, .btn-floating:disabled:hover {
+  .btn.disabled:hover, .disabled.btn-large:hover, #main-action-btn a.disabled.trigger-btn:hover, .btn-floating.disabled:hover, #main-action-btn a.disabled.trigger-btn:hover, .btn-large.disabled:hover, #main-action-btn a.disabled.trigger-btn:hover, .btn:disabled:hover, .btn-large:disabled:hover, #main-action-btn a.trigger-btn:disabled:hover, .btn-large:disabled:hover, #main-action-btn a.trigger-btn:disabled:hover, .btn-floating:disabled:hover, #main-action-btn a.trigger-btn:disabled:hover {
     background-color: #DFDFDF;
     color: #9F9F9F; }
 
-.btn i, .btn-large i, .btn-floating i, .btn-large i, .btn-flat i {
+.btn i, .btn-large i, #main-action-btn a.trigger-btn i, .btn-floating i, #main-action-btn a.trigger-btn i, .btn-large i, #main-action-btn a.trigger-btn i, .btn-flat i {
   font-size: 1.3rem;
   line-height: inherit; }
 
-.btn, .btn-large {
+.btn, .btn-large, #main-action-btn a.trigger-btn {
   text-decoration: none;
   color: #fff;
-  background-color: #26a69a;
+  background-color: #558b2f;
   text-align: center;
   letter-spacing: .5px;
   transition: .2s ease-out;
   cursor: pointer; }
-  .btn:hover, .btn-large:hover {
-    background-color: #2bbbad; }
+  .btn:hover, .btn-large:hover, #main-action-btn a.trigger-btn:hover {
+    background-color: #619e35; }
 
-.btn-floating {
+.btn-floating, #main-action-btn a.trigger-btn {
   display: inline-block;
   color: #fff;
   position: relative;
@@ -6015,26 +6015,26 @@ small {
   height: 37px;
   line-height: 37px;
   padding: 0;
-  background-color: #26a69a;
+  background-color: #558b2f;
   border-radius: 50%;
   transition: .3s;
   cursor: pointer;
   vertical-align: middle; }
-  .btn-floating i {
+  .btn-floating i, #main-action-btn a.trigger-btn i {
     width: inherit;
     display: inline-block;
     text-align: center;
     color: #fff;
     font-size: 1.6rem;
     line-height: 37px; }
-  .btn-floating:hover {
-    background-color: #26a69a; }
-  .btn-floating:before {
+  .btn-floating:hover, #main-action-btn a.trigger-btn:hover {
+    background-color: #558b2f; }
+  .btn-floating:before, #main-action-btn a.trigger-btn:before {
     border-radius: 0; }
-  .btn-floating.btn-large {
+  .btn-floating.btn-large, #main-action-btn a.trigger-btn {
     width: 55.5px;
     height: 55.5px; }
-    .btn-floating.btn-large i {
+    .btn-floating.btn-large i, #main-action-btn a.trigger-btn i {
       line-height: 55.5px; }
 
 button.btn-floating {
@@ -6049,9 +6049,9 @@ button.btn-floating {
   z-index: 998; }
   .fixed-action-btn.active ul {
     visibility: visible; }
-  .fixed-action-btn.horizontal {
+  .fixed-action-btn.horizontal, .fixed-action-btn#main-action-btn {
     padding: 0 0 0 15px; }
-    .fixed-action-btn.horizontal ul {
+    .fixed-action-btn.horizontal ul, .fixed-action-btn#main-action-btn ul {
       text-align: right;
       right: 64px;
       top: 50%;
@@ -6060,7 +6060,7 @@ button.btn-floating {
       left: initial;
       width: 500px;
       /*width 100% only goes to width of button container */ }
-      .fixed-action-btn.horizontal ul li {
+      .fixed-action-btn.horizontal ul li, .fixed-action-btn#main-action-btn ul li {
         display: inline-block;
         margin: 15px 15px 0 0; }
   .fixed-action-btn ul {
@@ -6073,7 +6073,7 @@ button.btn-floating {
     visibility: hidden; }
     .fixed-action-btn ul li {
       margin-bottom: 15px; }
-    .fixed-action-btn ul a.btn-floating {
+    .fixed-action-btn ul a.btn-floating, .fixed-action-btn ul #main-action-btn a.trigger-btn, #main-action-btn .fixed-action-btn ul a.trigger-btn {
       opacity: 0; }
 
 .btn-flat {
@@ -6085,10 +6085,10 @@ button.btn-floating {
     color: #b3b3b3;
     cursor: default; }
 
-.btn-large {
+.btn-large, #main-action-btn a.trigger-btn {
   height: 54px;
   line-height: 56px; }
-  .btn-large i {
+  .btn-large i, #main-action-btn a.trigger-btn i {
     font-size: 1.6rem; }
 
 .btn-block {
@@ -6143,7 +6143,8 @@ button.btn-floating {
  * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE
  */
-.waves-effect {
+.waves-effect, #main-action-btn a.trigger-btn, .side-nav a,
+.btn, .btn-large {
   position: relative;
   cursor: pointer;
   display: inline-block;
@@ -6157,7 +6158,8 @@ button.btn-floating {
   z-index: 1;
   will-change: opacity, transform;
   transition: all .3s ease-out; }
-  .waves-effect .waves-ripple {
+  .waves-effect .waves-ripple, #main-action-btn a.trigger-btn .waves-ripple, .side-nav a .waves-ripple,
+  .btn .waves-ripple, .btn-large .waves-ripple {
     position: absolute;
     border-radius: 50%;
     width: 20px;
@@ -6170,21 +6172,31 @@ button.btn-floating {
     transition-property: transform, opacity;
     transform: scale(0);
     pointer-events: none; }
-  .waves-effect.waves-light .waves-ripple {
+  .waves-effect.waves-light .waves-ripple, #main-action-btn a.trigger-btn .waves-ripple, .side-nav a .waves-ripple,
+  .btn .waves-ripple, .btn-large .waves-ripple {
     background-color: rgba(255, 255, 255, 0.45); }
-  .waves-effect.waves-red .waves-ripple {
+  .waves-effect.waves-red .waves-ripple, #main-action-btn a.waves-red.trigger-btn .waves-ripple, .side-nav a.waves-red .waves-ripple,
+  .waves-red.btn .waves-ripple, .waves-red.btn-large .waves-ripple {
     background-color: rgba(244, 67, 54, 0.7); }
-  .waves-effect.waves-yellow .waves-ripple {
+  .waves-effect.waves-yellow .waves-ripple, #main-action-btn a.waves-yellow.trigger-btn .waves-ripple, .side-nav a.waves-yellow .waves-ripple,
+  .waves-yellow.btn .waves-ripple, .waves-yellow.btn-large .waves-ripple {
     background-color: rgba(255, 235, 59, 0.7); }
-  .waves-effect.waves-orange .waves-ripple {
+  .waves-effect.waves-orange .waves-ripple, #main-action-btn a.waves-orange.trigger-btn .waves-ripple, .side-nav a.waves-orange .waves-ripple,
+  .waves-orange.btn .waves-ripple, .waves-orange.btn-large .waves-ripple {
     background-color: rgba(255, 152, 0, 0.7); }
-  .waves-effect.waves-purple .waves-ripple {
+  .waves-effect.waves-purple .waves-ripple, #main-action-btn a.waves-purple.trigger-btn .waves-ripple, .side-nav a.waves-purple .waves-ripple,
+  .waves-purple.btn .waves-ripple, .waves-purple.btn-large .waves-ripple {
     background-color: rgba(156, 39, 176, 0.7); }
-  .waves-effect.waves-green .waves-ripple {
+  .waves-effect.waves-green .waves-ripple, #main-action-btn a.waves-green.trigger-btn .waves-ripple, .side-nav a.waves-green .waves-ripple,
+  .waves-green.btn .waves-ripple, .waves-green.btn-large .waves-ripple {
     background-color: rgba(76, 175, 80, 0.7); }
-  .waves-effect.waves-teal .waves-ripple {
+  .waves-effect.waves-teal .waves-ripple, #main-action-btn a.waves-teal.trigger-btn .waves-ripple, .side-nav a.waves-teal .waves-ripple,
+  .waves-teal.btn .waves-ripple, .waves-teal.btn-large .waves-ripple {
     background-color: rgba(0, 150, 136, 0.7); }
-  .waves-effect input[type="button"], .waves-effect input[type="reset"], .waves-effect input[type="submit"] {
+  .waves-effect input[type="button"], #main-action-btn a.trigger-btn input[type="button"], .side-nav a input[type="button"],
+  .btn input[type="button"], .btn-large input[type="button"], .waves-effect input[type="reset"], #main-action-btn a.trigger-btn input[type="reset"], .side-nav a input[type="reset"],
+  .btn input[type="reset"], .btn-large input[type="reset"], .waves-effect input[type="submit"], #main-action-btn a.trigger-btn input[type="submit"], .side-nav a input[type="submit"],
+  .btn input[type="submit"], .btn-large input[type="submit"] {
     border: 0;
     font-style: normal;
     font-size: inherit;
@@ -6219,7 +6231,8 @@ button.btn-floating {
   display: block; }
 
 /* Firefox Bug: link not triggered */
-a.waves-effect .waves-ripple {
+a.waves-effect .waves-ripple, #main-action-btn a.trigger-btn .waves-ripple, .side-nav a .waves-ripple,
+a.btn .waves-ripple, a.btn-large .waves-ripple {
   z-index: -1; }
 
 .modal {
@@ -6250,7 +6263,7 @@ a.waves-effect .waves-ripple {
     padding: 4px 6px;
     height: 56px;
     width: 100%; }
-    .modal .modal-footer .btn, .modal .modal-footer .btn-large, .modal .modal-footer .btn-flat {
+    .modal .modal-footer .btn, .modal .modal-footer .btn-large, .modal .modal-footer #main-action-btn a.trigger-btn, #main-action-btn .modal .modal-footer a.trigger-btn, .modal .modal-footer .btn-flat {
       float: right;
       margin: 6px 0; }
 
@@ -6418,7 +6431,7 @@ select:focus {
 
 button:focus {
   outline: none;
-  background-color: #2ab7a9; }
+  background-color: #5e9a34; }
 
 label {
   font-size: 0.8rem;
@@ -7156,7 +7169,7 @@ select:disabled {
     padding-left: 10px; }
   .file-field input.file-path {
     width: 100%; }
-  .file-field .btn, .file-field .btn-large {
+  .file-field .btn, .file-field .btn-large, .file-field #main-action-btn a.trigger-btn, #main-action-btn .file-field a.trigger-btn {
     float: left;
     height: 3rem;
     line-height: 3rem; }
@@ -7695,7 +7708,7 @@ select {
   overflow: hidden;
   border-color: inherit; }
 
-.gap-patch .circle {
+.gap-patch .circle, .gap-patch #login-page .login-icon .login-icon-bg, #login-page .login-icon .gap-patch .login-icon-bg {
   width: 1000%;
   left: -450%; }
 
@@ -7706,7 +7719,7 @@ select {
   height: 100%;
   overflow: hidden;
   border-color: inherit; }
-  .circle-clipper .circle {
+  .circle-clipper .circle, .circle-clipper #login-page .login-icon .login-icon-bg, #login-page .login-icon .circle-clipper .login-icon-bg {
     width: 200%;
     height: 100%;
     border-width: 3px;
@@ -7721,23 +7734,23 @@ select {
     top: 0;
     right: 0;
     bottom: 0; }
-  .circle-clipper.left .circle {
+  .circle-clipper.left .circle, .circle-clipper.left #login-page .login-icon .login-icon-bg, #login-page .login-icon .circle-clipper.left .login-icon-bg {
     left: 0;
     border-right-color: transparent !important;
     -webkit-transform: rotate(129deg);
     transform: rotate(129deg); }
-  .circle-clipper.right .circle {
+  .circle-clipper.right .circle, .circle-clipper.right #login-page .login-icon .login-icon-bg, #login-page .login-icon .circle-clipper.right .login-icon-bg {
     left: -100%;
     border-left-color: transparent !important;
     -webkit-transform: rotate(-129deg);
     transform: rotate(-129deg); }
 
-.active .circle-clipper.left .circle {
+.active .circle-clipper.left .circle, .active .circle-clipper.left #login-page .login-icon .login-icon-bg, #login-page .login-icon .active .circle-clipper.left .login-icon-bg {
   /* duration: ARCTIME */
   -webkit-animation: left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
   animation: left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }
 
-.active .circle-clipper.right .circle {
+.active .circle-clipper.right .circle, .active .circle-clipper.right #login-page .login-icon .login-icon-bg, #login-page .login-icon .active .circle-clipper.right .login-icon-bg {
   /* duration: ARCTIME */
   -webkit-animation: right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
   animation: right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }
@@ -8525,8 +8538,87 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   .picker--time .picker__box {
     margin-bottom: 5em; } }
 
-html {
-  background-color: #f9fbe7; }
+body {
+  position: relative; }
+
+@media only screen and (min-width: 993px) {
+  header {
+    padding-left: 240px; }
+  main {
+    padding-left: 278.75px; }
+  .nav-wrapper {
+    padding-left: 50px; } }
+
+#main-action-btn {
+  position: absolute;
+  display: inline-block;
+  top: 33px; }
+  @media only screen and (max-width: 992px) {
+    #main-action-btn {
+      right: 7.5%; } }
+  @media only screen and (min-width: 993px) {
+    #main-action-btn {
+      right: 15%; } }
+  #main-action-btn a.trigger-btn {
+    background-color: #388E3C; }
+  #main-action-btn a.trigger-btn i {
+    -webkit-transform: rotate(90deg) rotateY(0);
+    -webkit-transition: all 0.5s;
+    -webkit-transition-timing-function: cubic-bezier(1, 0.8, 0.5, 1);
+    -moz-transform: rotate(90deg);
+    -moz-transition: all 0.5s;
+    -moz-transition-timing-function: cubic-bezier(1, 0.8, 0.5, 1);
+    -o-transform: rotate(90deg);
+    -o-transition: all 0.5s;
+    -o-transition-timing-function: cubic-bezier(1, 0.8, 0.5, 1); }
+  #main-action-btn a.trigger-btn:hover i {
+    -webkit-transform: rotate(0deg) rotateY(0);
+    -webkit-transition-delay: 0;
+    -o-transition: all 0.5s;
+    -moz-transform: rotate(0deg);
+    -moz-transition-delay: 0;
+    -o-transition: all 0.5s;
+    -o-transform: rotate(0deg);
+    -o-transition-delay: 0;
+    -o-transition: all 0.5s; }
+  #main-action-btn a.trigger-btn:after i {
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); }
+  #main-action-btn a.trigger-btn:hover:after i {
+    display: block; }
+
+#login-page .card-panel {
+  margin: 50px auto; }
+  @media only screen and (min-width: 601px) {
+    #login-page .card-panel {
+      width: 500px; } }
+
+#login-page .site-title {
+  font-size: 2rem;
+  color: #357a38;
+  margin-bottom: 50px; }
+
+#login-page .login-icon .login-icon-bg {
+  background-color: #eeeeee;
+  color: #bdbdbd;
+  display: inline-block;
+  height: 96px;
+  width: 96px; }
+
+.card-panel {
+  background-color: #fafafa; }
 
 .input-field label {
   width: 100%; }
+
+@media only screen and (min-width: 993px) {
+  #toast-container {
+    top: auto;
+    right: auto;
+    left: 24px;
+    bottom: 24px;
+    max-width: 86%; } }
+
+@media only screen and (min-width: 993px) {
+  .toast {
+    float: left; } }

@@ -22,7 +22,6 @@ router.get('/usermanager', function(req, res){
       if (err) {
         console.log(err.message)
       }
-      console.log(account)
      res.render('usermanager', {title:'User Manager', data:account })
   })
 })
@@ -71,22 +70,22 @@ router.post('/register', function(req, res) {
 })
 
 router.get('/login', function(req, res) {
-    // res.render('login', { // TODO Rename newLogin to login.
-    res.render('newLogin', {
+    res.render('login', { // TODO Rename newLogin to login.
+    // res.render('newLogin', {
         title : "Absinthe Reviewer"
     })
 })
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
-    var sess=req.session
-    sess.user=req.user
-    req.flash("success", "Welcome back ", sess.user.fullName)
-    res.redirect('/reviews')
+router.post('/authenticate', passport.authenticate('local', { failureRedirect: '/login' }),
+    function(req, res) {
+        req.session.user=req.user
+        req.flash("success", "Welcome back %s", req.session.user.fullName)
+        res.redirect('/reviews')
 });
 
 router.get('/logout', function(req, res) {
     req.logout()
-    req.flash("success", "You have successfully logged out")
+    // req.flash("success", "You have successfully logged out") // FIXME Causes duplicate messages
     res.redirect('/login')
 })
 

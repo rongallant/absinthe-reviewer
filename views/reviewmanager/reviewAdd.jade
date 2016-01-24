@@ -3,27 +3,34 @@ extends reviewLayout
 append javascripts
     script(src="/scripts/jquery.star.rating.min.js")
     script.
-        $("#review").validate();
-        $('#ratings .rating').each(function(index, value) {
-            $('#rating-' + index).addRating({
-                fieldId:'ratings[' + index + '][score]'
-            });
-        })
+        $(document).ready(function(){
+            $("#review").validate();
+            $('#ratings .rating').each(function(index, value) {
+                $('#rating-' + index).addRating({
+                    fieldId:'ratings[' + index + '][score]'
+                });
+            })
+            $('.parallax').parallax();
+        });
 
 append reviewContent
 
+    .parallax-container
+        .parallax
+            img(src="https://cdn.vidible.tv/prod/2015-02/12/54dd2c41e4b091e553252897_o_F_v0.jpg")
+
     form#review(role="form", method="post", action="/reviews/save", enctype="application/x-www-form-urlencoded")
-        input(type="text", name="id", value=data.id)
+        input(type="hidden", name="id", value=data.id)
 
         h5.heading Page Settings
         .row
             .col.s12: .card-panel
                 .row
-                    .col.s6: .input-field
+                    .col.s12.m6: .input-field
                         input.validate(type="text", name="title", value=data.title, required)
                         label(for="title") Review Title
 
-                    .col.s6: .input-field
+                    .col.s12.m6: .input-field
                         input.validate(type="text", name="subtitle", value=data.subtitle)
                         label(for="subtitle") Subtitle
 

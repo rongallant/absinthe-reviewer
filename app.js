@@ -99,13 +99,11 @@ passport.use(new LocalStrategy(Account.authenticate()))
 passport.serializeUser(Account.serializeUser())
 passport.deserializeUser(Account.deserializeUser())
 
-
 function ensureAuthenticated(req, res, next)
 {
     if (req.isAuthenticated()) {
         try {
-            console.info("\nYou are logged in as %s", req.user.username)
-            console.info(req.session.passport.user)
+            console.info("You are logged in as %s", req.user.username)
         } catch(err) {
             console.info("\nERROR: You are not logged in")
             req.session.destroy();
@@ -113,7 +111,6 @@ function ensureAuthenticated(req, res, next)
         }
         return next()
     } else {
-        console.info("\nNot Auth: You are not logged in")
         req.session.destroy();
         res.redirect('/login')
     }
@@ -121,8 +118,8 @@ function ensureAuthenticated(req, res, next)
 
 // Secure Routes
 
-app.get('/login', routes)
-app.get('/:name', ensureAuthenticated, routes)
+// app.get('/login', routes)
+// app.get('/:name', ensureAuthenticated, routes)
 app.use('/', routes)
 
 app.get('/users', users)
@@ -142,13 +139,8 @@ app.use('/reviews', review)
  * catch 403 Unauthorized errors.
  */
 app.use(function(req, res, next) {
-    if (!req.passport.user | !req.user) {
-        var err = new Error('Unauthorized')
-        err.status = 403
-        console.error("You out!")
-    } else {
-        console.info("You still in")
-    }
+    var err = new Error('Unauthorized')
+    err.status = 403
     next(err)
 })
 

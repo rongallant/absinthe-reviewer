@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
     Review.find({}).exec(function(err, data) {
         if (err) { handleError(req, res, err) }
         res.render(VIEW_FOLDER + '/reviewList', {
-            title: 'List All',
+            title: 'Reviews',
             menuItems: menu,
             user: req.user,
             data: data
@@ -37,18 +37,25 @@ router.get('/', function(req, res) {
     })
 })
 
-// New Review form
+// Return selected Review
 router.get('/edit', function(req, res) {
-    var newReview = new Review()
-    var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish']
-    for (var i in ratingTypes) {
-        newReview.ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
-    }
-    res.render(VIEW_FOLDER + '/reviewAdd', {
-        title: "Add",
-        menuItems: menu,
-        user: req.user,
-        data: newReview
+    Review.findById(req.query.id, function(err, data) {
+        if (err) {
+            console.error("ERROR IN FINDBYID: ", err)
+        }
+        if (!data) {
+            data = new Review()
+            var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish']
+            for (var i in ratingTypes) {
+             data.ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
+            }
+        }
+        res.render(VIEW_FOLDER + '/reviewAdd', {
+            title: "Review Editor",
+            menuItems: menu,
+            user: req.user,
+            data: data
+        })
     })
 })
 

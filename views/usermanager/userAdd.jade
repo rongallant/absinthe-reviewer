@@ -7,7 +7,7 @@ block append javascripts
 block userContent
 
     form#userForm(role="form", method="post", action="/users/save", enctype="application/x-www-form-urlencoded")
-
+        input(type="hidden", name="id", value=data.id)
         .card-panel
             .row
                 .col.s12

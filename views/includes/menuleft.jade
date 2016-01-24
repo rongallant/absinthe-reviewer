@@ -1,13 +1,14 @@
-// .navbar-fixed: nav: .nav-wrapper
-//     a.brand-logo(href="/") Absinthe Reviewer
-//     ul(id="nav-mobile", class="right hide-on-med-and-down")
-//         if (user)
-//             li: a(href="/reviews") Reviews
-//             li: a(href="/users") Users
-//                 li: a(href="/users/add") Add User
-//             li: a(href="/usermanager") OldUsers
-//             li: a(href="/logout") Logout
+ul.side-nav.fixed.z-depth-3
+    a.brand-logo.large(href="/"): strong Absinthe Reviewer
+    if (user)
+        li: a(href="/reviews") Reviews
+        li: a(href="/reviews/edit") Add a Review
 
-//         else
-//             li: a(href="/register") Register
-//             li:  a(href="/login") Login
+        li: a(href="/users") Users
+        li: a(href="/users/edit") Add a User
+
+        li: a(href="/logout") Logout
+
+    else
+        // li: a(href="/register") Register
+        li:  a(href="/login") Login

@@ -1,36 +1,28 @@
 extends layout
 
-block append stylesheets
-    link(href="stylesheets/page-center.css", rel="stylesheet", media='screen,projection')
-
 block content
-    #login-page
+
+    #login-page.container
+
+        h1.site-title Absinthe Reviewer
+
         .card-panel
-            form.login-form(action="/login", method="post")
+
+            form.login-form(action="/authenticate", method="post")
+
+                .login-icon
+                    .login-icon-bg
+                        i.material-icons person
 
                 .input-field.active
-                    i.mdi-social-person-outline.prefix
-                    input(id="username", name="username", type="text", placeholder="Username")
-                    label(for="username") Username
+                    input(id="username", name="username", type="text", placeholder="Enter your username")
+                    label.hide(for="username") Username
 
                 .input-field.active
-                    i.mdi-action-lock-outline.prefix
-                    input(id="password", name="password", type="password", placeholder="Password")
-                    label(for="password") Password
+                    input(id="password", name="password", type="password", placeholder="Enter your password")
+                    label.hide(for="password") Password
 
-                .input-field
-                    input(type="checkbox", id="remember-me")
-                    label(for="remember-me") Remember me
+                .input-field.center
+                    button.btn-large.primary.waves-effect.waves-light(type="submit") Login
+                        i.material-icons.right input
 
-                .row
-                    .input-field
-                        button.btn.waves-effect.waves-light.col.s12(type="submit") Login
-
-                .row
-                    .input-field.col.s6
-                        .margin.small
-                            a(href="/register") Register Now!
-
-                    .input-field.col.s6
-                        .right-align.small
-                            a(href="/register") Forgot password?

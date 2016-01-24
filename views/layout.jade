@@ -14,8 +14,8 @@ html
 
     body
 
-        block pageHeader
-            header#header
+        header#header
+            block pageHeader
             //- Header Placeholder
 
         block topmenu
@@ -40,7 +40,7 @@ html
             //- Message Handling
             script(src="/scripts/scripts.js")
             if error && error.length > 0
-                script Materialize.toast('#{error}', 4000, 'red');
+                script Materialize.toast('#{error}', 4000, 'red static ');
             if success && success.length > 0
                 script Materialize.toast('#{success}', 4000, 'green');
             if info && info.length > 0

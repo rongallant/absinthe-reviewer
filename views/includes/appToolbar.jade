@@ -1,8 +1,8 @@
-.fixed-action-btn(style="position: absolute; display: inline-block; right: 24px; bottom: 24;")
-    a.btn-floating.btn-large.red.tooltipped(data-position="left", data-delay="0", data-tooltip="Create")
+#main-action-btn.fixed-action-btn
+    a.trigger-btn.tooltipped(data-position="bottom", data-delay="0", data-tooltip="Create")
         i.large.material-icons add
     ul
-        li: a.btn-floating.blue.lighten-1.tooltipped(href="/users/edit", data-position="left", data-delay="0", data-tooltip="User")
+        li: a.btn-floating.blue.lighten-1.tooltipped(href="/users/edit", data-position="bottom", data-delay="0", data-tooltip="User")
             i.material-icons face
-        li: a.btn-floating.green.lighten-1.tooltipped(href="/reviews/add", data-position="left", data-delay="0" data-tooltip="Review")
+        li: a.btn-floating.green.lighten-1.tooltipped(href="/reviews/edit", data-position="bottom", data-delay="0" data-tooltip="Review")
             i.material-icons star

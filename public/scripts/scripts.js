@@ -9,7 +9,7 @@ function existy(x) {
     return typeof (x) != 'undefined' && x != null;
 }
 
-// Extension materialize.css
+// JQuery form validation defaults.
 $.validator.setDefaults({
     errorClass: 'invalid',
     validClass: "valid",
