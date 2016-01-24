@@ -45,7 +45,7 @@ router.get('/edit', function(req, res) {
         }
         if (!data) {
             data = new Review()
-            var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish']
+            var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall']
             for (var i in ratingTypes) {
              data.ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
             }

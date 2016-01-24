@@ -23,4 +23,7 @@ var Review = new Schema({
     lu_date: { type: Date, default: Date.now }
 })
 
+// TODO add function to set default ratings criteria.
+//var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall']
+
 module.exports = mongoose.model('Review', Review)

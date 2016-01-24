@@ -73,6 +73,7 @@ app.use(function(req, res, next){
 app.use(sassMiddleware({
     src: path.join(__dirname, 'sass'),
     dest: path.join(__dirname, 'public/stylesheets'),
+    outputStyle: 'compressed',
     prefix:  '/stylesheets',
     debug: true,
     force: true

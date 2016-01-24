@@ -5,9 +5,6 @@ function isEmptyObject(obj) {
     }
     return true;
 }
-function existy(x) {
-    return typeof (x) != 'undefined' && x != null;
-}
 
 // JQuery form validation defaults.
 $.validator.setDefaults({
