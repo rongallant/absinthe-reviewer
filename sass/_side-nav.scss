@@ -1,6 +1,6 @@
 .side-nav {
     @extend .fixed;
-    @extend .z-depth-3;
+    @extend .z-depth-2;
 
     a {
         @extend .waves-effect;

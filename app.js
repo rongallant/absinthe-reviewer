@@ -15,6 +15,8 @@ var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy
 var sassMiddleware = require('node-sass-middleware');
 
+var consoletable = require('console.table');
+
 /************************************************************
  * Models
  ***********************************************************/

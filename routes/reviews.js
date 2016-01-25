@@ -112,9 +112,10 @@ function saveReview(req, res) {
  */
 function updateReview(req, res, data) {
     for (var i in req.body.ratings) {
+        console.table(req.body.ratings[i])
         Rating.findByIdAndUpdate(req.body.ratings[i].ratingId, {$set:req.body}, function(err) {
             if (err) console.error(err)
-            console.info("Added new rating")
+            console.info("Added new rating "+ req.body.ratings[i].attribute)
         })
     }
     data.update({$set:req.body}, function (err, data) {

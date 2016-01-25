@@ -24,17 +24,14 @@ body {
     position: relative;
 }
 
-@media #{$medium-and-down} {
-
-}
 @media #{$large-and-up} {
     header { padding-left: 240px }
     main { padding-left: 278.75px }
     .nav-wrapper { padding-left: 50px }
 }
 
-
 #wsScore {
+    @extend .hide-on-med-and-down;
     margin-top: 30px;
 }
 
