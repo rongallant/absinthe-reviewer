@@ -2,24 +2,32 @@ extends reviewLayout
 
 append javascripts
     script(src="/scripts/wsScoreCalculator.js")
-    script(src="/scripts/jquery.star.rating.min.js")
+    script(src="/scripts/jRate.js")
     script(src="/scripts/jquery.formParams.js")
     script.
+        function score() {
+            $('#wsScore .value').html($('form#review').calculateWsScore() + "%")
+        }
         $(document).ready(function(){
-            $("#review").validate()
+            $('#wsScore').pushpin({ top: $('#header').height() });
             $('#ratings .rating').each(function(index, value) {
-                $('#rating-' + index).click(function(){
-                    $('#wsScore .value').html($('form#review').calculateWsScore() + "%")
-                }).addRating({
-                    fieldName : 'ratings[' + index + '][score]',
-                    fieldId : 'ratings_score_' + index
+                var field = $(this).closest(".input-field").find(":input[id^='ratings_score_']")
+                $('#rating-' + index).jRate({
+                    width: 30,
+                    height: 30,
+                    min: 0,
+                    max: 5,
+                    precision: 0.5,
+                    rating: field.val(),
+                    onSet: function(rating) {
+                        field.val(rating)
+                        score()
+                    }
                 })
             })
-            $('#wsScore').pushpin({
-                top: $('#header').height()
-            });
+            score()
+            $("#review").validate()
         });
-
 
 append appRightColumn
     include ../includes/wsScoreCalculator
@@ -79,6 +87,7 @@ append reviewContent
                             input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings_ratingId_#{index}", value=rating.id)
                             input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
                             input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
+                            input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
                             textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", required)
                                 =rating.content
                             label(for="ratings[#{index}][content]")= rating.attribute

@@ -70,11 +70,11 @@ router.post('/save', function(req, res) {
         else if (data)
            updateReview(req, res, data)
         else
-           saveReview(req, res)
+           saveNewReview(req, res)
     })
 })
 
-function saveReview(req, res) {
+function saveNewReview(req, res) {
     var data = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
@@ -103,6 +103,7 @@ function saveReview(req, res) {
     }
     data.save(function(err) {
         if (err) { handleError(req, res, err) }
+        req.flash("success", 'Created')
         res.redirect('/reviews')
     })
 }
@@ -115,13 +116,12 @@ function updateReview(req, res, data) {
         console.table(req.body.ratings[i])
         Rating.findByIdAndUpdate(req.body.ratings[i].ratingId, {$set:req.body}, function(err) {
             if (err) console.error(err)
-            console.info("Added new rating "+ req.body.ratings[i].attribute)
         })
     }
     data.update({$set:req.body}, function (err, data) {
         if (err)
             console.error('UPDATE ERROR: ' + err)
-        req.flash("success", data.title + ' has been updated successfully!')
+        req.flash("success", 'Updated')
         res.redirect('/reviews')
     })
 }
@@ -132,7 +132,7 @@ router.get('/delete', function(req, res) {
             console.error(err.message)
             req.flash("error", err.message)
         }
-        req.flash("success", 'Deleted successfully!')
+        req.flash("success", 'Deleted')
         res.redirect('/reviews')
     });
 })
