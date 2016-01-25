@@ -13,8 +13,6 @@ append javascripts
             $('#ratings .rating').each(function(index, value) {
                 var field = $(this).closest(".input-field").find(":input[id^='ratings_score_']")
                 $('#rating-' + index).jRate({
-                    width: 30,
-                    height: 30,
                     min: 0,
                     max: 5,
                     precision: 0.5,
@@ -28,6 +26,7 @@ append javascripts
             score()
             $("#review").validate()
         });
+    include panels/ratingHelp
 
 append appRightColumn
     include ../includes/wsScoreCalculator
@@ -88,10 +87,15 @@ append reviewContent
                             input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
                             input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
                             input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
-                            textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", required)
+
+                            strong= rating.attribute
+                                a.modal-trigger.btn-flat.tiny(href='#tips-' + rating.attribute.toLowerCase())
+                                    i.material-icons.tiny help_outline
+
+                            textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", placeholder="Description", required)
                                 =rating.content
-                            label(for="ratings[#{index}][content]")= rating.attribute
                             div(id='rating-#{index}', class="rating")
+
 
         h5.heading Conclusion
         .row

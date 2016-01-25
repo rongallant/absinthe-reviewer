@@ -1,9 +1,17 @@
 li: a.brand-logo.large(href="/") Absinthe Reviewer
 
+li: a.collapsible-header.waves-effect(href="/reviews/intro")
+    i.material-icons info_outline
+    | How it works
+
+li: a.collapsible-header.waves-effect(href="/reviews/tasting")
+    i.material-icons info_outline
+    | How to taste absinthe
+
 li
     a.collapsible-header.waves-effect(href="#")
-        i.material-icons.tiny.right arrow_drop_down
-        i.material-icons.tiny star
+        i.material-icons.right arrow_drop_down
+        i.material-icons star
         | Reviews
     ul.collapsible-body
         li: a.waves-effect(href="/reviews") List Reviews
@@ -11,13 +19,13 @@ li
 
 li
     a.collapsible-header.waves-effect(href="#")
-        i.material-icons.tiny.right arrow_drop_down
-        i.material-icons.tiny people
+        i.material-icons.right arrow_drop_down
+        i.material-icons people
         | Users
     ul.collapsible-body
         li: a.waves-effect(href="/users") List Users
         li: a.waves-effect(href="/users/edit") Add a User
 
 li: a.collapsible-header.waves-effect(href="/logout")
-    i.material-icons.tiny power_settings_new
+    i.material-icons power_settings_new
     | Logout

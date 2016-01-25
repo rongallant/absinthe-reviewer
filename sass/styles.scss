@@ -48,18 +48,3 @@ body {
 .input-field label {
     width: 100%;
 }
-
-#toast-container {
-    @media #{$large-and-up} {
-        top: auto;
-        right: auto;
-        left: 24px;
-        bottom: 24px;
-        max-width: 86%;
-    }
-}
-.toast {
-    @media #{$large-and-up} {
-        float: left;
-    }
-}

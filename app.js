@@ -121,15 +121,15 @@ function ensureAuthenticated(req, res, next)
 
 // Secure Routes
 
-// app.get('/login', routes)
-// app.get('/:name', ensureAuthenticated, routes)
+app.get('/login', routes)
+app.get('/:name', routes)
 app.use('/', routes)
 
-app.get('/users', users)
+app.get('/users', ensureAuthenticated, users)
 app.get('/users:name', ensureAuthenticated, users)
 app.use('/users', users)
 
-app.get('/reviews', review)
+app.get('/reviews', ensureAuthenticated, review)
 app.get('/reviews:name', ensureAuthenticated, review)
 app.use('/reviews', review)
 
