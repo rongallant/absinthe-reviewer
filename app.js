@@ -145,11 +145,11 @@ app.use('/reviews', review)
 /**
  * catch 403 Unauthorized errors.
  */
-app.use(function(req, res, next) {
-    var err = new Error('Unauthorized')
-    err.status = 403
-    next(err)
-})
+// app.use(function(req, res, next) {
+//     var err = new Error('Unauthorized')
+//     err.status = 403
+//     next(err)
+// })
 
 
 /**
