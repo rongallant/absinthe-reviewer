@@ -14,10 +14,7 @@ var passport = require('passport')
 var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy
 var sassMiddleware = require('node-sass-middleware');
-
 var consoletable = require('console.table');
-
-
 
 /************************************************************
  * Models
@@ -33,6 +30,7 @@ var Account = require('./models/account') // TODO Replace with User
 var routes = require(path.join(__dirname, 'routes/login'))
 var review = require(path.join(__dirname, 'routes/reviews'))
 var users = require(path.join(__dirname, 'routes/users'))
+var autocomplete = require(path.join(__dirname, 'routes/autocomplete'))
 
 /************************************************************
  * App Config
@@ -126,6 +124,10 @@ function ensureAuthenticated(req, res, next)
 app.get('/login', routes)
 app.get('/:name', routes)
 app.use('/', routes)
+
+app.get('/autocomplete', ensureAuthenticated, autocomplete)
+app.get('/autocomplete:name', ensureAuthenticated, autocomplete)
+app.use('/autocomplete', autocomplete)
 
 app.get('/users', ensureAuthenticated, users)
 app.get('/users:name', ensureAuthenticated, users)

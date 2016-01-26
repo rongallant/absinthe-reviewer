@@ -4,9 +4,9 @@
 $icons-font-path: "../materialize/font/material-design-icons/";
 $roboto-font-path: "../materialize/font/roboto/";
 
-$primary-color-dark: #388E3C;
-$primary-color: #4CAF50;
-$primary-color-light: #C8E6C9;
+// $primary-color-dark: #388E3C;
+$primary-color: #558b2f;
+// $primary-color-light: #C8E6C9;
 $primary-color-text: #FFFFFF;
 $accent-color: #607D8B;
 $primary-text-color: #212121;
@@ -19,11 +19,38 @@ $button-color: #558b2f;
 @import "materialize/materialize";
 @import "_side-nav";
 @import "_login-page";
-@import "_awesomplete";
 
 body {
     position: relative;
 }
+
+// Autocomplete
+.ui-autocomplete {
+    @extend .z-depth-1;
+    background-color: #fff;
+    position: fixed; // To prevent li elements go to the end of the screen
+    li {
+        @extend .col, .s12, .l4; // Edit this the way you like it. or to make it the same width as the input
+        font-size: 1.2rem;
+        color: #26a69a; // Teal color
+        line-height: 1.5rem;
+        padding: 1rem 1rem;
+        &:hover {
+            background: #eee;
+        }
+    }
+    .ui-state-focus {
+        background: #eee;
+    }
+}
+
+
+// Remove unwanted text comming from plugin
+.ui-helper-hidden-accessible {
+    display: none;
+    visibility: hidden;
+}
+
 
 @media #{$large-and-up} {
     header { padding-left: 240px }

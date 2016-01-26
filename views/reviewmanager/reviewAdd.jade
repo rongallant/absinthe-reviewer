@@ -1,12 +1,13 @@
 extends reviewLayout
 
+append stylesheets
+    // link(rel="stylesheet", href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css")
 
 append javascripts
     script(src="/scripts/wsScoreCalculator.js")
     script(src="/scripts/jRate.js")
     script(src="/scripts/jquery.formParams.js")
-    script(src="/scripts/awesomplete-gh-pages/awesomplete.min.js" async)
-
+    script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
 
     script.
         function score() {
@@ -28,28 +29,33 @@ append javascripts
                 })
             })
             score()
-            awesomplete()
+            jqAutocomplete("#review :input[name='absinthe[make]']", '/autocomplete/search_absinthe_makes')
+            jqAutocomplete("#review :input[name='absinthe[country]']", "https://restcountries.eu/rest/v1/lang/fr")
         })
 
-        function awesomplete()
+        function jqAutocomplete(selector, searchURL)
         {
-            var ajax
-            var field = document.querySelector('#absintheMakes .autocomplete');
-            ajax = new XMLHttpRequest()
-            // ajax.open("GET", "https://restcountries.eu/rest/v1/lang/fr", true)
-            ajax.open("GET", "/reviews/absinthe_makes", true)
-            ajax.onload = function() {
-                {
-                    var list = JSON.parse(ajax.responseText).map(function(i) { return i; })
-                    console.log({list:list})
-                    new Awesomplete(field, {list:list})
+            var cache = {};
+            $(selector).autocomplete({
+                minLength: 2,
+                source: function( request, response ) {
+                    var term = request.term;
+                    if ( term in cache ) {
+                        response( cache[ term ] )
+                        return
+                    }
+                    $.getJSON(searchURL, request, function( data, status, xhr ) {
+                        console.log(data)
+                        cache[ term ] = data.name
+                        response( data )
+                    })
+                },
+                response: function( event, ui ) {
+                    console.log(event)
+                    console.log(ui)
                 }
-            }
-            ajax.send()
-            $(field).unwrap()
+            })
         }
-
-
 
     include panels/ratingHelp
 
