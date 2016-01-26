@@ -1,9 +1,13 @@
 extends reviewLayout
 
+
 append javascripts
     script(src="/scripts/wsScoreCalculator.js")
     script(src="/scripts/jRate.js")
     script(src="/scripts/jquery.formParams.js")
+    script(src="/scripts/awesomplete-gh-pages/awesomplete.min.js" async)
+
+
     script.
         function score() {
             $('#wsScore .value').html($('form#review').calculateWsScore() + "%")
@@ -24,8 +28,29 @@ append javascripts
                 })
             })
             score()
-            $("#review").validate()
-        });
+            awesomplete()
+        })
+
+        function awesomplete()
+        {
+            var ajax
+            var field = document.querySelector('#absintheMakes .autocomplete');
+            ajax = new XMLHttpRequest()
+            // ajax.open("GET", "https://restcountries.eu/rest/v1/lang/fr", true)
+            ajax.open("GET", "/reviews/absinthe_makes", true)
+            ajax.onload = function() {
+                {
+                    var list = JSON.parse(ajax.responseText).map(function(i) { return i; })
+                    console.log({list:list})
+                    new Awesomplete(field, {list:list})
+                }
+            }
+            ajax.send()
+            $(field).unwrap()
+        }
+
+
+
     include panels/ratingHelp
 
 append appRightColumn
@@ -35,75 +60,84 @@ append reviewContent
 
     form#review(role="form", method="post", action="/reviews/save", enctype="application/x-www-form-urlencoded")
         input(type="hidden", name="id", value=data.id)
+        ul#ratings.collapsible.popout(data-collapsible="accordion")
 
-        h5.heading Page Settings
-        .row
-            .col.s12: .card-panel
-                .row
-                    .col.s12.m6: .input-field
-                        input.validate(type="text", name="title", value=data.title, required)
-                        label(for="title") Review Title
+            li
+                .collapsible-header.active
+                    i.material-icons assignment
+                    | Page Settings
 
-                    .col.s12.m6: .input-field
-                        input.validate(type="text", name="subtitle", value=data.subtitle)
-                        label(for="subtitle") Subtitle
+                .collapsible-body
+                    .row
+                        .col.s12.m6: .input-field
+                            input.validate(type="text", name="title", value=data.title, required)
+                            label(for="title") Review Title
 
-                .row: .col.s12: .input-field
-                    textarea.validate.materialize-textarea(name="intro", required)
-                        =data.intro
-                    label(for="intro") Introduction
-
-        if (data.absinthe)
-            h5.heading Absinthe Details
-            .row
-                .col.s12: .card-panel
-                    .row: .col.s12: .input-field
-                        input.validate(type="text", name="absinthe[make]", value=data.absinthe.make, required)
-                        label(for="absinthe[make]") Make
+                        .col.s12.m6: .input-field
+                            input.validate(type="text", name="subtitle", value=data.subtitle)
+                            label(for="subtitle") Subtitle
 
                     .row: .col.s12: .input-field
-                        input.validate(type="text", name="absinthe[type]", value=data.absinthe.type, required)
-                        label(for="absinthe[type]") Type
+                        textarea.validate.materialize-textarea(name="intro", required)
+                            =data.intro
+                        label(for="intro") Introduction
+            if (data.absinthe)
+                li
+                    .collapsible-header
+                        i.material-icons local_drink
+                        | Absinthe Details
+                    .collapsible-body
+                        .row: .col.s12: .input-field#absintheMakes
+                            input.autocomplete.validate.absinthemake(type="text", name="absinthe[make]", value=data.absinthe.make, required)
+                            label(for="absinthe[make]") Make
 
-                    .row: .col.s12: .input-field
-                        input.validate(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer, required)
-                        label(for="absinthe[manufacturer]") Manufacturer
-
-                    .row: .col.s12: .input-field
-                        input.validate(type="text", name="absinthe[country]", value=data.absinthe.country, required)
-                        label(for="absinthe[country]") Country
-
-                    .row: .col.s12: .input-field
-                        input.validate(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol, required)
-                        label(for="absinthe[alcohol]") Alcohol
-
-        if data.ratings
-            h5.heading Review Details
-            .row
-                .col.s12: .card-panel#ratings
-                    -each rating, index in data.ratings
                         .row: .col.s12: .input-field
-                            input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings_ratingId_#{index}", value=rating.id)
-                            input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
-                            input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
-                            input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
+                            input.validate(type="text", name="absinthe[type]", value=data.absinthe.type, required)
+                            label(for="absinthe[type]") Type
 
-                            strong= rating.attribute
-                                a.modal-trigger.btn-flat.tiny(href='#tips-' + rating.attribute.toLowerCase())
-                                    i.material-icons.tiny help_outline
+                        .row: .col.s12: .input-field
+                            input.validate(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer, required)
+                            label(for="absinthe[manufacturer]") Manufacturer
 
-                            textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", placeholder="Description", required)
-                                =rating.content
-                            div(id='rating-#{index}', class="rating")
+                        .row: .col.s12: .input-field
+                            input.validate(type="text", name="absinthe[country]", value=data.absinthe.country, required)
+                            label(for="absinthe[country]") Country
+
+                        .row: .col.s12: .input-field
+                            input.validate(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol, required)
+                            label(for="absinthe[alcohol]") Alcohol
+
+            if data.ratings
+                li
+                    .collapsible-header
+                        i.material-icons stars
+                        | Review Details
+                    .collapsible-body
+                        -each rating, index in data.ratings
+                            .row: .col.s12: .input-field
+                                input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings_ratingId_#{index}", value=rating.id)
+                                input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
+                                input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
+                                input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
+
+                                stron= rating.attribute
+                                    a.modal-trigger.btn-flat.tiny(href='#tips-' + rating.attribute.toLowerCase())
+                                        i.material-icons.tiny help_outline
+
+                                textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", placeholder="Description", required)
+                                    =rating.content
+                                div(id='rating-#{index}', class="rating")
 
 
-        h5.heading Conclusion
-        .row
-            .col.s12: .card-panel
-                .row: .col.s12: .input-field
-                    textarea.validate.materialize-textarea(name="conclusion", required)
-                        =data.conclusion
-                    label(for="conclusion")
+            li
+                .collapsible-header
+                    i.material-icons lightbulb_outline
+                    | Conclusion
+                .collapsible-body
+                    .row: .col.s12: .input-field
+                        textarea.validate.materialize-textarea(name="conclusion", required)
+                            =data.conclusion
+                        label(for="conclusion")
 
         .row
             .col.s12
