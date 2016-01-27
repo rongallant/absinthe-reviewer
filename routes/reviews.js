@@ -58,24 +58,6 @@ router.get('/edit', function(req, res) {
     })
 })
 
-// List All Reviews
-router.get('/intro', function(req, res) {
-    res.render(VIEW_FOLDER + '/intro', {
-        title: 'Introduction',
-        menuItems: menu,
-        user: req.user
-    })
-})
-
-router.get('/tasting', function(req, res) {
-    res.render(VIEW_FOLDER + '/howToTasteAbsinthe', {
-        title: 'How to Taste Absinthe',
-        menuItems: menu,
-        user: req.user
-    })
-})
-
-
 /************************************************************
  * ACTIONS
  ************************************************************/

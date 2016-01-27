@@ -18,13 +18,21 @@ li
         li: a.waves-effect(href="/users") List Users
         li: a.waves-effect(href="/users/edit") Add a User
 
-li: a.collapsible-header.waves-effect(href="/reviews/intro")
-    i.material-icons info_outline
-    | How it works
+li
+    a.collapsible-header.waves-effect(href="#")
+        i.material-icons.right arrow_drop_down
+        i.material-icons info_outline
+        | Info
+    ul.collapsible-body
 
-li: a.collapsible-header.waves-effect(href="/reviews/tasting")
-    i.material-icons info_outline
-    | How to taste absinthe
+        li: a.collapsible-header.waves-effect(href="/information/intro")
+            | How it works
+
+        li: a.collapsible-header.waves-effect(href="/information/preparing")
+            | Preparing absinthe
+
+        li: a.collapsible-header.waves-effect(href="/information/tasting")
+            | Tasting absinthe
 
 li: a.collapsible-header.waves-effect(href="/logout")
     i.material-icons power_settings_new

@@ -1,17 +1,17 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
+var AbsintheType = require('./absinthetype').schema
 var Rating = require('./rating').schema
 
 var Review = new Schema({
     title: String,
     subtitle: String,
-    author: String,
     intro: String,
     conclusion: String,
     absinthe: {
         id: { type: Schema.Types.ObjectId },
         make: { type: String, default: "" },
-        type: { type: String, default: "" },
+        type: { type: AbsintheType },
         manufacturer: { type: String, default: "" },
         country: { type: String, default: "" },
         alcohol: { type: String, default: "" }

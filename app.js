@@ -14,7 +14,7 @@ var passport = require('passport')
 var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy
 var sassMiddleware = require('node-sass-middleware');
-var consoletable = require('console.table');
+// var consoletable = require('console.table');
 
 /************************************************************
  * Models
@@ -30,6 +30,7 @@ var Account = require('./models/account') // TODO Replace with User
 var routes = require(path.join(__dirname, 'routes/login'))
 var review = require(path.join(__dirname, 'routes/reviews'))
 var users = require(path.join(__dirname, 'routes/users'))
+var information = require(path.join(__dirname, 'routes/information'))
 var autocomplete = require(path.join(__dirname, 'routes/autocomplete'))
 
 /************************************************************
@@ -137,6 +138,9 @@ app.get('/reviews', ensureAuthenticated, review)
 app.get('/reviews:name', ensureAuthenticated, review)
 app.use('/reviews', review)
 
+app.get('/information', ensureAuthenticated, information)
+app.get('/information:name', ensureAuthenticated, information)
+app.use('/information', information)
 
 /************************************************************
  * Error Handling

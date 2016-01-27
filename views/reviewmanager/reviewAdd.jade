@@ -1,103 +1,58 @@
 extends reviewLayout
 
-append stylesheets
-    // link(rel="stylesheet", href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css")
-
 append javascripts
+    script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
     script(src="/scripts/wsScoreCalculator.js")
     script(src="/scripts/jRate.js")
     script(src="/scripts/jquery.formParams.js")
-    script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
-    script(src="/scripts/jquery.ui.autocomplete.html.js")
-
+    script(src="/scripts/autocompleters.js")
     script.
         function score() {
             $('#wsScore .value').html($('form#review').calculateWsScore() + "%")
         }
-        $(document).ready(function(){
-            $('#wsScore').pushpin({ top: $('#header').height() });
-            $('#ratings .rating').each(function(index, value) {
-                var field = $(this).closest(".input-field").find(":input[id^='ratings_score_']")
-                $('#rating-' + index).jRate({
-                    min: 0,
-                    max: 5,
-                    precision: 0.5,
-                    rating: field.val(),
-                    onSet: function(rating) {
-                        field.val(rating)
-                        score()
-                    }
-                })
-            })
-            score()
-            jqAutocomplete("#review :input[name='absinthe[make]']", '/autocomplete/absinthe_makes/')
-            jqAutocomplete("#review :input[name='absinthe[country]']", "https://restcountries.eu/rest/v1/name/")
-        })
-
-        // The script restSearch.js uses ajax to do a search against the REST API:
-        // Parse an item and create an title/value dictionary with all the properties available
-        function getFields(results) {
-            names = []
-            for (i in results) {
-                console.log(results[i].name)
-                names.push(results[i].name)
-            }
-            console.table(names)
-            return names
-        }
-        function jqAutocomplete(selector, searchURL)
-        {
-            var autocomplete = $(selector).autocomplete({
-                minLength: 3,
-                source: function(request, response) {
-                    $.ajax({
-                        beforeSend: function(request) {
-                            request.setRequestHeader("Accept", "application/json;odata=verbose;charset=utf-8");
-                        },
-                        url: searchURL + request.term,
-                        dataType: "json",
-                        success: function(data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    label: getFields(data)
-                                }
-                            }));
-                        },
-                        error: function(data) {
-                            console.error('search error', data);
+        jQuery(function ($) {
+                $('#wsScore').pushpin({ top: $('#header').height() });
+                $('#ratings .rating').each(function(index, value) {
+                    var field = $(this).closest(".input-field").find(":input[id^='ratings_score_']")
+                    $('#rating-' + index).jRate({
+                        min: 0,
+                        max: 5,
+                        precision: 0.5,
+                        rating: field.val(),
+                        onSet: function(rating) {
+                            field.val(rating)
+                            score()
                         }
-                    });
+                    })
+                })
+                jqAutocompleteMake("#review :input[name='absinthe[manufacturer]']", "/autocomplete/absinthe_manufacturers/")
+                jqAutocompleteMake("#review :input[name='absinthe[make]']", "/autocomplete/absinthe_makes/")
+                jqAutocompleteCountries("#review :input[name='absinthe[country]']")
+                score()
+            $("#review").validate({
+                onkeyup: false,
+                rules: {
+                    "review_title" : {
+                        maxlength: 1
+                    },
+                    "review_subtitle" : {
+                        maxlength: 1
+                    },
+                    "absinthe[make]" : {
+                    },
+                    "absinthe[type]" : {
+                    },
+                    "absinthe[manufacturer]" : {
+                    },
+                    "absinthe[country]" : {
+                    },
+                    "absinthe[alcohol]" : {
+                        number: true,
+                        range: [0, 100]
+                    }
                 }
-                // ,
-                // // Run this when the item is in focused (not selected)
-                // focus: function(event, ui) {
-                //     //$( "#restSearch" ).val(ui.item.value );
-                //     return false;
-                // },
-                // // Run this when the item is selected
-                // select: function(event, ui) {
-                //     location.href = ui.item.fields.Path;
-                // },
-                // appendTo: $('#menu-container')
             })
-            // .data("uiAutocomplete")._renderItem = function(ul, item) {
-            //     // format the documents using the OOTB SharePoint icons
-            //     img = "ic" + item.fields.FileType + ".png";
-            //     if (item.fields.FileType == "html") {
-            //         img = "html16.png";
-            //     }
-            //     return $("<li>").append('<a><img style="margin-right:3px;top:3px;" src="/_layouts/15/images/' + img + '">' + item.fields.Title + '</a>')
-            //         .appendTo(ul);
-            // };
-
-        }
-
-
-
-
-
-
-
+        })
 
     include panels/ratingHelp
 
@@ -108,86 +63,79 @@ append reviewContent
 
     form#review(role="form", method="post", action="/reviews/save", enctype="application/x-www-form-urlencoded")
         input(type="hidden", name="id", value=data.id)
-        ul#ratings.collapsible.popout(data-collapsible="accordion")
-
-            li
-                .collapsible-header.active
+        ul#ratings
+            .section
+                h3
                     i.material-icons assignment
                     | Page Settings
 
-                .collapsible-body
-                    .row
-                        .col.s12.m6: .input-field
-                            input.validate(type="text", name="title", value=data.title, required)
-                            label(for="title") Review Title
+                .row
+                    .col.s12.m6: .input-field
+                        input.validate(type="text", name="title", id="review_title", value=data.title, required)
+                        label(for="review_title") Review Title
+                    .col.s12.m6: .input-field
+                        input.validate(type="text", name="subtitle", id="review_subtitle", value=data.subtitle)
+                        label(for="review_subtitle") Subtitle
 
-                        .col.s12.m6: .input-field
-                            input.validate(type="text", name="subtitle", value=data.subtitle)
-                            label(for="subtitle") Subtitle
-
-                    .row: .col.s12: .input-field
-                        textarea.validate.materialize-textarea(name="intro", required)
-                            =data.intro
-                        label(for="intro") Introduction
+                .row: .col.s12: .input-field
+                    textarea.validate.materialize-textarea(name="intro", id="review_intro")
+                        =data.intro
+                    label(for="review_intro") Introduction
             if (data.absinthe)
-                li
-                    .collapsible-header
+                .section
+                    h3
                         i.material-icons local_drink
                         | Absinthe Details
-                    .collapsible-body
-                        .row: .col.s12: .input-field#absintheMakes
-                            input.autocomplete.validate.absinthemake(type="text", name="absinthe[make]", value=data.absinthe.make, required)
-                            label(for="absinthe[make]") Make
+                    .row: .col.s12: .input-field#absintheMakes
+                        input.autocomplete.validate.absinthemake(type="text", name="absinthe[make]", id="absinthe_make" value=data.absinthe.make, required)
+                        label(for="absinthe_make") Make
 
-                        .row: .col.s12: .input-field
-                            input.validate(type="text", name="absinthe[type]", value=data.absinthe.type, required)
-                            label(for="absinthe[type]") Type
+                    .row: .col.s12: .input-field
+                        input.validate(type="text", name="absinthe[type]", id="absinthe_type", value=data.absinthe.type, required)
+                        label(for="absinthe_type") Type
 
-                        .row: .col.s12: .input-field
-                            input.validate(type="text", name="absinthe[manufacturer]", value=data.absinthe.manufacturer, required)
-                            label(for="absinthe[manufacturer]") Manufacturer
+                    .row: .col.s12: .input-field
+                        input.validate(type="text", name="absinthe[manufacturer]", id="absinthe_manufacturer", value=data.absinthe.manufacturer, required)
+                        label(for="absinthe_manufacturer") Manufacturer
 
-                        .row: .col.s12: .input-field
-                            input.validate(type="text", name="absinthe[country]", value=data.absinthe.country, required)
-                            label(for="absinthe[country]") Country
+                    .row: .col.s12: .input-field
+                        input.validate(type="text", name="absinthe[country]", id="absinthe_country", value=data.absinthe.country, required)
+                        label(for="absinthe_country") Country
 
-                        .row: .col.s12: .input-field
-                            input.validate(type="text", name="absinthe[alcohol]", value=data.absinthe.alcohol, required)
-                            label(for="absinthe[alcohol]") Alcohol
+                    .row: .col.s12: .input-field
+                        input.validate(type="text", name="absinthe[alcohol]", id="absinthe_alcohol", value=data.absinthe.alcohol, required)
+                        label(for="absinthe_alcohol") Alcohol
 
             if data.ratings
-                li
-                    .collapsible-header
+                .section
+                    h3
                         i.material-icons stars
                         | Review Details
-                    .collapsible-body
-                        -each rating, index in data.ratings
-                            .row: .col.s12: .input-field
-                                input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings_ratingId_#{index}", value=rating.id)
-                                input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
-                                input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
-                                input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
 
-                                stron= rating.attribute
-                                    a.modal-trigger.btn-flat.tiny(href='#tips-' + rating.attribute.toLowerCase())
-                                        i.material-icons.tiny help_outline
+                    -each rating, index in data.ratings
+                        .row: .col.s12: .input-field
+                            input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings_ratingId_#{index}", value=rating.id)
+                            input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
+                            input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
+                            input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
 
-                                textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", placeholder="Description", required)
-                                    =rating.content
-                                div(id='rating-#{index}', class="rating")
+                            strong= rating.attribute
+                                a.modal-trigger.btn-flat.tiny(href='#tips-' + rating.attribute.toLowerCase())
+                                    i.material-icons.tiny help_outline
 
+                            textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", placeholder="Description")
+                                =rating.content
+                            div(id='rating-#{index}', class="rating")
 
-            li
-                .collapsible-header
+            .section
+                h3
                     i.material-icons lightbulb_outline
                     | Conclusion
-                .collapsible-body
-                    .row: .col.s12: .input-field
-                        textarea.validate.materialize-textarea(name="conclusion", required)
-                            =data.conclusion
-                        label(for="conclusion")
+                .row: .col.s12: .input-field
+                    textarea.validate.materialize-textarea(name="conclusion")
+                        =data.conclusion
+                    label(for="conclusion")
 
-        .row
-            .col.s12
-                button.right.waves-effect.waves-light.btn-large(type="submit") Save Review
+        .row: .col.s12
+                button.right.waves-effect.waves-light.btn-large(type="submit", id="saveReview") Save Review
 

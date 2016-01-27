@@ -70,8 +70,8 @@ router.post('/register', function(req, res) {
 })
 
 router.get('/login', function(req, res) {
-    res.render('login', { // TODO Rename newLogin to login.
-    // res.render('newLogin', {
+    // res.render('login', { // TODO Rename newLogin to login.
+    res.render('newLogin', {
         title : "Absinthe Reviewer"
     })
 })
