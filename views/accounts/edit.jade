@@ -1,0 +1,69 @@
+extends ./layout
+
+block append javascripts
+    script.
+        $("#userForm").validate();
+
+        jQuery(function ($) {
+            $("#addRow").click(function(e){
+                e.preventDefault()
+                var index = $("input[id^='#emails_value_'").length
+                $.ajax({
+                    url: "/accounts/emailrow/" + index,
+                    success: function(data){
+                        console.log(data)
+                        $("#newRows").append(data)
+                        $("#newRows select").material_select();
+                    }
+                })
+            })
+        })
+
+block accountsContent
+
+    form#userForm(role="form", method="post", action="/accounts/save", enctype="application/x-www-form-urlencoded")
+        input(type="hidden", name="id", value=data.id)
+        .card-panel
+            .row
+                .col.s12
+                    .input-field
+                        input(type="text", name="username", id="username", value=data.username, required)
+                        label(for="username") Username
+
+            .row
+                .col.s6
+                    .input-field
+                        input(type="password", name="password", id="password", value=data.password, required)
+                        label(for="password") Password
+                .col.s6
+                    .input-field
+                        input(type="password", name="password_confirm", id="password_confirm", value=data.password, required)
+                        label(for="password_confirm") Confirm Password
+
+
+            .row
+                .col.s6
+                    .input-field
+                        input(type="text", name="name[givenName]", id="name_givenName" value=data.name.givenName, required)
+                        label(for="name_givenName") First Name
+                .col.s6
+                    .input-field
+                        input(type="text", name="name[familyName]", id="familyName" value=data.name.familyName, required)
+                        label(for="familyName") Last Name
+
+
+            -for value, index in data.emails
+                .row
+                    .col.s12
+                        .input-field
+                            input(type="email", name="emails[#{index}][value]", id="emails_value_#{index}", value=value.value)
+                            label(for="emails_value_#{index}") Email
+
+            #newRows
+
+            button#addRow(type="button")
+                {success}
+
+        .row
+            .col.s12
+                button.right.waves-effect.waves-light.btn-large(type="submit") Save User

@@ -14,7 +14,7 @@ var passport = require('passport')
 var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy
 var sassMiddleware = require('node-sass-middleware');
-// var consoletable = require('console.table');
+var consoletable = require('console.table');
 
 /************************************************************
  * Models
@@ -29,7 +29,7 @@ var Account = require('./models/account') // TODO Replace with User
 
 var routes = require(path.join(__dirname, 'routes/login'))
 var review = require(path.join(__dirname, 'routes/reviews'))
-var users = require(path.join(__dirname, 'routes/users'))
+var accounts = require(path.join(__dirname, 'routes/accounts'))
 var information = require(path.join(__dirname, 'routes/information'))
 var autocomplete = require(path.join(__dirname, 'routes/autocomplete'))
 
@@ -126,13 +126,9 @@ app.get('/login', routes)
 app.get('/:name', routes)
 app.use('/', routes)
 
-app.get('/autocomplete', ensureAuthenticated, autocomplete)
-app.get('/autocomplete:name', ensureAuthenticated, autocomplete)
-app.use('/autocomplete', autocomplete)
-
-app.get('/users', ensureAuthenticated, users)
-app.get('/users:name', ensureAuthenticated, users)
-app.use('/users', users)
+app.get('/accounts', ensureAuthenticated, accounts)
+app.get('/accounts:name', ensureAuthenticated, accounts)
+app.use('/accounts', accounts)
 
 app.get('/reviews', ensureAuthenticated, review)
 app.get('/reviews:name', ensureAuthenticated, review)
@@ -141,6 +137,10 @@ app.use('/reviews', review)
 app.get('/information', ensureAuthenticated, information)
 app.get('/information:name', ensureAuthenticated, information)
 app.use('/information', information)
+
+app.get('/autocomplete', ensureAuthenticated, autocomplete)
+app.get('/autocomplete:name', ensureAuthenticated, autocomplete)
+app.use('/autocomplete', autocomplete)
 
 /************************************************************
  * Error Handling
