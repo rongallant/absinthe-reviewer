@@ -68,20 +68,9 @@ router.post('/save', function(req, res) {
     })
 })
 
-// function registerNewAccount(req, res) {
-//     console.info("REGISTERING: User %s...", req.body.username)
-//     Account.register( req.body.username, req.body.password, function(err, account) {
-//         if (err) {
-//             console.error("ERROR: registering user %s!", req.body.username)
-//             console.error(err)
-//         }
-//         console.success("SUCCESS: registered user %s!", req.body.username)
-//         saveAccount(req, res)
-//     })
-// }
-
 function saveAccount(req, res)
 {
+    console.table(req.body.emails)
     var data = new Account({
         username: req.body.username,
         password: req.body.password,
@@ -92,8 +81,8 @@ function saveAccount(req, res)
     })
     for (var i in req.body.emails) {
         data.emails.push(new Email({
-            sortorder: req.body.emails[i].value,
-            attribute: req.body.emails[i].type
+            'value' : req.body.emails[i].value,
+            'type' : req.body.emails[i].type
         }))
     }
 
@@ -108,6 +97,8 @@ function saveAccount(req, res)
 
         // Save to database
         console.info("SAVING: User %s...", req.body.username)
+        console.table(req.body)
+
         data.save(function(err) {
             if (err) console.error(err)
             console.info("SUCCESS: User %s saved!", req.body.username)

@@ -3,8 +3,8 @@
         input(type="email", name="emails[#{index}][value]", id="emails_value_#{index}")
         label(for="emails_value_#{index}") Email
     .col.s4.input-field
-        select(id="emails_type_#{index}")
-            option Home
-            option Work
-            option Other
+        select(name="emails[#{index}][type]", id="emails_type_#{index}")
+            option(value="h", selected=email.type == 'h') Home
+            option(value="w", selected=email.type == 'w') Work
+            option(value="o", selected=email.type == 'o') Other
         label(for="emails_type_#{index}") Type

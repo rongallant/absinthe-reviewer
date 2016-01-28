@@ -2,21 +2,35 @@ extends ./layout
 
 block append javascripts
     script.
-        $("#userForm").validate();
-
         jQuery(function ($) {
+            var emailCount = $("#userForm input[id^='emails_value_'").length
+            var emailRowsFull = (emailCount > 2)
+            if (!emailRowsFull) {
+                $('#addRow').removeClass('disabled')
+            } else {
+                $('#addRow').addClass('disabled')
+            }
             $("#addRow").click(function(e){
                 e.preventDefault()
-                var index = $("input[id^='#emails_value_'").length
-                $.ajax({
-                    url: "/accounts/emailrow/" + index,
-                    success: function(data){
-                        console.log(data)
-                        $("#newRows").append(data)
-                        $("#newRows select").material_select();
-                    }
-                })
+                if (!emailRowsFull) {
+                    $.ajax({
+                        url: "/accounts/emailrow/" + emailRowsFull,
+                        success: function(data){
+                            $("#newRows").append(data)
+                            $("#newRows select").material_select()
+                            emailCount = $("#userForm input[id^='emails_value_'").length
+                            emailRowsFull = (emailCount > 2)
+                            if (!emailRowsFull) {
+                                $('#addRow').removeClass('disabled')
+                            } else {
+                                $('#addRow').addClass('disabled');
+                            }
+                        }
+                    })
+                }
             })
+            $("#userForm").validate()
+            $("#userForm select").material_select()
         })
 
 block accountsContent
@@ -51,18 +65,21 @@ block accountsContent
                         input(type="text", name="name[familyName]", id="familyName" value=data.name.familyName, required)
                         label(for="familyName") Last Name
 
-
-            -for value, index in data.emails
-                .row
-                    .col.s12
-                        .input-field
-                            input(type="email", name="emails[#{index}][value]", id="emails_value_#{index}", value=value.value)
+            if data.emails
+                -for email, index in data.emails
+                    .row
+                        .col.s8.input-field
+                            input(type="email", name="emails[#{index}][value]", id="emails_value_#{index}", value=email.value)
                             label(for="emails_value_#{index}") Email
+                        .col.s4.input-field
+                            select(name="emails[#{index}][type]", id="emails_type_#{index}")
+                                option(value="h", selected=email.type == 'h') Home
+                                option(value="w", selected=email.type == 'w') Work
+                                option(value="o", selected=email.type == 'o') Other
+                            label(for="emails_type_#{index}") Type
 
             #newRows
-
-            button#addRow(type="button")
-                {success}
+            a#addRow.btn-flat(href="#") Add Email
 
         .row
             .col.s12
