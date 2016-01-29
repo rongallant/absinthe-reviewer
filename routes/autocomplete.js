@@ -1,19 +1,12 @@
 var express = require('express')
 var Review = require('../models/review')
+var absintheTypes = require('../models/defaults/absinthetypes.json')
 
 var router = express.Router()
 
 /************************************************************
  * ACTIONS
  ************************************************************/
-
-// function buildResultSet(docs) {
-//     var result = [];
-//     for(var i in docs) {
-//         result.push(docs[i].absinthe.make);
-//     }
-//     return result;
-// }
 
 router.get('/absinthe_makes/:name', function(req, res) {
     var query = Review
@@ -51,6 +44,10 @@ router.get('/absinthe_manufacturers/:name', function(req, res) {
             res.send(JSON.stringify(err), { 'Content-Type': 'application/json' }, 404)
         }
     })
+})
+
+router.get('/absinthe_styles', function(req, res){
+    res.send(absintheTypes, { 'Content-Type': 'application/json' }, 200)
 })
 
 module.exports = router

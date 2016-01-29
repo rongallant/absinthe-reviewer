@@ -1,20 +1,21 @@
 extends ./layout
 
 block accountsContent
+    h6 Users
+    .card
+        form#userListForm(role='form', method='post')
+            if data.length
+                .collection
+                    each row in data
+                        .collection-item
+                            i.circle.material-icons.left person
+                            a.title(href= "/accounts/edit?id=#{row.id}")
+                                | #{row.name.givenName} #{row.name.familyName} (#{row.username})
 
-    form#userListForm(role='form', method='post')
-        if data.length
-            .collection
-                each row in data
-                    .collection-item.avatar
-                        i.circle.material-icons perm_identity
-                        a.title(href= "/accounts/edit?id=#{row.id}")
-                            | #{row.name.givenName} #{row.name.familyName} (#{row.username})
+                            if data.emails
+                                span Email:
+                                    -for value, index in data.emails
+                                        div #{value.type} #{value.value}
 
-                        if data.emails
-                            span Email:
-                                -for value, index in data.emails
-                                    div #{value.type} #{value.value}
-
-                        a(href="/accounts/delete/#{row.id}", class="secondary-content")
-                            i.material-icons delete
+                            a(href="/accounts/delete/#{row.id}", class="secondary-content")
+                                i.material-icons delete

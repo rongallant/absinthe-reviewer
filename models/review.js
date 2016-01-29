@@ -1,29 +1,20 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-var AbsintheType = require('./absinthetype').schema
 var Rating = require('./rating').schema
 
-var Review = new Schema({
-    title: String,
-    subtitle: String,
-    intro: String,
-    conclusion: String,
-    absinthe: {
-        id: { type: Schema.Types.ObjectId },
-        make: { type: String, default: "" },
-        type: { type: AbsintheType },
-        manufacturer: { type: String, default: "" },
-        country: { type: String, default: "" },
-        alcohol: { type: String, default: "" }
-    },
-    ratings: [ Rating ],
-    cr_user: { type: Schema.Types.ObjectId, ref: 'User' },
+// var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall']
+
+var ReviewSchema = new Schema({
+    title: { type: String },
+    subtitle: { type: String },
+    intro: { type: String },
+    conclusion: { type: String },
+    _absinthe: { type: Schema.Types.ObjectId, ref: 'Absinthe' },
+    _ratings: [ Rating ],
+    cr_user: { type: Schema.Types.ObjectId, ref: 'Account' },
     cr_date: { type: Date },
-    lu_user: { type: Schema.Types.ObjectId, ref: 'User' },
+    lu_user: { type: Schema.Types.ObjectId, ref: 'Account' },
     lu_date: { type: Date, default: Date.now }
 })
 
-// TODO add function to set default ratings criteria.
-//var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall']
-
-module.exports = mongoose.model('Review', Review)
+module.exports = mongoose.model('Review', ReviewSchema)

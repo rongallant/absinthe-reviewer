@@ -1,6 +1,10 @@
 var express = require('express')
+// var mongoose = require('mongoose')
 var Review = require('../models/review')
 var Rating = require('../models/rating')
+var Absinthe = require('../models/absinthe')
+var AbsintheType = require('../models/absinthetype')
+var absintheTypes = require('../models/defaults/absinthetypes.json')
 
 var router = express.Router()
 
@@ -38,20 +42,28 @@ router.get('/', function(req, res) {
 
 // Return selected Review
 router.get('/edit', function(req, res) {
-    Review.findById(req.query.id, function(err, data) {
+    Review.findById(req.query.id)
+            .populate('_absinthe')
+            .exec(function(err, data) {
         if (err) {
             console.error("ERROR IN FINDBYID: ", err)
         }
         if (!data) {
-            data = new Review()
-            var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall']
+            data = new Review({
+                _absinthe: new Absinthe({
+                    _style: new AbsintheType()
+                })
+            })
+            var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall'] // TODO put in model
             for (var i in ratingTypes) {
-             data.ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
+                data._ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
             }
+            console.log("created new Review Object", data)
         }
         res.render(VIEW_FOLDER + '/reviewAdd', {
             title: "Review Editor",
             menuItems: menu,
+            absintheTypes: absintheTypes,
             user: req.user,
             data: data
         })
@@ -67,25 +79,28 @@ router.post('/save', function(req, res) {
         if (err)
             console.info('SAVE FINDONE ERROR: ' + err)
         else if (data)
-           updateReview(req, res, data)
+            updateReview(req, res, data)
         else
-           saveNewReview(req, res)
+            saveNewReview(req, res)
     })
 })
 
 function saveNewReview(req, res) {
+    console.log("body = ", req.body)
+
     var data = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
         intro: req.body.intro,
         conclusion: req.body.conclusion,
-        absinthe: {
-            make: req.body.absinthe.make,
-            type: req.body.absinthe.type,
-            manufacturer: req.body.absinthe.manufacturer,
-            country: req.body.absinthe.country,
-            alcohol: req.body.absinthe.alcohol
-        },
+        _absinthe: req.absinthe,
+        // _absinthe: new Absinthe({
+        //     make: req.body.absinthe.make,
+        //     manufacturer: req.body.absinthe.manufacturer,
+        //     country: req.body.absinthe.country,
+        //     _type: req.body.absinthe.type,
+        //     alcohol: req.body.absinthe.alcohol
+        // }),
         cr_date: Date.now,
         cr_user: req.user,
         lu_user: req.user
@@ -93,15 +108,17 @@ function saveNewReview(req, res) {
     data.cr_date = Date.now()
     data.cr_user = req.user
     for (var i in req.body.ratings) {
-        data.ratings.push(new Rating({
+        data._ratings.push(new Rating({
             sortorder: req.body.ratings[i].sortorder,
             attribute: req.body.ratings[i].attribute,
             content: req.body.ratings[i].content,
             score: req.body.ratings[i].score
         }))
     }
+    console.log("data = ", data)
     data.save(function(err) {
-        if (err) { handleError(req, res, err) }
+        if (err)
+            return handleError(req, res, err)
         req.flash("success", 'Created')
         res.redirect('/reviews')
     })
@@ -149,6 +166,7 @@ router.post('/deleteAll', function(req, res) {
 
 function handleError(req, res, err) {
     console.error("ERROR: ", err)
+    return false
 }
 
 module.exports = router

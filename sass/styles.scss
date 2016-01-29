@@ -21,6 +21,7 @@ $button-color: #558b2f;
 @import "_login-page";
 
 body {
+    background-color: color("grey", "lighten-5");
     position: relative;
 }
 
@@ -42,6 +43,10 @@ body {
     .ui-state-focus {
         background: #eee;
     }
+}
+
+#content main {
+    padding-top: 20px;
 }
 
 
@@ -70,7 +75,7 @@ body {
 }
 
 .card-panel {
-    background-color: color("grey", "lighten-5");
+    // background-color: color("grey", "lighten-5");
 }
 
 .input-field label {

@@ -20,8 +20,7 @@ var consoletable = require('console.table');
  * Models
  ***********************************************************/
 
-var Account = require('./models/account') // TODO Replace with User
-// var User = require('./models/user')
+var Account = require('./models/account')
 
 /************************************************************
  * Route Includes
