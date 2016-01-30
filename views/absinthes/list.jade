@@ -1,0 +1,26 @@
+extends ./layout
+
+block absinthesContent
+
+	if !data.length
+		.center-align
+			h2: .section No Results
+			br
+			a.btn-large(href="/absinthes/create")
+				| Add an Absinthe
+
+	else
+		.card
+			form#absintheListForm(role='form', method='post')
+				.collection
+					each row in data
+						.collection-item
+							i.material-icons
+								img(src="/images/absinthe.png", height="25")
+							a.title(href= "/absinthes/edit/#{row._id}")
+								if row.name
+									=row.name
+								else
+									=row
+							a(href="/absinthes/delete/#{row._id}", class="secondary-content")
+								i.material-icons delete

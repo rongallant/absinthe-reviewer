@@ -1,0 +1,38 @@
+extends ./layout
+
+append javascripts
+    // script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
+    // script(src="/scripts/jquery.formParams.js")
+    script(src="/scripts/autocompleters.js")
+    script.
+        jQuery(function ($) {
+            getAbsintheTypes("#type")
+            $("#absintheform").validate()
+            $("#absintheform select").material_select()
+        })
+
+block absinthesContent
+
+    form#absintheform(role="form", method="post", action="/absinthes/save", enctype="application/x-www-form-urlencoded")
+        input(type="hidden", name="id", value=data.id)
+        .card: .card-content
+            h3.card-title Absinthe Details
+            .row: .col.s12: .input-field#absintheMakes
+                input.autocomplete.validate.absinthemake(type="text", name="name", id="name" value=data.name || '', required)
+                label(for="name") Name
+            .row: .col.s12: .input-field
+                select(name="type", id="type", required)
+                    option(value="") Choose a type
+                label(for="type}") Type
+            .row: .col.s12: .input-field
+                input.validate(type="text", name="producer", id="producer", value=data.producer || '', required)
+                label(for="producer") producer
+            .row: .col.s12: .input-field
+                input.validate(type="text", name="country", id="country", value=data.country || '', required)
+                label(for="country") Country
+            .row: .col.s12: .input-field
+                input.validate(type="number", name="alcohol", id="alcohol", value=data.alcohol || '', required)
+                label(for="alcohol") Alcohol
+        .row
+            .col.s12
+                button.right.waves-effect.waves-light.btn-large(type="submit") Save Absinthe

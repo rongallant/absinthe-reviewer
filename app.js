@@ -23,12 +23,13 @@ var consoletable = require('console.table');
 var Account = require('./models/account')
 
 /************************************************************
- * Route Includes
+ * Routes
  ***********************************************************/
 
 var routes = require(path.join(__dirname, 'routes/login'))
-var review = require(path.join(__dirname, 'routes/reviews'))
 var accounts = require(path.join(__dirname, 'routes/accounts'))
+var absinthes = require(path.join(__dirname, 'routes/absinthes'))
+var reviews = require(path.join(__dirname, 'routes/reviews'))
 var information = require(path.join(__dirname, 'routes/information'))
 var autocomplete = require(path.join(__dirname, 'routes/autocomplete'))
 
@@ -129,9 +130,13 @@ app.get('/accounts', ensureAuthenticated, accounts)
 app.get('/accounts:name', ensureAuthenticated, accounts)
 app.use('/accounts', accounts)
 
-app.get('/reviews', ensureAuthenticated, review)
-app.get('/reviews:name', ensureAuthenticated, review)
-app.use('/reviews', review)
+app.get('/absinthes', ensureAuthenticated, absinthes)
+app.get('/absinthes:name', ensureAuthenticated, absinthes)
+app.use('/absinthes', absinthes)
+
+app.get('/reviews', ensureAuthenticated, reviews)
+app.get('/reviews:name', ensureAuthenticated, reviews)
+app.use('/reviews', reviews)
 
 app.get('/information', ensureAuthenticated, information)
 app.get('/information:name', ensureAuthenticated, information)

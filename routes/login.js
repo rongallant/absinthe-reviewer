@@ -37,7 +37,6 @@ router.post('/authenticate', passport.authenticate('local', { failureRedirect: '
 
 router.get('/logout', function(req, res) {
     req.logout()
-    // req.flash("success", "You have successfully logged out") // FIXME Causes duplicate messages
     res.redirect('/login')
 })
 

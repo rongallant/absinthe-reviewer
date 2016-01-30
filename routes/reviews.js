@@ -1,27 +1,12 @@
 var express = require('express')
-// var mongoose = require('mongoose')
+var mongoose = require('mongoose')
 var Review = require('../models/review')
 var Rating = require('../models/rating')
-var Absinthe = require('../models/absinthe')
 var AbsintheType = require('../models/absinthetype')
-var absintheTypes = require('../models/defaults/absinthetypes.json')
 
 var router = express.Router()
 
 var VIEW_FOLDER = "reviewmanager"
-
-var menu = [
-    {
-        link:'/reviews',
-        iconClass: 'view_list',
-        title: 'List'
-    },
-    {
-        link: '/reviews/add',
-        iconClass: 'add',
-        title: 'Add'
-    }
-]
 
 /************************************************************
  * VIEWS
@@ -29,11 +14,10 @@ var menu = [
 
 // List All Reviews
 router.get('/', function(req, res) {
-    Review.find({}).exec(function(err, data) {
+    Review.find().exec(function(err, data) {
         if (err) { handleError(req, res, err) }
         res.render(VIEW_FOLDER + '/reviewList', {
             title: 'Reviews',
-            menuItems: menu,
             user: req.user,
             data: data
         })
@@ -42,37 +26,64 @@ router.get('/', function(req, res) {
 
 // Return selected Review
 router.get('/edit', function(req, res) {
-    Review.findById(req.query.id)
-            .populate('_absinthe')
-            .exec(function(err, data) {
+    Review.findById(req.query.id).exec(function(err, data) {
         if (err) {
             console.error("ERROR IN FINDBYID: ", err)
         }
         if (!data) {
-            data = new Review({
-                _absinthe: new Absinthe({
-                    _style: new AbsintheType()
-                })
-            })
-            var ratingTypes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall'] // TODO put in model
-            for (var i in ratingTypes) {
-                data._ratings.push(new Rating({ sortorder: i, attribute: ratingTypes[i] }))
+            data = new Review()
+            var attributes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall'] // TODO put in model
+            for (var i in attributes) {
+                data._ratings.push(new Rating({ id: mongoose.Types.ObjectId(), sortorder: i, attribute: attributes[i] }))
             }
-            console.log("created new Review Object", data)
+            console.log("\nCreated new Review Object: ", data, "\n")
+        } else {
+            console.log("\nFound Review Object: ", data, "\n")
         }
         res.render(VIEW_FOLDER + '/reviewAdd', {
             title: "Review Editor",
-            menuItems: menu,
-            absintheTypes: absintheTypes,
             user: req.user,
             data: data
         })
     })
 })
 
+
 /************************************************************
  * ACTIONS
  ************************************************************/
+
+/**
+ * Insert default data into database
+ */
+router.get('/insertDefaults', function(req, res) {
+    res.sendStatus(404)
+    console.log("Attempting to insert default data.")
+    AbsintheType.find().exec(function(err, data) {
+        if (err) {
+            console.error(err.message)
+        } else if (data.length == 0) {
+            var absintheTypes = require('../models/defaults/absinthetypes.json')
+            AbsintheType.collection.insert(absintheTypes, function(err) {
+                if (err) {
+                    res.send(JSON.stringify(err), { 'Content-Type': 'application/json' }, 500)
+                } else {
+                    var result = "You have inserted the default data for AbsintheType"
+                    res.send(result, { 'Content-Type': 'application/json' }, 200)
+                }
+            });
+        } else {
+            console.log("Current Data in AbsintheType table: ", data)
+             AbsintheType.count({}, function(err, c) {
+                if (err) {
+                    res.send(JSON.stringify(err), { 'Content-Type': 'application/json' }, 500)
+                }
+                console.log('AbsintheType Count is ' + c);
+            });
+            res.send("You already have content in the database.  Check console for results.", { 'Content-Type': 'application/text' }, 400)
+        }
+    })
+})
 
 router.post('/save', function(req, res) {
     Review.findOne({ '_id': req.body.id }, { }, function(err, data) {
@@ -87,26 +98,15 @@ router.post('/save', function(req, res) {
 
 function saveNewReview(req, res) {
     console.log("body = ", req.body)
-
     var data = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
         intro: req.body.intro,
         conclusion: req.body.conclusion,
-        _absinthe: req.absinthe,
-        // _absinthe: new Absinthe({
-        //     make: req.body.absinthe.make,
-        //     manufacturer: req.body.absinthe.manufacturer,
-        //     country: req.body.absinthe.country,
-        //     _type: req.body.absinthe.type,
-        //     alcohol: req.body.absinthe.alcohol
-        // }),
-        cr_date: Date.now,
+        // _absinthe: req.absinthe,
         cr_user: req.user,
         lu_user: req.user
      })
-    data.cr_date = Date.now()
-    data.cr_user = req.user
     for (var i in req.body.ratings) {
         data._ratings.push(new Rating({
             sortorder: req.body.ratings[i].sortorder,
@@ -120,7 +120,7 @@ function saveNewReview(req, res) {
         if (err)
             return handleError(req, res, err)
         req.flash("success", 'Created')
-        res.redirect('/reviews')
+        res.redirect('back')
     })
 }
 
@@ -129,7 +129,7 @@ function saveNewReview(req, res) {
  */
 function updateReview(req, res, data) {
     for (var i in req.body.ratings) {
-        console.table(req.body.ratings[i])
+        console.table(req.body)
         Rating.findByIdAndUpdate(req.body.ratings[i].ratingId, {$set:req.body}, function(err) {
             if (err) console.error(err)
         })
@@ -138,7 +138,7 @@ function updateReview(req, res, data) {
         if (err)
             console.error('UPDATE ERROR: ' + err)
         req.flash("success", 'Updated')
-        res.redirect('/reviews')
+        res.redirect('back')
     })
 }
 

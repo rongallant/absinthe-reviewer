@@ -1,6 +1,7 @@
 var express = require('express')
 var Review = require('../models/review')
-var absintheTypes = require('../models/defaults/absinthetypes.json')
+var Absinthe = require('../models/absinthe')
+var AbsintheType = require('../models/absinthetype')
 
 var router = express.Router()
 
@@ -46,8 +47,32 @@ router.get('/absinthe_manufacturers/:name', function(req, res) {
     })
 })
 
-router.get('/absinthe_styles', function(req, res){
-    res.send(absintheTypes, { 'Content-Type': 'application/json' }, 200)
+/**
+ * get List of absinthes for a select field.
+ */
+router.get('/absinthes', function(req, res) {
+    Absinthe.find().select('id, name').exec(function(err, data) {
+        if (!err) {
+            res.send(data, { 'Content-Type': 'application/json' }, 204)
+        } else {
+            res.send("ERROR: " + err.message, { 'Content-Type': 'application/json' }, 404)
+        }
+    })
+})
+
+module.exports = router
+
+/**
+ * get List of absinthe types for a select field.
+ */
+router.get('/absintheTypes', function(req, res) {
+    AbsintheType.find().select('id, name').exec(function(err, data) {
+        if (!err) {
+            res.send(data, { 'Content-Type': 'application/json' }, 204)
+        } else {
+            res.send("ERROR: " + err.message, { 'Content-Type': 'application/json' }, 404)
+        }
+    })
 })
 
 module.exports = router

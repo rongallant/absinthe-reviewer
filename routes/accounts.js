@@ -14,12 +14,11 @@ var VIEW_FOLDER = "accounts"
 
 // LIST
 router.get('/', function(req, res){
-    var user = req.user
-    Account.find({ }, function(err, data, req) {
+    Account.find({ }, function(err, data) {
         if (err) console.log(err.message);
         res.render(VIEW_FOLDER +'/list', {
             title:'Accounts',
-            user: user,
+            user: req.user,
             data: data
         })
     })

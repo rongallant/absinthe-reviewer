@@ -11,25 +11,26 @@ append javascripts
             $('#wsScore .value').html($('form#review').calculateWsScore() + "%")
         }
         jQuery(function ($) {
-                $('#wsScore').pushpin({ top: $('#header').height() });
-                $('#ratings .rating').each(function(index, value) {
-                    var field = $(this).closest(".input-field").find(":input[id^='ratings_score_']")
-                    $('#rating-' + index).jRate({
-                        min: 0,
-                        max: 5,
-                        precision: 0.5,
-                        rating: field.val(),
-                        onSet: function(rating) {
-                            field.val(rating)
-                            score()
-                        }
-                    })
-                })
-                jqAutocompleteMake("#review :input[name='absinthe[producer]']", "/autocomplete/absinthe_manufacturers/")
-                jqAutocompleteMake("#review :input[name='absinthe[name]']", "/autocomplete/absinthe_makes/")
-                jqAutocompleteCountries("#review :input[name='absinthe[country]']")
-                score()
+            $('#wsScore').pushpin({ top: $('#header').height() });
+            jqAutoCompleteMake("#review :input[name='absinthe[producer]']", "/autocomplete/absinthe_manufacturers/")
+            jqAutoCompleteMake("#review :input[name='absinthe[name]']", "/autocomplete/absinthe_makes/")
+            jqAutoCompleteCountries("#review :input[name='absinthe[country]']")
+            getAbsinthes("#absinthe")
+            score()
             $("#review select").material_select()
+            $('#ratings .rating').each(function(index, value) {
+                var field = $(this).closest(".input-field").find(":input[id^='ratings_score_']")
+                $('#rating-' + index).jRate({
+                    min: 0,
+                    max: 5,
+                    precision: 0.5,
+                    rating: field.val(),
+                    onSet: function(rating) {
+                        field.val(rating)
+                        score()
+                    }
+                })
+            })
             $("#review").validate({
                 onkeyup: false,
                 rules: {
@@ -64,68 +65,43 @@ append reviewContent
 
     form#review(role="form", method="post", action="/reviews/save", enctype="application/x-www-form-urlencoded")
         input(type="hidden", name="id", value=data.id)
-        #ratings
-            .card: .card-content
-                h3.card-title Page Settings
-                .row
-                    .col.s12.m6: .input-field
-                        input.validate(type="text", name="title", id="review_title", value=data.title, required)
-                        label(for="review_title") Review Title
-                    .col.s12.m6: .input-field
-                        input.validate(type="text", name="subtitle", id="review_subtitle", value=data.subtitle)
-                        label(for="review_subtitle") Subtitle
-                .row: .col.s12: .input-field
-                    textarea.validate.materialize-textarea(name="intro", id="review_intro")
-                        =data.intro
-                    label(for="review_intro") Introduction
+        .card: .card-content
+            h3.card-title Review Content
+            .row: .col.s12: .input-field
+                select(name="_absinthe", id="absinthe", required)
+                    option(value="") Choose a type
+                label(for="absinthe") Type
+            .row
+                .col.s12.m6: .input-field
+                    input.validate(type="text", name="title", id="review_title", value=data.title, required)
+                    label(for="review_title") Review Title
+                .col.s12.m6: .input-field
+                    input.validate(type="text", name="subtitle", id="review_subtitle", value=data.subtitle)
+                    label(for="review_subtitle") Subtitle
+            .row: .col.s12: .input-field
+                textarea.validate.materialize-textarea(name="intro", id="review_intro")
+                    =data.intro
+                label(for="review_intro") Introduction
+            .row: .col.s12: .input-field
+                textarea.validate.materialize-textarea(name="conclusion")
+                    =data.conclusion
+                label(for="conclusion")
 
-            if data._absinthe
-                .card: .card-content
-                    h3.card-title Absinthe Details
-                    .row: .col.s12: .input-field#absintheMakes
-                        input.autocomplete.validate.absinthemake(type="text", name="dabsinthe[name]", id="absinthe_name" value=data._absinthe.name || '', required)
-                        label(for="absinthe_name") Name
+        if data._ratings
+            #ratings.card: .card-content
+                h3.card-title Review Details
+                -each rating, index in data._ratings
                     .row: .col.s12: .input-field
-                        select(name="absinthe[style]", id="absinthe_style")
-                            -each type in absintheTypes
-                                option(value=JSON.stringify(type), selected=data._absinthe.type_id == type.id)= type.name
-                        label(for="emails_type_#{index}") Type
-                    .row: .col.s12: .input-field
-                        input.validate(type="text", name="absinthe[producer]", id="absinthe_producer", value=data._absinthe.producer || '', required)
-                        label(for="absinthe_producer") producer
-                    .row: .col.s12: .input-field
-                        input.validate(type="text", name="absinthe[country]", id="absinthe_country", value=data._absinthe.country || '', required)
-                        label(for="absinthe_country") Country
-                    .row: .col.s12: .input-field
-                        input.validate(type="number", name="absinthe[alcohol]", id="absinthe_alcohol", value=data._absinthe.alcohol || '', required)
-                        label(for="absinthe_alcohol") Alcohol
-
-            if data.ratings
-                .section
-                .card: .card-content
-                    h3.card-title Review Details
-
-                    -each rating, index in data.ratings
-                        .row: .col.s12: .input-field
-                            input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings_ratingId_#{index}", value=rating.id)
-                            input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
-                            input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
-                            input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
-                            strong= rating.attribute
-                                a.modal-trigger.btn-flat.tiny(href='#tips-' + rating.attribute.toLowerCase())
-                                    i.material-icons.tiny help_outline
-
-                            textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", placeholder="Description")
-                                =rating.content
-                            div(id='rating-#{index}', class="rating")
-
-            .card: .card-content
-                h3.card-title Conclusion
-                .row: .col.s12: .input-field
-                    textarea.validate.materialize-textarea(name="conclusion")
-                        =data.conclusion
-                    label(for="conclusion")
+                        input(type="hidden", name="ratings[#{index}][ratingId]", id="ratings_ratingId_#{index}", value=rating.id)
+                        input(type="hidden", name="ratings[#{index}][sortorder]", id="ratings_sortorder_#{index}", value=rating.sortorder)
+                        input(type="hidden", name="ratings[#{index}][attribute]", id="ratings_attribute_#{index}", value=rating.attribute)
+                        input(type="hidden", name="ratings[#{index}][score]", id="ratings_score_#{index}", value=rating.score)
+                        strong= rating.attribute
+                            a.modal-trigger.btn-flat.tiny(href='#tips-' + rating.attribute.toLowerCase())
+                                i.material-icons.tiny help_outline
+                        textarea.validate.materialize-textarea(rows="2", name="ratings[#{index}][content]", id="ratings_content_#{index}", placeholder="Description")
+                            =rating.content
+                        .rating(id='rating-#{index}')
 
         .row: .col.s12
                 button.right.waves-effect.waves-light.btn-large(type="submit", id="saveReview") Save Review
-

@@ -4,20 +4,6 @@ var router = express.Router()
 
 var VIEW_FOLDER = "information"
 
-// var menu = [
-//     {
-//         link:'/info',
-//         iconClass: 'view_list',
-//         title: 'List'
-//     },
-//     {
-//         link: '/info/add',
-//         iconClass: 'add',
-//         title: 'Add'
-//     }
-// ]
-
-
 /************************************************************
  * VIEWS
  ************************************************************/

@@ -3,7 +3,13 @@ extends reviewLayout
 append reviewContent
 
     form#reviewListForm(role='form', method='post')
-        if data.length
+        if !data.length
+            .center-align
+                h2: .section No Results
+                    br
+                a.btn-large(href="/reviews/edit")
+                    | Review an Absinthe
+        else
             .row
                 each row in data
                     .col.m12.l6: .card.hoverable
@@ -33,12 +39,3 @@ append reviewContent
                                     a(href="#!", class=" modal-action modal-close waves-effect waves-red btn-flat") Cancel
 
                             a(href= "/reviews/edit?id=#{row.id}") Edit
-
-        else
-            .card: .card-content: .section No Results
-                br
-                a.btn.center-align(href="/reviews/add")
-                    | Review an Absinthe
-
-
-

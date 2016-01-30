@@ -1,7 +1,6 @@
-function jqAutocompleteMake(selector, searchURL)
+function jqAutoCompleteMake(selector, searchURL)
 {
     $(selector).autocomplete({
-        minLength: 2,
         source: function(request, response) {
             $.ajax({
                 beforeSend: function(request) {
@@ -30,7 +29,7 @@ function jqAutocompleteMake(selector, searchURL)
     })
 }
 
-function jqAutocompleteCountries(selector)
+function jqAutoCompleteCountries(selector)
 {
     $(selector).autocomplete({
         minLength: 3,
@@ -57,5 +56,31 @@ function jqAutocompleteCountries(selector)
                 }
             })
         }
+    })
+}
+
+function getAbsintheTypes(selector)
+{
+    var select = $(selector)
+    $.getJSON("/autocomplete/absintheTypes", function(data) {
+        $.each(data, function(){
+            select.append("<option value='"
+                + this._id +"'>"
+                + this.name +"</option>")
+        })
+        select.closest('select').material_select()
+    })
+}
+
+function getAbsinthes(selector)
+{
+    var select = $(selector)
+    $.getJSON("/autocomplete/absinthes", function(data) {
+        $.each(data, function(){
+            select.append("<option value='"
+                + this._id +"'>"
+                + this.name +"</option>")
+        })
+        select.closest('select').material_select()
     })
 }
