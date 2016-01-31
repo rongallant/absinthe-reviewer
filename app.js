@@ -6,15 +6,15 @@ var express = require('express')
 var path = require('path')
 var favicon = require('serve-favicon')
 var logger = require('morgan')
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var PassportLocalStrategy = require('passport-local').Strategy
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+var LocalStrategy = require('passport-local').Strategy
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var passport = require('passport')
-var flash = require('connect-flash');
-var sassMiddleware = require('node-sass-middleware');
-var consoletable = require('console.table');
+var flash = require('connect-flash')
+var sassMiddleware = require('node-sass-middleware')
+var consoletable = require('console.table')
 
 /************************************************************
  * Models
@@ -56,11 +56,11 @@ app.use(cookieParser('keyboard cat'))
 // Session
 var sessionStore = new session.MemoryStore;
 app.use(session({
-    cookie: { maxAge: 1800000 }, // Timeout set to 30 minutes
+    cookie: { secure: false, maxAge: 1800000 }, // Timeout set to 30 minutes
     store: sessionStore,
-    saveUninitialized: false,
-    resave: false,
-    secret: 'keyboard cat'
+    saveUninitialized: true,
+    resave: true,
+    secret: 'This is a crazy secret, Shjahsk'
 }))
 
 // Flash Messaging - Returns messages to users.
@@ -68,7 +68,7 @@ app.use(flash());
 app.use(function(req, res, next){
     res.locals.info = req.flash('info')
     res.locals.success = req.flash('success')
-    res.locals.errors = req.flash('error')
+    res.locals.error = req.flash('error')
     next()
 })
 
@@ -79,7 +79,7 @@ app.use(sassMiddleware({
     outputStyle: 'compressed',
     prefix:  '/stylesheets',
     debug: false,
-    force: true
+    force: false
 }));
 
 /************************************************************
@@ -99,13 +99,10 @@ app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // passport config
-// CHANGE: USE "createStrategy" INSTEAD OF "authenticate"
-// passport.use(new PassportLocalStrategy(Account.authenticate()))
-passport.use(Account.createStrategy());
-
+// passport.use(Account.createStrategy());
+passport.use(new LocalStrategy(Account.authenticate()))
 passport.serializeUser(Account.serializeUser())
 passport.deserializeUser(Account.deserializeUser())
-
 
 function ensureAuthenticated(req, res, next)
 {
@@ -113,13 +110,10 @@ function ensureAuthenticated(req, res, next)
         try {
             console.info("You are logged in as %s", req.user.username)
         } catch(err) {
-            console.info("\nERROR: You are not logged in")
-            req.session.destroy();
             res.redirect('/login')
         }
         return next()
     } else {
-        req.session.destroy();
         res.redirect('/login')
     }
 }

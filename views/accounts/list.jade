@@ -1,21 +1,31 @@
 extends ./layout
 
 block accountsContent
-    h6 Users
-    .card
-        form#userListForm(role='form', method='post')
-            if data.length
-                .collection
-                    each row in data
-                        .collection-item
-                            i.circle.material-icons.left person
-                            a.title(href= "/accounts/edit/#{row.id}")
-                                | #{row.name.givenName} #{row.name.familyName} (#{row.username})
+	h6 Users
+	.card
+		form#userListForm(role='form', method='post')
+			if data.length
+				.collection
+					each row in data
+						.collection-item
+							i.circle.material-icons.left person
+							a.title(href= "/accounts/edit/#{row.id}")
+								| #{row.name.givenName} #{row.name.familyName} (#{row.username})
 
-                            if data.emails
-                                span Email:
-                                    -for value, index in data.emails
-                                        div #{value.type} #{value.value}
+							if data.emails
+								span Email:
+									-for value, index in data.emails
+										div #{value.type} #{value.value}
 
-                            a(href="/accounts/delete/#{row.id}", class="secondary-content")
-                                i.material-icons delete
+							// Hide delete from current user.
+							if row.id != user.id
+
+								a.modal-trigger.secondary-content(href="#confirmModal", title=" Delete")
+									i.material-icons delete
+								#confirmModal.modal
+									.modal-content
+										h4 Modal Header
+										p Are you sure you want to delete this account?
+									.modal-footer
+										a(href="/accounts/delete/#{row.id}", class=" modal-action modal-close waves-effect waves-green btn-flat") Delete Now
+										a(href="#!", class=" modal-action modal-close waves-effect waves-red btn-flat") Cancel

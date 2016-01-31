@@ -15,7 +15,7 @@ var entriesName = "Absinthes"
 
 // List
 router.get('/', function(req, res){
-    Absinthe.find().lean().exec(function(err, data) {
+    Absinthe.find(function(err, data) {
         if (err) {
         	console.log(err)
     		res.status(500).send({ error: 'SYSTEM ERROR ' + err })
@@ -62,10 +62,6 @@ router.get('/edit/:itemid', function(req, res) {
     })
 })
 
-/************************************************************
- * ACTIONS
- ************************************************************/
-
 router.post('/save', function(req, res) {
     Absinthe.findOne({ '_id': req.body.id }, function (err, data) {
         if (err) console.log(err.message)
@@ -77,12 +73,15 @@ router.post('/save', function(req, res) {
     })
 })
 
+/************************************************************
+ * ACTIONS
+ ************************************************************/
+
 /**
  * This is the best way to update a form.
  */
 function updateEntry(req, res, data)
 {
-    console.log("Updating: ", req.params.id)
     data.update({$set:req.body}, function (err, data) {
         if (err) {
     		res.status(500).send({ error: 'ERROR UPDATING ' + err });
@@ -100,7 +99,7 @@ function createEntry(req, res)
     var data = new Absinthe({
 		name: req.body.name,
 		producer: req.body.producer,
-		_style:  mongoose.Types.ObjectId(req.body.type),
+		_style:  mongoose.Types.ObjectId(req.body._style),
 		country: req.body.country,
 		alcohol: req.body.alcohol
     })

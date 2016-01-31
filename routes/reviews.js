@@ -18,7 +18,7 @@ var entriesName = "Reviews"
 
 // List All Reviews
 router.get('/', function(req, res) {
-    Review.find().exec(function(err, data) {
+    Review.find(function(err, data) {
         if (err) { handleError(req, res, err) }
         res.render(VIEW_FOLDER + '/reviewList', {
             title: 'Reviews',

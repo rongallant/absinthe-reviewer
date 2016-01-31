@@ -22,5 +22,13 @@ block absinthesContent
 									=row.name
 								else
 									=row
-							a(href="/absinthes/delete/#{row._id}", class="secondary-content")
+
+							a.modal-trigger.secondary-content(href="#confirmModal", title=" Delete")
 								i.material-icons delete
+							#confirmModal.modal
+								.modal-content
+									h4 Modal Header
+									p Are you sure you want to delete this absinthe?
+								.modal-footer
+									a(href="/absinthes/delete/#{row.id}", class=" modal-action modal-close waves-effect waves-green btn-flat") Delete Now
+									a(href="#!", class=" modal-action modal-close waves-effect waves-red btn-flat") Cancel

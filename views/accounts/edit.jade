@@ -41,28 +41,28 @@ block accountsContent
             .row
                 .col.s12
                     .input-field
-                        input(type="text", name="username", id="username", value=data.username, required)
-                        label(for="username") Username
+                        input(type="text", name="username", id="usernameId", value=data.username, required)
+                        label(for="usernameId") Username
 
             .row
                 .col.s6
                     .input-field
-                        input(type="password", name="password", id="password", value=data.password, required)
-                        label(for="password") Password
+                        input(type="password", name="password", id="passwordId", value=data.password, required=isPasswordRequired)
+                        label(for="passwordId") Password
                 .col.s6
                     .input-field
-                        input(type="password", name="password_confirm", id="password_confirm", value=data.password, required)
-                        label(for="password_confirm") Confirm Password
+                        input(type="password", name="password_confirm", id="confirmId", value=data.password, required=isPasswordRequired)
+                        label(for="confirmId") Confirm Password
 
             .row
                 .col.s6
                     .input-field
-                        input(type="text", name="name[givenName]", id="name_givenName" value=data.name.givenName, required)
-                        label(for="name_givenName") First Name
+                        input(type="text", name="name[givenName]", id="name_givenNameId" value=data.name.givenName, required)
+                        label(for="name_givenNameId") First Name
                 .col.s6
                     .input-field
-                        input(type="text", name="name[familyName]", id="familyName" value=data.name.familyName, required)
-                        label(for="familyName") Last Name
+                        input(type="text", name="name[familyName]", id="familyNameId" value=data.name.familyName, required)
+                        label(for="familyNameId") Last Name
 
             if data.emails
                 -for email, index in data.emails

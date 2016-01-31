@@ -11,14 +11,13 @@ var URL_BASE = "/accounts"
 var entryName = "Account"
 var entriesName = "Accounts"
 
-
 /************************************************************
  * PAGES
  ************************************************************/
 
 // LIST
 router.get('/', function(req, res){
-    Account.find({ }, function(err, data) {
+    Account.find(function(err, data) {
         if (err) console.log(err.message);
         res.render(VIEW_FOLDER +'/list', {
             title: entriesName,
@@ -34,7 +33,8 @@ router.get('/create', function(req, res) {
     res.render(VIEW_FOLDER + '/edit', {
         title: "Create new " + entryName,
         user: req.user,
-        data: data
+        data: data,
+        isPasswordRequired: true
     })
 })
 
@@ -46,12 +46,11 @@ router.get('/edit/:accountid', function(req, res) {
         res.render(VIEW_FOLDER + '/edit', {
             title: "Editing " + entryName,
             user: req.user,
-            data: data
+            data: data,
+            isPasswordRequired: false
         })
     })
 })
-
-
 
 /************************************************************
  * PARTS
@@ -124,19 +123,25 @@ function updateAccount(req, res, data) {
             console.error('UPDATE ERROR: ' + err)
         }
         console.log("UPDATED: " + data)
-        req.flash("success", 'Updated' + entryName)
+        req.flash("success", 'Updated ' + entryName)
         res.redirect('back')
     })
 }
 
 router.get('/delete/:accountid', function(req, res) {
     console.log("Deleting: ", req.params.accountid)
+
+	// Safe Check: You cannot delete yourself.
+	if (req.params.accountid == req.user.id) {
+    	res.status(500).send({ error: 'You cannot delete yourself' })
+	}
+
     Account.findByIdAndRemove(req.params.accountid, function (err) {
         if (err) {
             console.error(err.message)
             req.flash("error", err.message)
         }
-        req.flash("success", 'Deleted' + entryName)
+        req.flash("success", 'Deleted ' + entryName)
         res.redirect('/accounts')
     });
 })
