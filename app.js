@@ -127,38 +127,28 @@ app.get('/:name', routes)
 app.use('/', routes)
 
 app.get('/accounts', ensureAuthenticated, accounts)
-app.get('/accounts:name', ensureAuthenticated, accounts)
+app.get('/accounts*', ensureAuthenticated, accounts)
 app.use('/accounts', accounts)
 
 app.get('/absinthes', ensureAuthenticated, absinthes)
-app.get('/absinthes:name', ensureAuthenticated, absinthes)
+app.get('/absinthes*', ensureAuthenticated, absinthes)
 app.use('/absinthes', absinthes)
 
 app.get('/reviews', ensureAuthenticated, reviews)
-app.get('/reviews:name', ensureAuthenticated, reviews)
+app.get('/reviews*', ensureAuthenticated, reviews)
 app.use('/reviews', reviews)
 
 app.get('/information', ensureAuthenticated, information)
-app.get('/information:name', ensureAuthenticated, information)
+app.get('/information*', ensureAuthenticated, information)
 app.use('/information', information)
 
 app.get('/autocomplete', ensureAuthenticated, autocomplete)
-app.get('/autocomplete:name', ensureAuthenticated, autocomplete)
+app.get('/autocomplete*', ensureAuthenticated, autocomplete)
 app.use('/autocomplete', autocomplete)
 
 /************************************************************
  * Error Handling
  ***********************************************************/
-
-/**
- * catch 403 Unauthorized errors.
- */
-// app.use(function(req, res, next) {
-//     var err = new Error('Unauthorized')
-//     err.status = 403
-//     next(err)
-// })
-
 
 /**
  * catch 404 Page Not Found errors.
@@ -168,6 +158,16 @@ app.use(function(req, res, next) {
     err.status = 404
     next(err)
 })
+
+/**
+ * catch 403 Unauthorized errors.
+ */
+app.use(function(req, res, next) {
+    var err = new Error('Unauthorized')
+    err.status = 403
+    next(err)
+})
+
 
 /**
  * Development error handler.

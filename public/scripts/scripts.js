@@ -16,10 +16,6 @@ $.validator.setDefaults({
             .find("label[for='" + element.attr("id") + "']")
             .attr('data-error', error.text());
     }
-    // ,
-    // submitHandler: function (form) {
-    //     return true;
-    // }
 });
 
 $(function() {

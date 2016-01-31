@@ -1,4 +1,13 @@
-extends layout
+extend layout
+
+block append stylesheets
+    style(type="text/css").
+
+block append javascripts
+    script.
+        $('.fab').click(function(e) {
+          $(this).toggleClass('active');
+        });
 
 block content
 
@@ -25,4 +34,3 @@ block content
                 .input-field.center
                     button.btn-large.primary.waves-effect.waves-light(type="submit") Login
                         i.material-icons.right input
-

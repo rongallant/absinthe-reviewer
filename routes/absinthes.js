@@ -67,13 +67,12 @@ router.get('/edit/:itemid', function(req, res) {
  ************************************************************/
 
 router.post('/save', function(req, res) {
-    console.log("req.body 1: ", req.body)
     Absinthe.findOne({ '_id': req.body.id }, function (err, data) {
         if (err) console.log(err.message)
         if (data) {
             updateEntry(req, res, data)
         } else {
-            saveEntry(req, res)
+            createEntry(req, res)
         }
     })
 })
@@ -89,12 +88,14 @@ function updateEntry(req, res, data)
     		res.status(500).send({ error: 'ERROR UPDATING ' + err });
         }
         console.info("SUCCESS: %s (%s) updated!", entryName, req.body.id)
+        console.info(req.body)
+        console.info(data)
         req.flash("success", 'Updated')
         res.redirect('back')
     })
 }
 
-function saveEntry(req, res)
+function createEntry(req, res)
 {
     var data = new Absinthe({
 		name: req.body.name,

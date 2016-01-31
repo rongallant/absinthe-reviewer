@@ -8,6 +8,10 @@ var router = express.Router()
 
 var VIEW_FOLDER = "reviewmanager"
 
+var URL_BASE = "/reviews"
+var entryName = "Review"
+var entriesName = "Reviews"
+
 /************************************************************
  * VIEWS
  ************************************************************/
@@ -24,27 +28,37 @@ router.get('/', function(req, res) {
     })
 })
 
+router.get('/create', function(req, res) {
+    var data = new Review()
+    var attributes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall'] // TODO put in model
+    for (var i in attributes) {
+        data._ratings.push(new Rating({ id: mongoose.Types.ObjectId(), sortorder: i, attribute: attributes[i] }))
+    }
+    console.log("\nCreated new Review Object: ", data, "\n")
+    res.render(VIEW_FOLDER + '/reviewAdd', {
+        title: "Review Editor",
+        user: req.user,
+        data: data
+    })
+})
+
+
 // Return selected Review
-router.get('/edit', function(req, res) {
-    Review.findById(req.query.id).exec(function(err, data) {
+router.get('/edit/:reviewid', function(req, res) {
+    Review.findById(req.params.reviewid).exec(function(err, data) {
         if (err) {
-            console.error("ERROR IN FINDBYID: ", err)
+    		res.status(404).send({ error: 'ENTRY NOT FOUND ' + err })
         }
-        if (!data) {
-            data = new Review()
-            var attributes = ['Appearance', 'Louche', 'Aroma', 'Flavor', 'Finish', 'Overall'] // TODO put in model
-            for (var i in attributes) {
-                data._ratings.push(new Rating({ id: mongoose.Types.ObjectId(), sortorder: i, attribute: attributes[i] }))
-            }
-            console.log("\nCreated new Review Object: ", data, "\n")
+        if (data) {
+			console.log("Editing: \n%s", data)
+	        res.render(VIEW_FOLDER + '/reviewAdd', {
+	            title: "Editing " + entryName,
+	            user: req.user,
+	            data: data
+	        })
         } else {
-            console.log("\nFound Review Object: ", data, "\n")
+    		res.status(404).send({ error: 'ENTRY NOT FOUND ' })
         }
-        res.render(VIEW_FOLDER + '/reviewAdd', {
-            title: "Review Editor",
-            user: req.user,
-            data: data
-        })
     })
 })
 
@@ -90,20 +104,20 @@ router.post('/save', function(req, res) {
         if (err)
             console.info('SAVE FINDONE ERROR: ' + err)
         else if (data)
-            updateReview(req, res, data)
+            updateEntry(req, res, data)
         else
-            saveNewReview(req, res)
+            createEntry(req, res)
     })
 })
 
-function saveNewReview(req, res) {
+function createEntry(req, res) {
     console.log("body = ", req.body)
     var data = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
         intro: req.body.intro,
         conclusion: req.body.conclusion,
-        // _absinthe: req.absinthe,
+        _absinthe: mongoose.Types.ObjectId(req.body._absinthe),
         cr_user: req.user,
         lu_user: req.user
      })
@@ -115,19 +129,18 @@ function saveNewReview(req, res) {
             score: req.body.ratings[i].score
         }))
     }
-    console.log("data = ", data)
     data.save(function(err) {
-        if (err)
-            return handleError(req, res, err)
+        if (err)  console.log(err)
+        console.log('SUCCESS created new review for absinthe: %s', data._absinthe)
         req.flash("success", 'Created')
-        res.redirect('back')
+        res.redirect(URL_BASE + '/edit/' + data._id)
     })
 }
 
 /**
  * This is the best way to update a form.
  */
-function updateReview(req, res, data) {
+function updateEntry(req, res, data) {
     for (var i in req.body.ratings) {
         console.table(req.body)
         Rating.findByIdAndUpdate(req.body.ratings[i].ratingId, {$set:req.body}, function(err) {
@@ -142,8 +155,8 @@ function updateReview(req, res, data) {
     })
 }
 
-router.get('/delete', function(req, res) {
-    Review.findByIdAndRemove(req.query.id, function (err) {
+router.get('/delete/:reviewid', function(req, res) {
+    Review.findByIdAndRemove(req.params.reviewid, function (err) {
         if (err) {
             console.error(err.message)
             req.flash("error", err.message)

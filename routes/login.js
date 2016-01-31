@@ -22,8 +22,7 @@ router.get('/', function (req, res) {
  ************************************************************/
 
 router.get('/login', function(req, res) {
-    // res.render('login', { // TODO Rename newLogin to login.
-    res.render('newLogin', {
+    res.render('login', {
         title : "Absinthe Reviewer"
     })
 })
@@ -31,7 +30,7 @@ router.get('/login', function(req, res) {
 router.post('/authenticate', passport.authenticate('local', { failureRedirect: '/login' }),
     function(req, res) {
         req.session.user=req.user
-        req.flash("success", "Welcome back %s", req.session.user.fullName)
+        req.flash("success", "Welcome back %s", req.user.fullName)
         res.redirect('/reviews')
 });
 

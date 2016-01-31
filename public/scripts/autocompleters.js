@@ -59,28 +59,29 @@ function jqAutoCompleteCountries(selector)
     })
 }
 
-function getAbsintheTypes(selector)
-{
-    var select = $(selector)
-    $.getJSON("/autocomplete/absintheTypes", function(data) {
-        $.each(data, function(){
-            select.append("<option value='"
-                + this._id +"'>"
-                + this.name +"</option>")
+$.fn.extend({
+    absintheStyleSelect: function(currentVal) {
+        var select = $(this)
+        $.getJSON("/autocomplete/absintheTypes", function(data) {
+            $.each(data, function(){
+                select.append("<option value='" + this._id + "'>" + this.name +"</option>")
+            })
+            select.val(currentVal)
+            select.material_select()
         })
-        select.closest('select').material_select()
-    })
-}
-
-function getAbsinthes(selector)
-{
-    var select = $(selector)
-    $.getJSON("/autocomplete/absinthes", function(data) {
-        $.each(data, function(){
-            select.append("<option value='"
-                + this._id +"'>"
-                + this.name +"</option>")
+        return select;
+    }
+})
+$.fn.extend({
+    absintheSelect: function(currentVal) {
+        var select = $(this)
+        $.getJSON("/autocomplete/absinthes", function(data) {
+            $.each(data, function(){
+                select.append("<option value='" + this._id + "'>" + this.name +"</option>")
+            })
+            select.val(currentVal)
+            select.material_select()
         })
-        select.closest('select').material_select()
-    })
-}
+        return select;
+    }
+})

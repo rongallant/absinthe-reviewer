@@ -8,16 +8,12 @@ append javascripts
     script(src="/scripts/autocompleters.js")
     script.
         function score() {
-            $('#wsScore .value').html($('form#review').calculateWsScore() + "%")
+            $('#wsScore .value').html($('form#reviewForm').calculateWsScore() + "%")
         }
         jQuery(function ($) {
-            $('#wsScore').pushpin({ top: $('#header').height() });
-            jqAutoCompleteMake("#review :input[name='absinthe[producer]']", "/autocomplete/absinthe_manufacturers/")
-            jqAutoCompleteMake("#review :input[name='absinthe[name]']", "/autocomplete/absinthe_makes/")
-            jqAutoCompleteCountries("#review :input[name='absinthe[country]']")
-            getAbsinthes("#absinthe")
+            $('#wsScore').pushpin({ top: $('#header').height() })
+            $('#absinthe').absintheSelect('#{data._absinthe}')
             score()
-            $("#review select").material_select()
             $('#ratings .rating').each(function(index, value) {
                 var field = $(this).closest(".input-field").find(":input[id^='ratings_score_']")
                 $('#rating-' + index).jRate({
@@ -31,7 +27,7 @@ append javascripts
                     }
                 })
             })
-            $("#review").validate({
+            $("#reviewForm").validate({
                 onkeyup: false,
                 rules: {
                     "review_title" : {
@@ -39,18 +35,6 @@ append javascripts
                     },
                     "review_subtitle" : {
                         maxlength: 1
-                    },
-                    "absinthe[name]" : {
-                    },
-                    "absinthe[style]" : {
-                    },
-                    "absinthe[producer]" : {
-                    },
-                    "absinthe[country]" : {
-                    },
-                    "absinthe[alcohol]" : {
-                        number: true,
-                        range: [0, 100]
                     }
                 }
             })
@@ -63,14 +47,15 @@ append appRightColumn
 
 append reviewContent
 
-    form#review(role="form", method="post", action="/reviews/save", enctype="application/x-www-form-urlencoded")
+    form#reviewForm(role="form", method="post", action="/reviews/save", enctype="application/x-www-form-urlencoded")
         input(type="hidden", name="id", value=data.id)
+
         .card: .card-content
             h3.card-title Review Content
             .row: .col.s12: .input-field
-                select(name="_absinthe", id="absinthe", required)
-                    option(value="") Choose a type
-                label(for="absinthe") Type
+                    select(name="_absinthe", id="absinthe", required)
+                        option(value="") Choose an Absinthe
+                    label(for="absinthe") Absinthe
             .row
                 .col.s12.m6: .input-field
                     input.validate(type="text", name="title", id="review_title", value=data.title, required)
