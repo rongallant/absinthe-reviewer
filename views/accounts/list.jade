@@ -9,7 +9,7 @@ block accountsContent
                     each row in data
                         .collection-item
                             i.circle.material-icons.left person
-                            a.title(href= "/accounts/edit?id=#{row.id}")
+                            a.title(href= "/accounts/edit/#{row.id}")
                                 | #{row.name.givenName} #{row.name.familyName} (#{row.username})
 
                             if data.emails

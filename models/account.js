@@ -1,14 +1,12 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var Email = require('./email').schema
+'use strict';
 
-var passportLocalMongoose = require('passport-local-mongoose')
+var mongoose = require('mongoose'),
+    passportLocalMongoose = require('passport-local-mongoose'),
+    Schema = mongoose.Schema,
+    Email = require('./email').schema
 
-
-var Account = new Schema({
-    username: { type: String },
-    password: { type: String },
-    provider: { type: String }, // The provider with which the user authenticated (facebook, twitter, etc.).
+var AccountSchema = new Schema({
+    username: { type: String, required: true, index: { unique: true } },
     displayName: { type: String }, // The name of this user, suitable for display.
     name: {
         familyName: { type: String }, // The family name of this user, or "last name" in most Western languages.
@@ -19,8 +17,21 @@ var Account = new Schema({
     photos: [
         { value: { type: String } } // The URL of the image.
     ]
+}, {
+    strict: true,
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    }
 })
 
-Account.plugin(passportLocalMongoose)
+// Virtual Attibute "fullName"
+AccountSchema.virtual('name.fullName').get(function () {
+    return this.name.familyName + ' ' + this.name.givenName
+})
 
-module.exports = mongoose.model('Account', Account)
+AccountSchema.plugin(passportLocalMongoose)
+
+module.exports = mongoose.model('Account', AccountSchema)

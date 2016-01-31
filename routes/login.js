@@ -1,9 +1,5 @@
 var express = require('express')
 var passport = require('passport')
-var flash = require('connect-flash')
-
-var Account = require('../models/account')
-
 var router = express.Router()
 
 /************************************************************
@@ -27,11 +23,11 @@ router.get('/login', function(req, res) {
     })
 })
 
-router.post('/authenticate', passport.authenticate('local', { failureRedirect: '/login' }),
-    function(req, res) {
-        req.session.user=req.user
-        req.flash("success", "Welcome back %s", req.user.fullName)
-        res.redirect('/reviews')
+router.post('/authenticate', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+    console.log("req.user = " + req.user)
+    req.session.user=req.user
+    req.flash("success", "Welcome back %s", req.user.name.fullName)
+    res.redirect('/reviews')
 });
 
 router.get('/logout', function(req, res) {

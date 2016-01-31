@@ -7,6 +7,9 @@ var RatingSchema = new Schema ({
     attribute: { type: String },
     content: { type: String },
     score: { type: Number, min: 0, max: 100, default: 0 }
+},
+{
+    strict: true
 });
 
 module.exports = mongoose.model('Rating', RatingSchema);

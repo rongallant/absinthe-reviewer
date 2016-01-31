@@ -14,6 +14,9 @@ var ReviewSchema = new Schema({
     cr_date: { type: Date },
     lu_user: { type: Schema.Types.ObjectId, ref: 'Account' },
     lu_date: { type: Date, default: Date.now }
+},
+{
+    strict: true
 })
 
 ReviewSchema.pre('save', function(done) {

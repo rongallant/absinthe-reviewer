@@ -8,11 +8,11 @@ var favicon = require('serve-favicon')
 var logger = require('morgan')
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var PassportLocalStrategy = require('passport-local').Strategy
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var passport = require('passport')
 var flash = require('connect-flash');
-var LocalStrategy = require('passport-local').Strategy
 var sassMiddleware = require('node-sass-middleware');
 var consoletable = require('console.table');
 
@@ -58,8 +58,8 @@ var sessionStore = new session.MemoryStore;
 app.use(session({
     cookie: { maxAge: 1800000 }, // Timeout set to 30 minutes
     store: sessionStore,
-    saveUninitialized: true,
-    resave: 'true',
+    saveUninitialized: false,
+    resave: false,
     secret: 'keyboard cat'
 }))
 
@@ -78,7 +78,7 @@ app.use(sassMiddleware({
     dest: path.join(__dirname, 'public/stylesheets'),
     outputStyle: 'compressed',
     prefix:  '/stylesheets',
-    debug: true,
+    debug: false,
     force: true
 }));
 
@@ -99,9 +99,13 @@ app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // passport config
-passport.use(new LocalStrategy(Account.authenticate()))
+// CHANGE: USE "createStrategy" INSTEAD OF "authenticate"
+// passport.use(new PassportLocalStrategy(Account.authenticate()))
+passport.use(Account.createStrategy());
+
 passport.serializeUser(Account.serializeUser())
 passport.deserializeUser(Account.deserializeUser())
+
 
 function ensureAuthenticated(req, res, next)
 {

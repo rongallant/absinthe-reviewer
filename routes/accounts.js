@@ -7,6 +7,10 @@ var Account = require('../models/account')
 var router = express.Router()
 
 var VIEW_FOLDER = "accounts"
+var URL_BASE = "/accounts"
+var entryName = "Account"
+var entriesName = "Accounts"
+
 
 /************************************************************
  * PAGES
@@ -17,7 +21,7 @@ router.get('/', function(req, res){
     Account.find({ }, function(err, data) {
         if (err) console.log(err.message);
         res.render(VIEW_FOLDER +'/list', {
-            title:'Accounts',
+            title: entriesName,
             user: req.user,
             data: data
         })
@@ -25,13 +29,22 @@ router.get('/', function(req, res){
 })
 
 // FORM
-router.get('/edit', function(req, res) {
-    Account.findOne({ '_id': req.query.id }, function (err, data) {
+router.get('/create', function(req, res) {
+    var data = new Account()
+    res.render(VIEW_FOLDER + '/edit', {
+        title: "Create new " + entryName,
+        user: req.user,
+        data: data
+    })
+})
+
+// FORM
+router.get('/edit/:accountid', function(req, res) {
+    Account.findOne({ '_id': req.params.accountid }, function (err, data) {
         if (err) console.log(err.message)
         if (!data) data = new Account()
-        console.log("data", data)
         res.render(VIEW_FOLDER + '/edit', {
-            title: "Editing Account",
+            title: "Editing " + entryName,
             user: req.user,
             data: data
         })
@@ -44,13 +57,11 @@ router.get('/edit', function(req, res) {
  * PARTS
  ************************************************************/
 
-
 router.get('/emailrow/:index', function(req, res) {
     res.render(VIEW_FOLDER +'/includes/email-row', {
         index:req.params.index
     })
 })
-
 
 /************************************************************
  * ACTIONS
@@ -93,16 +104,7 @@ function saveAccount(req, res)
             console.error(err)
         }
         console.info("SUCCESS: registered user %s!", req.body.username)
-
-        // Save to database
-        console.info("SAVING: User %s...", req.body.username)
-        console.table(req.body)
-
-        data.save(function(err) {
-            if (err) console.error(err)
-            console.info("SUCCESS: User %s saved!", req.body.username)
-            res.redirect('/accounts')
-        })
+        res.redirect(URL_BASE + '/edit/' + data._id)
     })
 }
 
@@ -116,31 +118,25 @@ function updateAccount(req, res, data) {
             if (err) console.error(err)
         })
     }
-    console.log("UPDATING: ")
-    console.log(req.body)
-    console.log(" INTO ")
-    console.log(data)
-
     data.update({$set:req.body}, function (err, data) {
         if (err) {
             req.flash("error", 'Error: ', err.message)
             console.error('UPDATE ERROR: ' + err)
         }
-        req.flash("success", 'Updated')
-        res.redirect('/accounts')
+        console.log("UPDATED: " + data)
+        req.flash("success", 'Updated' + entryName)
+        res.redirect('back')
     })
 }
 
 router.get('/delete/:accountid', function(req, res) {
-
     console.log("Deleting: ", req.params.accountid)
-
     Account.findByIdAndRemove(req.params.accountid, function (err) {
         if (err) {
             console.error(err.message)
             req.flash("error", err.message)
         }
-        req.flash("success", 'Deleted')
+        req.flash("success", 'Deleted' + entryName)
         res.redirect('/accounts')
     });
 })

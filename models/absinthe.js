@@ -12,6 +12,9 @@ var AbsintheSchema = new Schema({
     cr_date: { type: Date },
     lu_user: { type: Schema.Types.ObjectId, ref: 'Account' },
     lu_date: { type: Date, default: Date.now }
+},
+{
+    strict: true
 });
 
 module.exports = mongoose.model('Absinthe', AbsintheSchema)

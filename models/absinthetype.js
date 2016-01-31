@@ -13,6 +13,9 @@ var AbsintheTypeSchema = new Schema({
     meaning: { type: String, default: '' },
     description: { type: String, default: '' },
     source: { type: String, default: '' }
+},
+{
+    strict: true
 });
 
 module.exports = mongoose.model('AbsintheType', AbsintheTypeSchema)
