@@ -18,6 +18,9 @@ router.get('/', function (req, res) {
  ************************************************************/
 
 router.get('/login', function(req, res) {
+    if (req.query.logout == 1) {
+        res.locals.success = "You have successfully logged out"
+    }
     res.render('login', {
         title : "Absinthe Reviewer"
     })
@@ -25,34 +28,16 @@ router.get('/login', function(req, res) {
 
 router.post('/login', passport.authenticate('local', {
         successRedirect: '/reviews',
-        successFlash: true,
+        successFlash: "Welcome back!",
         failureRedirect: '/login',
-        failureFlash: true
+        failureFlash: "Username or password is invalid"
     })
 )
 
-// router.post('/login', function(req, res, next) {
-//     passport.authenticate('local', function(err, user, info) {
-//         if (err) {
-//             return next(err)
-//         }
-//         if (!user) {
-//             req.flash("error", info.message)
-//             return res.redirect('/login')
-//         }
-//         req.logIn(user, function(err) {
-//             if (err) {
-//                 return next(err)
-//             }
-//             req.flash("success", "Welcome")
-//             return res.redirect('/reviews')
-//         })
-//     })(req, res, next)
-// })
-
 router.get('/logout', function(req, res) {
     req.logout()
-    res.redirect('/login')
+
+    res.redirect('/login?logout=1')
 })
 
 module.exports = router
