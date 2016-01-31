@@ -6,7 +6,7 @@ var AbsintheType = require('../models/absinthetype')
 
 var router = express.Router()
 
-var VIEW_FOLDER = "reviewmanager"
+var VIEW_FOLDER = "reviews"
 
 var URL_BASE = "/reviews"
 var entryName = "Review"
@@ -20,7 +20,7 @@ var entriesName = "Reviews"
 router.get('/', function(req, res) {
     Review.find(function(err, data) {
         if (err) { handleError(req, res, err) }
-        res.render(VIEW_FOLDER + '/reviewList', {
+        res.render(VIEW_FOLDER + '/list', {
             title: 'Reviews',
             user: req.user,
             data: data
@@ -35,7 +35,7 @@ router.get('/create', function(req, res) {
         data._ratings.push(new Rating({ id: mongoose.Types.ObjectId(), sortorder: i, attribute: attributes[i] }))
     }
     console.log("\nCreated new Review Object: ", data, "\n")
-    res.render(VIEW_FOLDER + '/reviewAdd', {
+    res.render(VIEW_FOLDER + '/form', {
         title: "Review Editor",
         user: req.user,
         data: data
@@ -51,7 +51,7 @@ router.get('/edit/:reviewid', function(req, res) {
         }
         if (data) {
 			console.log("Editing: \n%s", data)
-	        res.render(VIEW_FOLDER + '/reviewAdd', {
+	        res.render(VIEW_FOLDER + '/form', {
 	            title: "Editing " + entryName,
 	            user: req.user,
 	            data: data
