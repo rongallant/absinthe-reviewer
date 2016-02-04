@@ -53,6 +53,9 @@ app.use(bodyParser.json()) // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({extended:true})) // to support URL-encoded bodies
 app.use(cookieParser('keyboard cat'))
 
+// Allow read access to static files in node_modules.
+app.use("/node_modules", express.static('node_modules'))
+
 // Session
 var sessionStore = new session.MemoryStore;
 app.use(session({

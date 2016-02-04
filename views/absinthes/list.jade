@@ -1,5 +1,10 @@
 extends ./layout
 
+include includes/deleteModal
+
+append javascripts
+	include includes/editModal
+
 block absinthesContent
 
 	if !data.length
@@ -15,20 +20,13 @@ block absinthesContent
 				.collection
 					each row in data
 						.collection-item
-							i.material-icons
-								img(src="/images/absinthe.png", height="25")
+							i.left
+								img(src="/images/absintheglass.svg", height="24")
 							a.title(href= "/absinthes/edit/#{row._id}")
 								if row.name
 									=row.name
 								else
 									=row
 
-							a.modal-trigger.secondary-content(href="#confirmModal", title=" Delete")
-								i.material-icons delete
-							#confirmModal.modal
-								.modal-content
-									h4 Modal Header
-									p Are you sure you want to delete this absinthe?
-								.modal-footer
-									a(href="/absinthes/delete/#{row.id}", class=" modal-action modal-close waves-effect waves-green btn-flat") Delete Now
-									a(href="#!", class=" modal-action modal-close waves-effect waves-red btn-flat") Cancel
+							+deleteModal(row.id)
+							+editModal()
